@@ -1,6 +1,16 @@
+       .--. .          .    .
+    o  |   )|          |\  /|           o
+    .  |--' | .-.  .  .| \/ |.  . .--.  .  .-.
+    |  |    |(   ) |  ||    ||  | `--.  | (
+  -' `-'    `-`-'`-`--|'    '`--`-`--'-' `-`-'
+                      ;
+                   `-'
+
+
 School project -HTML5, js & php music player
 
-    Project will supply users with a code-snippet implemented music player to integrate with their web page
+    Project will supply users with a code-snippet implemented music player to
+        integrate with their web page
 
 
     Project technologies:
@@ -10,7 +20,8 @@ School project -HTML5, js & php music player
 
     Project main focus:
         • iOS5 web based music player
-        • Compatible with all major browsers, as long as they are up to date (no IE6-support...)
+        • Compatible with all major browsers, as long as they are up to date
+            (I.E. no IE6-support... Or 7 or 8)
         • Compatible with iOS5-devices
 
     Project will offer simplicity:
