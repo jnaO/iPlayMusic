@@ -35,6 +35,7 @@ School project -HTML5, js & php music player
         • repeat mode (off/one/all -default "all")
         • album art
         • themes/custom styles
+        • optional album/song download
 
     Project dev site:
         • iplaymusic.jnao.me
