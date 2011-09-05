@@ -1,5 +1,8 @@
 $(document).ready(function($){
-    log('apa');
+    log($("#iPlayMusic_article").width());
+    log(($("#vol_btn").width() ));
+    $("#canvas").attr('width', $("#iPlayMusic_article").width());
+    $("#volume_control").css('width', ($("#iPlayMusic_article").width()-70));
     // A boolean to tell if a song is playing atm
     var isPlaying = new Boolean(false);
     isPlaying = ( localStorage.getItem('is_playing') == 'false' ) ? false : true ;

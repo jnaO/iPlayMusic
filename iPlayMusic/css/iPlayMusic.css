@@ -1,0 +1,141 @@
+/*
+    Document   : iPlayMusic
+    Created on : Sep 5, 2011, 6:14:07 PM
+    Author     : jnaO
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/*
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+#song_title {
+    text-align: center;
+    color: #F2F2F2;
+    font-size: 25px;
+    font-weight: bold;
+    width: 450px;
+}
+audio {
+}
+#canvas {
+    background-color: rgba(150,0,0,0.4);
+    margin: 0 0 20px;
+}
+img#album_cover {
+    translateZ: 0;
+    -webkit-box-reflect: below 5px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.8, transparent), to(rgba(0, 0, 0, 0.3)));
+    -moz-box-reflect: below 5px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.8, transparent), to(rgba(0, 0, 0, 0.3)));
+    -o-box-reflect: below 5px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.8, transparent), to(rgba(0, 0, 0, 0.3)));
+    box-reflect: below 5px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.8, transparent), to(rgba(0, 0, 0, 0.3)));
+    margin: 20px 20px 60px 0;
+}
+.mplayer_btn {
+    margin: 10px 20px 0 0;
+}
+.moz {
+    margin: -7px 0 0 10px;
+}
+.webkit {
+    margin: -7px 0 -17px;
+}
+.song_link {
+    cursor: pointer;
+}
+.song_link:hover {
+    font-weight: bolder;
+}
+input[type="range"]{
+    -webkit-appearance:none !important;
+    height: 3px;
+    padding: 0;
+    background: #07b;
+    margin: -10px 0 20px 10px;
+    width: 434px;
+}
+input[type="range"]::-webkit-slider-thumb{
+    /*    -webkit-appearance:none !important;*/
+}
+.slider {
+    background-color: #07b;
+    height: 4px;
+    position: relative;
+    cursor: pointer;
+    border:1px solid #333;
+    width:442px;
+    float: left;
+    clear: right;
+    margin-top:10px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+
+/* progress bar (enabled with progress: true) */
+.progress {
+    height:9px;
+    background-color:#C5FF00;
+    display:none;
+    opacity:0.6;
+}
+
+/* drag handle */
+.handle {
+    background:#fff url(../img/mplayer/knob.png) no-repeat;
+    height: 14px;
+    width: 14px;
+    top: -6px;
+    position:absolute;
+    display:block;
+    margin-top:1px;
+    cursor:move;
+    -moz-box-shadow:0 0 6px #000;
+    -webkit-box-shadow:0 0 6px #000;
+    -moz-border-radius:14px;
+    -webkit-border-radius:14px;
+
+}
+
+/* the input field */
+.range {
+    border:1px inset #ddd;
+    float:left;
+    font-size:20px;
+    margin:0 0 0 15px;
+    padding:3px 0;
+    text-align:center;
+    width:50px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+
+
+
+
+
+
+
+/* Floats & Clearer  */
+
+.left, .float_left {
+    float: left;
+}
+.float_right {
+    float: right;
+}
+.clearer {
+    clear: both;
+    height: 0px;
+    width: 0px;
+}
+.clear {
+    clear: both;
+}
+.hidden {
+    display: none;
+}
+.pfat {
+    font-weight: bold;
+}
+
