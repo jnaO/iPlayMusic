@@ -72,10 +72,10 @@
             <h6>Folded</h6>
             <img src="img/mockup/folded.png" alt="Folded mockup of iPlayMusic" /><br />
             <h6>Expanded</h6>
-            <img src="img/mockup/unfolded.png" alt="Unfolded mockup of iPlayMusic" />
+            <img src="img/mockup/expanded.png" alt="Expanded mockup of iPlayMusic" />
             <h6>iPhone</h6>
             <img class="float_left" src="img/mockup/ip_folded.png" alt="Folded mockup of iPlayMusic, iPhone version" />
-            <img class="float_left" src="img/mockup/ip_unfolded.png" alt="Unfolded mockup of iPlayMusic, iPhone version" />
+            <img class="float_left" src="img/mockup/ip_expanded.png" alt="Expanded mockup of iPlayMusic, iPhone version" />
             <p class="clearer">&nbsp;</p>
         </article>
     </body>
