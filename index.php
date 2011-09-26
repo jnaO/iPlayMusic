@@ -64,7 +64,8 @@
                  `-'
             </pre>
             <p class="center">
-                <a href="//github.com/jnaO/iPlayMusic" target="_blank">github.com/jnaO/iPlayMusic</a>
+                <a href="//github.com/jnaO/iPlayMusic" target="_blank">github.com/jnaO/iPlayMusic</a><br />
+                <a href="mockup.php" target="_blank">Mockups</a>
             </p>
         </article>
         <article id="iPlayMusic_article" class="bottom wrapper">

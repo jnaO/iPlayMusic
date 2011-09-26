@@ -74,6 +74,16 @@ a.hash_tag {
     padding: 70px;
     color: #f2f2f2;
 }
+.bottom h1,
+.bottom h2,
+.bottom h3,
+.bottom h4,
+.bottom h5,
+.bottom h6 {
+    color: #fff;
+    text-shadow: 2px 2px 2px #444;
+    -webkit-text-shadow: 2px 2px 2px #444;
+}
 .wrapper, footer {
     width: 800px;
     padding: 50px;
