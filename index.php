@@ -63,6 +63,9 @@
                     ;
                  `-'
             </pre>
+            <p class="center">
+                <a href="//github.com/jnaO/iPlayMusic" target="_blank">github.com/jnaO/iPlayMusic</a>
+            </p>
         </article>
         <article id="iPlayMusic_article" class="bottom wrapper">
             <audio id="iPlayMusic">

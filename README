@@ -40,3 +40,77 @@ School project -HTML5, js & php music player
     Project dev site:
         • iplaymusic.jnao.me
         • github.com/jnaO/iPlayMusic
+
+
+
+  .---..--. .--.  .--.
+    | :    :|   ::    :
+    | |    ||   ||    |
+    | :    ;|   ;:    ;
+    '  `--' '--'  `--'
+
+    HTML5
+        • Audio tag
+        • Music file playlist
+        • Canvas as progress bar
+        • Range input as volume control
+
+    PHP
+        • Find all files in folder (music)
+        • Sort files by file type
+        • Return array of files (matching file type condition) as json
+
+        • Find album art file
+        • Return album art file name as string
+
+    CSS/LAYOUT
+        • Mockup
+        • Fixed position top
+        • Buttons
+
+    JavaScript
+        • Browser file type compatability check
+        • Music player functions (Play, Stop, Pause, Previous, Next)
+        • Volume control
+        • Receive json information from PHP back end, and populate music list
+        • Maximize / minimize music player
+        • Extract ID3-tag info from .mp3's
+
+    CONFIG
+    – create a config file for user customization
+        • Style / theme options
+        • Auto play
+        • Default repeat mode ( none || one || all )
+        • Playlist order
+        • Custom album art, track specific (I.E. Different tracks can have
+            different album art)
+        • Track titles
+
+
+  .             .    .                  •                        .      .             .
+  |             |    |                 /           o          o _|_     |      o     _|_
+  |.-.  .-.  .-.|.-. | .-.  .-..      /   .,-. .--..  .-. .--..  |  .  .|      .  .--.|
+  |   )(   )(   |-.' |(   )(   |     /    |   )|   | (   )|   |  |  |  ||      |  `--.|
+  '`-'  `-'`-`-''  `-`-`-'  `-`|    /     |`-' ' -' `-`-' ' -' `-`-'`--|'---'-' `-`--'`-'
+                            ._.'   /      |                            ;
+                                  /       '                         `-'
+                                 •
+
+    • Mockup
+    • Create HTML (audio element) document to include
+    • Browser file type compatability check
+    • Find music files and return them as an array
+    • Receive array of files
+    • Populate playlist
+    • Implement music controls
+    • Find album art and sent as string
+    • Receive album art and present in iPlayMusic-player
+    • Set styles of iPlayMusic
+    • Implement volume control
+    • Implement progress bar
+    • Implement ID3-functionality
+    • Implement config-file
+        ° auto play - on / off
+        ° Default repeat mode ( none || one || all )
+        ° Playlist order & and track specific options
+    • Create multiple themes, and style options

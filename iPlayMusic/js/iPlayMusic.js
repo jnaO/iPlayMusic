@@ -1,6 +1,4 @@
 $(document).ready(function($){
-    log($("#iPlayMusic_article").width());
-    log(($("#vol_btn").width() ));
     $("#canvas").attr('width', $("#iPlayMusic_article").width());
     $("#volume_control").css('width', ($("#iPlayMusic_article").width()-70));
     // A boolean to tell if a song is playing atm
@@ -24,6 +22,7 @@ $(document).ready(function($){
     // Pick song to play from audioFiles Array, use filetype from checkAudioCompat
     var i = ( localStorage.getItem('last_song_playing') ) ? parseInt( localStorage.getItem('last_song_playing') ): 0;
     audio.src = "iPlayMusic/music/"+audioFiles[i]+fileType;
+    log(audio.src);
 
     // set init volume
     var audioVolume = ( localStorage.getItem('audio_volume') ) ? parseFloat(localStorage.getItem('audio_volume')) : ($("#volume_control").val()/1000);
@@ -45,7 +44,7 @@ $(document).ready(function($){
             isPlaying = true;
             localStorage.setItem('is_playing', isPlaying);
             playPauseBtn.attr('src', 'iPlayMusic/controls/pause.png');
-            console.log('isPlaying: '+isPlaying);
+            log('isPlaying: '+isPlaying);
             localStorage.setItem('last_song_playing', i);
         },
         true);
@@ -57,18 +56,19 @@ $(document).ready(function($){
             isPlaying = false;
             localStorage.setItem('is_playing', isPlaying);
             playPauseBtn.attr('src', 'iPlayMusic/controls/play.png');
-            console.log('isPlaying: '+isPlaying);
+            log('isPlaying: '+isPlaying);
         },
         true);
 
     // Autoplay. Started out using canplayThrough, but then it want to load entire file in ff
     audio.addEventListener("canplay", function () {
-            if ( isPlaying === true ) {
+        if ( isPlaying === true ) {
             log('inside just before: '+isPlaying);
-                audio.play();
-            }
-        },
-        false);
+            log(audio.src);
+            audio.play();
+        }
+    },
+    false);
 
     // play next song on end of this one (playlist)
     audio.addEventListener( 'ended',
@@ -100,10 +100,10 @@ $(document).ready(function($){
         if(key == 32){
             (isPlaying === true) ? audio.pause() : audio.play();
         }
-        console.log(key);
+        log(key);
     });
 
-/********************************** controls ***************************************/
+    /********************************** controls ***************************************/
 
     // get play/pause and stop buttons bu element ID
     var playPauseBtn = $("#toggle_play_pause_btn");
@@ -114,7 +114,7 @@ $(document).ready(function($){
 
     songLink.click(function(){
         audio.pause();
-        console.log($(this).attr('data-link')+fileType);
+        log($(this).attr('data-link')+fileType);
         audio.src = 'iPlayMusic/music/'+$(this).attr('data-link')+fileType;
         i = $(this).attr('data-song_number');
         audio.play();
@@ -163,7 +163,7 @@ $(document).ready(function($){
     });
 
 
-/******************************** end controls **************************************/
+    /******************************** end controls **************************************/
 
     function progressBar() {
         //get current time in seconds
@@ -178,22 +178,23 @@ $(document).ready(function($){
             if (fWidth > 0) {
                 ctx.fillRect(0, 0, fWidth, canvas.clientHeight);
             }
-        }// we can add an else here to notify users that theie browser do not support <canvas>
+        }// we can add an else here to notify users that their browser do not support <canvas>
     }
 
     // Enable mouse click in progressbar to set currentTime of audio clip.
     canvas.addEventListener("click", function(e) {
-            if (!e) {
-                e = window.event;
-            } //get the latest windows event if it isn't set
-            try {
-                //calculate the current time based on position of mouse cursor in canvas box
-                audio.currentTime = audio.duration * (e.offsetX / canvas.clientWidth);
-            }
-            catch (e) {
-                console.log(e+'  ::  fail');
-            }
-        }, true);
+        if (!e) {
+            e = window.event;
+            log(e);
+        } //get the latest windows event if it isn't set
+        try {
+            //calculate the current time based on position of mouse cursor in canvas box
+            audio.currentTime = audio.duration * (e.offsetX / canvas.clientWidth);
+        }
+        catch (e) {
+            log(e+'  ::  fail');
+        }
+    }, true);
 
     // Repeat function
     var repeatBtn = ( localStorage.getItem('repeat_state') ) ? parseInt(localStorage.getItem('repeat_state')): 0;
@@ -234,13 +235,15 @@ $(document).ready(function($){
  *      1 = repeat all
  *      2 = repeat one
  */
- function repeatAudio(){
-     var rep = ( localStorage.getItem('repeat_state') ) ? parseInt(localStorage.getItem('repeat_state')) : 0;
-     return rep;
- }
+function repeatAudio(){
+    var rep = ( localStorage.getItem('repeat_state') ) ? parseInt(localStorage.getItem('repeat_state')) : 0;
+    return rep;
+}
 
 /**
  * Check audiocompatibility of the browser
+ * CanPlayType returns maybe, probably, or an empty string. We default to mp3
+ * because we then can use the ID3 tag to extract additional info
  *
  * @return String
  *      a valid filetype that the broser supports, or an emty
@@ -251,16 +254,22 @@ function checkAudioCompat() {
 
     if (myAudio.canPlayType) {
 
-        // CanPlayType returns maybe, probably, or an empty string.
-        if ( "" != myAudio.canPlayType('audio/ogg; codecs="vorbis"')) {
-            return ".ogg";
-        }
+        // Check if browser support mp3
         if ( "" != myAudio.canPlayType('audio/mpeg')) {
             return ".mp3";
         }
+        // Check if browser support ogg
+        if ( "" != myAudio.canPlayType('audio/ogg; codecs="vorbis"')) {
+            return ".ogg";
+        }
         return ".wav";
     }else {
-        alert("Your browser do not support audio in HTML5. Please consider upgrading to preferably Google Chrome, Mozilla Firefox or Opera.");
+        var update = false;
+        update = confirm("Your browser do not support audio in HTML5. Please update your browser, "+
+            "or consider upgrading to preferably Google Chrome, Mozilla Firefox or Opera.");
+        if ( update ) {
+                window.location = "http://www.google.com/chrome";
+	}
         return "";
     }
 }
@@ -274,6 +283,16 @@ function audioStop(audio){
     audio.pause();
     audio.currentTime = 0;
 }
+
 function log(msg){
-    console.log(msg);
+    if(window.console){
+        console.log(msg);
+    }
 }
+
+
+
+//[Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLAudioElement.currentTime]"
+//    nsresult: "0x80004005 (NS_ERROR_FAILURE)"
+//    location: "JS frame :: http://iplaymusic.jnao.me/iPlayMusic/js/iPlayMusic.js :: <TOP_LEVEL> :: line 192" data: no] :: fail
+//iPlayMusic.js (line 281)
