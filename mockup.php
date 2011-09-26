@@ -65,7 +65,7 @@
             </pre>
             <p class="center">
                 <a href="//github.com/jnaO/iPlayMusic" target="_blank">github.com/jnaO/iPlayMusic</a><br />
-                <a href="index.php" target="_blank">Home</a>
+                <a href="index.php">Home</a>
             </p>
         </article>
         <article id="iPlayMusic_article" class="bottom wrapper">
