@@ -61,7 +61,7 @@ School project -HTML5, js & php music player
         • Return array of files (matching file type condition) as json
 
         • Find album art file
-        • Return album art file name as string
+        • Return album art filename as string
 
     CSS/LAYOUT
         • Mockup
@@ -96,6 +96,7 @@ School project -HTML5, js & php music player
                                   /       '                         `-'
                                  •
 
+HIGH PRIO
     • Mockup
     • Create HTML (audio element) document to include
     • Browser file type compatability check
@@ -106,8 +107,12 @@ School project -HTML5, js & php music player
     • Find album art and sent as string
     • Receive album art and present in iPlayMusic-player
     • Set styles of iPlayMusic
-    • Implement volume control
+
+    • Create code snippets & howTo's
+
+LOW PRIO
     • Implement progress bar
+    • Implement volume control
     • Implement ID3-functionality
     • Implement config-file
         ° auto play - on / off
