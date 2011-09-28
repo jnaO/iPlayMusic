@@ -1,5 +1,26 @@
+/* create iPlayMusic article to hold our musicplayer */
+var iPlayMusic_article = $('<article id="iPlayMusic_article"/>');
+$('body').prepend(iPlayMusic_article);
+
+/* Populate the newly created div with the audio tag and the canvas tag (canvas
+ * used as progressbar), as well as controls (play, pause, stop and so on) */
+var tagAudio = $('<audio id="iPlayMusic"/>');
+var tagControls = $('<ul id="controls"/>');
+var tagProgress = $('<canvas id="canvas" width="500" height="5"/>');
+$('#iPlayMusic_article').prepend(tagAudio, tagControls, tagProgress);
+
+/* Populate the controls ul with li's containing the control buttons, as well as
+ * the logo and the control for expanding the music player */
+var controlsArray = ['logo', 'previous', 'play', 'stop', 'next', 'repeat', 'expand']
+for(var c in controlsArray){
+    var n = ('<li id="controls_'+controlsArray[c]+'" />');
+    $("#controls").append(n);
+}
+
 $(document).ready(function($){
+    /* give the canvas the same width as the containing article (same as window width) */
     $("#canvas").attr('width', $("#iPlayMusic_article").width());
+
     $("#volume_control").css('width', ($("#iPlayMusic_article").width()-70));
     // A boolean to tell if a song is playing atm
     var isPlaying = new Boolean(false);
@@ -43,7 +64,8 @@ $(document).ready(function($){
         function(){
             isPlaying = true;
             localStorage.setItem('is_playing', isPlaying);
-            playPauseBtn.attr('src', 'iPlayMusic/controls/pause.png');
+            playPauseBtn.removeClass('play');
+            playPauseBtn.addClass('pause');
             log('isPlaying: '+isPlaying);
             localStorage.setItem('last_song_playing', i);
         },
@@ -55,7 +77,8 @@ $(document).ready(function($){
         function(){
             isPlaying = false;
             localStorage.setItem('is_playing', isPlaying);
-            playPauseBtn.attr('src', 'iPlayMusic/controls/play.png');
+            playPauseBtn.removeClass('pause');
+            playPauseBtn.addClass('play');
             log('isPlaying: '+isPlaying);
         },
         true);
@@ -106,11 +129,13 @@ $(document).ready(function($){
     /********************************** controls ***************************************/
 
     // get play/pause and stop buttons bu element ID
-    var playPauseBtn = $("#toggle_play_pause_btn");
-    var stopBtn = $("#stop_btn");
-    var rewindBtn = $("#prev_btn");
-    var fastForwardBtn = $("#ff_btn");
+    var playPauseBtn = $("#controls_play");
+    var stopBtn = $("#controls_stop");
+    var rewindBtn = $("#controls_previous");
+    var fastForwardBtn = $("#controls_next");
     var songLink = $(".song_link");
+
+    playPauseBtn.addClass('play');
 
     songLink.click(function(){
         audio.pause();
@@ -180,21 +205,6 @@ $(document).ready(function($){
             }
         }// we can add an else here to notify users that their browser do not support <canvas>
     }
-
-    // Enable mouse click in progressbar to set currentTime of audio clip.
-    canvas.addEventListener("click", function(e) {
-        if (!e) {
-            e = window.event;
-            log(e);
-        } //get the latest windows event if it isn't set
-        try {
-            //calculate the current time based on position of mouse cursor in canvas box
-            audio.currentTime = audio.duration * (e.offsetX / canvas.clientWidth);
-        }
-        catch (e) {
-            log(e+'  ::  fail');
-        }
-    }, true);
 
     // Repeat function
     var repeatBtn = ( localStorage.getItem('repeat_state') ) ? parseInt(localStorage.getItem('repeat_state')): 0;
@@ -286,13 +296,12 @@ function audioStop(audio){
 
 function log(msg){
     if(window.console){
-        console.log(msg);
+//        console.log(msg);
+        alert(msg);
     }
 }
 
 
-
-//[Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLAudioElement.currentTime]"
-//    nsresult: "0x80004005 (NS_ERROR_FAILURE)"
-//    location: "JS frame :: http://iplaymusic.jnao.me/iPlayMusic/js/iPlayMusic.js :: <TOP_LEVEL> :: line 192" data: no] :: fail
-//iPlayMusic.js (line 281)
+$(window).resize(function() {
+  $("#canvas").attr('width', $("#iPlayMusic_article").width());
+});

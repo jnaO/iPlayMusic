@@ -3,14 +3,13 @@
     Created on : Sep 5, 2011, 6:14:07 PM
     Author     : jnaO
     Description:
-        Purpose of the stylesheet follows.
+        Default styles for iPlayMusic HTML5/JavaScript/PHP musicplayer
 */
-
-/*
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
-
+#iPlayMusic_article {
+    height: 55px;
+    position: relative;
+    background-color: rgba(0,0,0,0.2);
+}
 #song_title {
     text-align: center;
     color: #F2F2F2;
@@ -22,7 +21,9 @@ audio {
 }
 #canvas {
     background-color: rgba(150,0,0,0.4);
-    margin: 0 0 20px;
+    margin: 0 0 0px;
+    position: absolute;
+    bottom: 0;
 }
 img#album_cover {
     translateZ: 0;
@@ -111,10 +112,66 @@ input[type="range"]::-webkit-slider-thumb{
 }
 
 
+/* controls */
+#controls {
+    margin: 0 auto;
+    padding: 0;
+    width: 450px;
+    height: 50px;
+    position: relative;
+}
 
-
-
-
+#controls li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    top: 0;
+}
+#controls li, #controls a {
+    height: 50px;
+    display: inline-block;
+}
+#controls_logo {
+    left: 0;
+    width: 100px;
+    background: transparent url(../controls/controls_sprite.png) -100px -100px no-repeat;
+}
+#controls_previous {
+    left: 100px;
+    width: 50px;
+    background: transparent url(../controls/controls_sprite.png) -150px 0px no-repeat;
+}
+.play {
+    left: 150px;
+    width: 50px;
+    background: transparent url(../controls/controls_sprite.png) -1px 0px no-repeat;
+}
+.pause {
+    left: 150px;
+    width: 50px;
+    background: transparent url(../controls/controls_sprite.png) -50px 0px no-repeat;
+}
+#controls_stop {
+    left: 200px;
+    width: 50px;
+    background: transparent url(../controls/controls_sprite.png) -100px 0px no-repeat;
+}
+#controls_next {
+    background: transparent url(../controls/controls_sprite.png) -200px 0px no-repeat;
+    left: 250px;
+    width: 50px;
+}
+#controls_repeat {
+    left: 300px;
+    width: 50px;
+    background: transparent url(../controls/controls_sprite.png) 0px -50px no-repeat;
+}
+#controls_expand {
+    left: 400px;
+    width: 50px;
+    background: transparent url(../controls/controls_sprite.png) -50px -100px no-repeat;
+}
 
 /* Floats & Clearer  */
 
