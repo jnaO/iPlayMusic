@@ -4,10 +4,10 @@ $('body').prepend(iPlayMusic_article);
 
 /* Populate the newly created div with the audio tag and the canvas tag (canvas
  * used as progressbar), as well as controls (play, pause, stop and so on) */
-var tagAudio = $('<audio id="iPlayMusic"/>');
 var tagControls = $('<ul id="controls"/>');
+var tagAudio = $('<audio id="iPlayMusic"/>');
 var tagProgress = $('<canvas id="canvas" width="500" height="5"/>');
-$('#iPlayMusic_article').prepend(tagAudio, tagControls, tagProgress);
+$('#iPlayMusic_article').prepend(tagControls, tagAudio, tagProgress);
 
 /* Populate the controls ul with li's containing the control buttons, as well as
  * the logo and the control for expanding the music player */
@@ -16,6 +16,9 @@ for(var c in controlsArray){
     var n = ('<li id="controls_'+controlsArray[c]+'" />');
     $("#controls").append(n);
 }
+
+
+
 
 $(document).ready(function($){
     /* give the canvas the same width as the containing article (same as window width) */
@@ -96,12 +99,12 @@ $(document).ready(function($){
     // play next song on end of this one (playlist)
     audio.addEventListener( 'ended',
         function(){
-            if ( repeatAudio() !== 2 ) {
+            if ( repeatAudio(repeatBtn) !== 2 ) {
                 i++;
                 // Check to see if we're at the last position in the array of audiofiles
                 // if we are, start over from the top
                 if(i >= audioFiles.length) {
-                    if ( (i+1) >= audioFiles.length && repeatAudio() === 0 ) {
+                    if ( (i+1) >= audioFiles.length && repeatAudio(repeatBtn) === 0 ) {
                         i=0;
                         return;
                     }
@@ -190,9 +193,11 @@ $(document).ready(function($){
 
     /******************************** end controls **************************************/
 
+
+    /******************************** Progress bar **************************************/
     function progressBar() {
         //get current time in seconds
-        var elapsedTime = Math.round(audio.currentTime);
+        var elapsedTime = audio.currentTime;
         //update the progress bar
         if (canvas.getContext) {
             var ctx = canvas.getContext("2d");
@@ -208,16 +213,16 @@ $(document).ready(function($){
 
     // Repeat function
     var repeatBtn = ( localStorage.getItem('repeat_state') ) ? parseInt(localStorage.getItem('repeat_state')): 0;
-    $("#repeat_btn").attr('src', 'iPlayMusic/controls/repeat_'+repeatBtn+'.png')
+    $("#controls_repeat").addClass('repeat_'+repeatBtn)
 
-    $("#repeat_btn").click(function(){
+    $("#controls_repeat").click(function(){
         repeatBtn++;
 
         if ( repeatBtn >= 3 ) {
             repeatBtn = 0;
         }
 
-        $(this).attr('src', 'iPlayMusic/controls/repeat_'+repeatBtn+'.png')
+        $(this).attr('class', 'repeat_'+repeatBtn);
         localStorage.setItem('repeat_state', repeatBtn);
 
         switch (repeatBtn) {
@@ -282,6 +287,7 @@ function checkAudioCompat() {
 	}
         return "";
     }
+    log('the source '+$('#iPlayMusic').attr('src'));
 }
 /**
  * Stop function
@@ -296,8 +302,8 @@ function audioStop(audio){
 
 function log(msg){
     if(window.console){
-//        console.log(msg);
-        alert(msg);
+        console.log(msg);
+//        alert(msg);
     }
 }
 
