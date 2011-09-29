@@ -9,6 +9,7 @@
     height: 55px;
     margin: 0;
     padding: 0;
+    overflow: hidden;
     position: relative;
     background-color: rgba(0,0,0,0.2);
 }
@@ -170,10 +171,15 @@ input[type="range"]::-webkit-slider-thumb{
     width: 50px;
     background: transparent url(../controls/controls_sprite.png) -100px -50px no-repeat;
 }
-#controls_expand {
+.isExpanded_false {
     left: 400px;
     width: 50px;
     background: transparent url(../controls/controls_sprite.png) -50px -100px no-repeat;
+}
+.isExpanded_true {
+    left: 400px;
+    width: 50px;
+    background: transparent url(../controls/controls_sprite.png) 0px -100px no-repeat;
 }
 
 /* Floats & Clearer  */

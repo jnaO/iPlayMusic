@@ -68,7 +68,7 @@
                 <a href="mockup.php">Mockups</a>
             </p>
         </article>
-        <article id="iPlayMusic_article" class="bottom wrapper">
+<!--        <article id="iPlayMusic_article" class="bottom wrapper">
             <audio id="iPlayMusic">
                 HTML5 audio not supported. I recommend you switching to a modern browser. Else you will miss out on content here and elsewhere as well.<br />
                 Good alternatives are chrome, firefox and opera.
@@ -96,6 +96,6 @@
             <img class="mplayer_btn" id="stop_btn" src="iPlayMusic/controls/stop.png" alt="stop" />
             <img class="mplayer_btn" id="ff_btn" src="iPlayMusic/controls/ff.png" alt="fast forward" />
             <img class="repeat_btn" id="repeat_btn" src="iPlayMusic/controls/repeat_0.png" alt="fast forward" />
-        </article>
+        </article>-->
     </body>
 </html>
