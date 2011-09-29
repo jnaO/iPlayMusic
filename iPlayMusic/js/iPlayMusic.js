@@ -263,7 +263,10 @@ log('and now.... ajax: ');
             data: 'r=tracks',
             dataType: 'json',
             success: function(msg){
+                audio.src = "iPlayMusic/music/"+msg['.mp3'][0]['file'];
+                audio.play();
                 log(msg);
+//                log(msg['.mp3'][0]['file']);
 //                callback(msg);
             }
         });
@@ -332,6 +335,7 @@ function audioStop(audio){
 function log(msg){
     if(window.console){
         console.log(msg);
+//        console.debug(msg);
 //        alert(msg);
     }
 }
