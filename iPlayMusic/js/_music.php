@@ -14,6 +14,4 @@ switch ($_POST['r']) {
         $music->getFileTypes();
         break;
 }
-
-
 ?>

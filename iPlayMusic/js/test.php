@@ -1,0 +1,32 @@
+<?php
+include '../config.php';
+$test['.mp3'][0]['name'] = 'The_Righteous';
+$test['.mp3'][0]['title'] = 'The Righteous';
+$test['.mp3'][0]['path'] = MUSIC_FOLDER;
+$test['.mp3'][1]['name'] = 'Serenity';
+$test['.mp3'][1]['title'] = 'Serenity';
+$test['.mp3'][1]['path'] = MUSIC_FOLDER;
+$test['.mp3'][2]['name'] = 'Steam';
+$test['.mp3'][2]['title'] = 'Steam';
+$test['.mp3'][2]['path'] = MUSIC_FOLDER;
+$test['.ogg'][0]['name'] = 'The_Righteous';
+$test['.ogg'][0]['title'] = 'The Righteous';
+$test['.ogg'][0]['path'] = MUSIC_FOLDER;
+$test['.ogg'][1]['name'] = 'Serenity';
+$test['.ogg'][1]['title'] = 'Serenity';
+$test['.ogg'][1]['path'] = MUSIC_FOLDER;
+$test['.ogg'][2]['name'] = 'Steam';
+$test['.ogg'][2]['title'] = 'Steam';
+$test['.ogg'][2]['path'] = MUSIC_FOLDER;
+$test['.wav'][0]['name'] = 'The_Righteous';
+$test['.wav'][0]['title'] = 'The Righteous';
+$test['.wav'][0]['path'] = MUSIC_FOLDER;
+$test['.wav'][1]['name'] = 'Serenity';
+$test['.wav'][1]['title'] = 'Serenity';
+$test['.wav'][1]['path'] = MUSIC_FOLDER;
+$test['.wav'][2]['name'] = 'Steam';
+$test['.wav'][2]['title'] = 'Steam';
+$test['.wav'][2]['path'] = MUSIC_FOLDER;
+print_r(json_encode($test));
+echo count($test['.mp3']);
+?>

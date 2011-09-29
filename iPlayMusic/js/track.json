@@ -1,0 +1,170 @@
+//Desired object:
+{
+    '.mp3': [
+                {
+                    "title":    "The Righteous",
+                    "file":     "The_Righteous",
+                    "path":     "the/path/"
+                },
+                {
+                    "title":    "Steam",
+                    "file":     "Steam",
+                    "path":     "the/path/"
+                },
+                {
+                    "title":    "Serenity",
+                    "file":     "Serenity",
+                    "path":     "the/path/"
+                }
+            ],
+    '.ogg': [
+                {
+                    "title":    "The Righteous",
+                    "file":     "The_Righteous",
+                    "path":     "the/path/"
+                },
+                {
+                    "title":    "Steam",
+                    "file":     "Steam",
+                    "path":     "the/path/"
+                },
+                {
+                    "title":    "Serenity",
+                    "file":     "Serenity",
+                    "path":     "the/path/"
+                }
+            ],
+    '.wav': [
+                {
+                    "title":    "The Righteous",
+                    "file":     "The_Righteous",
+                    "path":     "the/path/"
+                },
+                {
+                    "title":    "Steam",
+                    "file":     "Steam",
+                    "path":     "the/path/"
+                },
+                {
+                    "title":    "Serenity",
+                    "file":     "Serenity",
+                    "path":     "the/path/"
+                }
+            ]
+}
+//Test object:
+{
+    ".mp3":
+        [
+            {
+                "name":"The_Righteous",
+                "title":"The Righteous",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "name":"Serenity",
+                "title":"Serenity",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "name":"Steam",
+                "title":"Steam",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            }
+        ],
+    ".ogg":
+        [
+            {
+                "name":"The_Righteous",
+                "title":"The Righteous",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "name":"Serenity",
+                "title":"Serenity",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "name":"Steam",
+                "title":"Steam",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            }
+        ],
+    ".wav":
+        [
+            {
+                "name":"The_Righteous",
+                "title":"The Righteous",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "name":"Serenity",
+                "title":"Serenity",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "name":"Steam",
+                "title":"Steam",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            }
+        ]
+}
+
+//Actual object ::
+{
+    ".mp3":
+        [
+            {
+                "file":"Serenity.mp3",
+                "title":"Serenity.mp3",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "file":"Steam.mp3",
+                "title":"Steam.mp3",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "file":"The_Righteous.mp3",
+                "title":"The Righteous.mp3",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            }
+        ],
+    ".ogg":
+        [
+            {
+                "file":"Serenity.ogg",
+                "title":"Serenity.ogg",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "file":"Steam.ogg",
+                "title":"Steam.ogg",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "file":"The_Righteous.ogg",
+                "title":"The Righteous.ogg",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            }
+            }
+        ],
+    ".wav":
+        [
+            {
+                "file":"Serenity.wav",
+                "title":"Serenity.wav",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "file":"Steam.wav",
+                "title":"Steam.wav",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            },
+            {
+                "file":"The_Righteous.wav",
+                "title":"The Righteous.wav",
+                "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
+            }
+        ]
+}

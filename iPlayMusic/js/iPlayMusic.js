@@ -34,7 +34,7 @@ $(document).ready(function($){
 
     // put our audiofiles in an nice array
     // TODO replace array content with files in folder 'music''
-    var audioFiles = new Array('steam', 'serenity', 'theRighteous');
+    var audioFiles = new Array('Steam', 'Serenity', 'The_Righteous');
 
     // Create audio element
     var audio = document.getElementById("iPlayMusic");
@@ -117,17 +117,6 @@ $(document).ready(function($){
         },
         false);
 
-    // Set the progressbar
-    audio.addEventListener("timeupdate", progressBar, true);
-
-    // If space is pressed toggle play / pause
-    $(this).bind('keypress', function(e) {
-        var key = (e.keyCode ? e.keyCode : e.charCode);
-        if(key == 32){
-            (isPlaying === true) ? audio.pause() : audio.play();
-        }
-        log(key);
-    });
 
     /********************************** controls ***************************************/
 
@@ -137,9 +126,27 @@ $(document).ready(function($){
     var rewindBtn = $("#controls_previous");
     var fastForwardBtn = $("#controls_next");
     var songLink = $(".song_link");
+    var expandPlayer = $("#controls_expand");
 
     playPauseBtn.addClass('play');
 
+    var isExpanded = false;
+    expandPlayer.addClass('isExpanded_'+isExpanded);
+    expandPlayer.click(function(){
+        isExpanded = !isExpanded;
+
+        if ( isExpanded ) {
+            $("#iPlayMusic_article").css('height', '305px');
+            expandPlayer.attr('class','isExpanded_'+isExpanded);
+            log('wanna contract ' + isExpanded);
+        } else {
+
+            $("#iPlayMusic_article").css('height', '55px');
+            expandPlayer.attr('class','isExpanded_'+isExpanded);
+            log('wanna expand ' + isExpanded);
+        }
+
+    });
     songLink.click(function(){
         audio.pause();
         log($(this).attr('data-link')+fileType);
@@ -195,6 +202,10 @@ $(document).ready(function($){
 
 
     /******************************** Progress bar **************************************/
+
+    // Update the progressbar
+    audio.addEventListener("timeupdate", progressBar, true);
+
     function progressBar() {
         //get current time in seconds
         var elapsedTime = audio.currentTime;
@@ -240,6 +251,20 @@ $(document).ready(function($){
         }
 
     });
+
+    function getTracks(callback){
+        $.ajax({
+            type: 'POST',
+            url: 'iPlayMusic/js/_music.php',
+            data: 'r=filenames',
+            dataType: 'json',
+            success: function(msg){
+                log(msg);
+                callback(msg);
+            }
+        });
+    }
+
 });
 
 
