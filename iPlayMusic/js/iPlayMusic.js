@@ -21,6 +21,8 @@ for(var c in controlsArray){
 
 
 $(document).ready(function($){
+
+
     /* give the canvas the same width as the containing article (same as window width) */
     $("#canvas").attr('width', $("#iPlayMusic_article").width());
 
@@ -252,15 +254,17 @@ $(document).ready(function($){
 
     });
 
-    function getTracks(callback){
+log('and now.... ajax: ');
+    getTracks();
+    function getTracks(){
         $.ajax({
             type: 'POST',
             url: 'iPlayMusic/js/_music.php',
-            data: 'r=filenames',
+            data: 'r=tracks',
             dataType: 'json',
             success: function(msg){
                 log(msg);
-                callback(msg);
+//                callback(msg);
             }
         });
     }

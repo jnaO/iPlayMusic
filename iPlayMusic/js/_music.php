@@ -3,12 +3,14 @@
 include 'Music.php';
 $music = new Music();
 
-switch ($_POST['r']) {
-    case 'filenames':
-        $music->getFileNames();
+$s = ( !empty ($_POST['r']) ) ? $_POST['r'] : $_GET['r'] ;
+
+switch ($s) {
+    case 'tracks':
+        $music->getTracks();
         break;
-    case 'tracktitles':
-        $music->getTrackTitles();
+    case 'allfiles':
+        $music->getAllFiles();
         break;
     case 'filetypes':
         $music->getFileTypes();

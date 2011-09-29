@@ -1,6 +1,6 @@
 <?php
 
-include '../config.php';
+require_once '../config.php';
 
 /**
  * Functions returns information about music files stored in folder iPlayMusic/music/
@@ -9,49 +9,39 @@ class Music {
 
     private $music_files = array();
     private $filetypes = array();
-    private $track_titles = array();
-    private $file_names = array();
     private $tracks = array();
 
+
+    /**
+     * Creates an array of Track objects :: $tracks
+     * Creates an array of supported filetypes :: $filetypes
+     * Creates an array of all files contained in MUSIC_FOLDER :: $music_files
+     */
     public function __construct() {
-
-        // For each track
-
-
-
-
         /* Pick up musicfiles from folder */
         $this->music_files = glob(MUSIC_FOLDER . "*.*");
 
-        /* Do stuff with musicfiles */
+        /* Iterate through exising music files stored in foldes specified in config.php */
         for ($i = 0; $i < count($this->music_files); $i++) {
 
             /* Remove path to musicfiles from the string stored in $music_files */
             $track = $this->music_files[$i] = str_replace(MUSIC_FOLDER, '', $this->music_files[$i]);
 
-
-
             /* Set filetypes supported by user */
             $file_type = stristr($this->music_files[$i], '.');
             $this->setFileType($file_type);
 
-            // Create track
+            // Create track object
             $this->createTrack($file_type, $track);
-
-
-            /* Set track titles */
-            $title_item = substr($this->music_files[$i], 0, strripos($this->music_files[$i], '.'));
-            $this->setTrackTitle($title_item);
-
-            /* Set filenames */
-            $file_item = substr($this->music_files[$i], 0, strripos($this->music_files[$i], '.'));
-            if (!in_array($file_item, $this->file_names)) {
-                $this->file_names[count($this->file_names)] = $file_item;
-            }
         }
     }
 
+
+
     /**
+     * Creates a track object and place it into the $tracks array
+     *
+     * Each track carries
      *
      * @param String $file_type
      * @param String $track
@@ -76,17 +66,20 @@ class Music {
      */
     private function setTrackTitle($title_item) {
         $title_item = str_replace('_', ' ', $title_item);
-        if (!in_array($title_item, $this->track_titles)) {
-            $this->track_titles[count($this->track_titles)] = $title_item;
-        }
+        $title_item = substr($title_item, 0, strripos($title_item, '.'));
+
         return $title_item;
     }
+
+
+// Below are all public functions
 
     /**
      * Returnes all files in iPlayMusic/music
      * array of String's
      */
     public function getAllFiles() {
+        header('Content-type: application/json');
         echo(json_encode($this->music_files));
     }
 
@@ -100,39 +93,12 @@ class Music {
     }
 
     /**
-     * Returnes the file name, but exchange underscores with space
-     * Array of String's
+     * Returnes an array of Track-objects as json based on all existing
+     * files in MUSIC_FOLDER
      */
-    public function getTrackTitles() {
-        header('Content-type: application/json');
-        echo(json_encode($this->track_titles));
-    }
-
-    /**
-     * Returnes all unique filenames minus the filetype
-     * I.E. If you have:
-     *      song1.mp3
-     *      song1.wav
-     *      song1.ogg
-     *      song2.mp3
-     *      song2.wav
-     *      song2.ogg
-     *
-     * This function will return ['song1','song2']
-     */
-    public function getFileNames() {
-        header('Content-type: application/json');
-        echo(json_encode($this->file_names));
-    }
-
     public function getTracks() {
         header('Content-type: application/json');
         echo(json_encode($this->tracks));
-//        print_r($this->tracks);
-    }
-
-    public function getAlbumArt() {
-
     }
 
 }

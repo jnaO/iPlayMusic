@@ -116,17 +116,17 @@
         [
             {
                 "file":"Serenity.mp3",
-                "title":"Serenity.mp3",
+                "title":"Serenity",
                 "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
             },
             {
                 "file":"Steam.mp3",
-                "title":"Steam.mp3",
+                "title":"Steam",
                 "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
             },
             {
                 "file":"The_Righteous.mp3",
-                "title":"The Righteous.mp3",
+                "title":"The Righteous",
                 "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
             }
         ],
@@ -134,36 +134,35 @@
         [
             {
                 "file":"Serenity.ogg",
-                "title":"Serenity.ogg",
+                "title":"Serenity",
                 "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
             },
             {
                 "file":"Steam.ogg",
-                "title":"Steam.ogg",
+                "title":"Steam",
                 "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
             },
             {
                 "file":"The_Righteous.ogg",
-                "title":"The Righteous.ogg",
+                "title":"The Righteous",
                 "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
-            }
             }
         ],
     ".wav":
         [
             {
                 "file":"Serenity.wav",
-                "title":"Serenity.wav",
+                "title":"Serenity",
                 "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
             },
             {
                 "file":"Steam.wav",
-                "title":"Steam.wav",
+                "title":"Steam",
                 "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
             },
             {
                 "file":"The_Righteous.wav",
-                "title":"The Righteous.wav",
+                "title":"The Righteous",
                 "path":"\/storage\/content\/93\/133193\/iplaymusic.jnao.me\/public_html\/iPlayMusic\/music\/"
             }
         ]
