@@ -65,6 +65,6 @@
             <? include_once 'inc/nav.inc'; ?>
         </article>
 
-        <script type="text/javascript" src="iPlayMusic/js/iPlayMusic.js"></script>
+        <script type="text/javascript" src="iPlayMusic/js/iPl.js"></script>
     </body>
 </html>
