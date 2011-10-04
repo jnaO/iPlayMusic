@@ -2,9 +2,9 @@ $(document).ready(function(){
     var loadMusic = new LoadMusic();
     loadMusic.init();
 
+    log('::::::::::::::::::');
+    log(typeof localStorage);
 
-//    var musicPlayer = new MusicPlayer();
-//    musicPlayer.init();
 });
 
 
@@ -162,6 +162,7 @@ function MusicPlayer (myTracks) {
     log('I am MusicPlayer');
     var trackList = myTracks;
     var audio = undefined;
+    var progBar = undefined;
 
 /* ===========================| Initiate player |============================ */
     this.init = function(){
@@ -179,6 +180,8 @@ function MusicPlayer (myTracks) {
         var tagAudio = this.createAudioElement();
         var tagProgress = this.createProgressBar();
         $('#iPlayMusic_article').prepend(tagControls, tagAudio, tagProgress);
+
+        this.controls();
 
     }
 
@@ -220,6 +223,53 @@ function MusicPlayer (myTracks) {
 
     }
 
+    this.controls = function(){
+        var playPauseBtn = $("#controls_play");
+        var stopBtn = $("#controls_stop");
+        var rewindBtn = $("#controls_previous");
+        var fastForwardBtn = $("#controls_next");
+        var songLink = $(".song_link");
+        var expandPlayer = $("#controls_expand");
+
+        var isExpanded = false;
+        playPauseBtn.addClass('play');
+        expandPlayer.addClass('isExpanded_'+isExpanded);
+
+        // Repeat function
+        var repeatBtn = ( localStorage.getItem('repeat_state') ) ? parseInt(localStorage.getItem('repeat_state')): 0;
+        $("#controls_repeat").addClass('repeat_'+repeatBtn)
+
+        $("#controls_repeat").click(function(){
+            repeatBtn++;
+
+            if ( repeatBtn >= 3 ) {
+                repeatBtn = 0;
+            }
+
+            $(this).attr('class', 'repeat_'+repeatBtn);
+            if (loSt()) localStorage.setItem('repeat_state', repeatBtn);
+
+            switch (repeatBtn) {
+                case 0:
+                    log('repeat off');
+                    break;
+                case 1:
+                    log('repeat all');
+                    break;
+                case 2:
+                    log('repeat one');
+                    break;
+                default:
+                    break;
+            }
+
+        });
+
+
+    }
+
+
+
 }
 
 
@@ -240,3 +290,17 @@ function log(msg){
     }
 }
 
+function loSt() {
+    if(typeof localStorage != "undefined"){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+/*
+ * I want to do my own loaclStorage, a function that should do exactly what
+ * localStorage does, but with a validation that the browser supports '
+ * localStorage
+ * 
+ **/
