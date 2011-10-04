@@ -102,7 +102,7 @@ function getTracks(callback){
     $.ajax({
         type: 'POST',
         url: 'iPlayMusic/js/_music.php',
-        data: 'r=filenames',
+        data: 'r=tracks',
         dataType: 'json',
         success: function(msg){
             log(msg);
@@ -270,7 +270,7 @@ function MusicPlayer () {
 
         // Set the progressbar update
         audio.addEventListener("timeupdate", progressBar, true);
-        
+
         function progressBar() {
             //get current time in seconds
             var elapsedTime = audio.currentTime;
