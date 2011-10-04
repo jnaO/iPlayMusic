@@ -100,10 +100,48 @@ function LoadMusic(){
 
     }
 
-    this.echosd = function(msg){
-        log(msg);
-    }
+/**
+ * Check audiocompatibility of the browser
+ * CanPlayType returns maybe, probably, or an empty string. We default to mp3
+ * because we then can use the ID3 tag to extract additional info
+ *
+ * @return String
+ *      a valid filetype that the broser supports, or an emty
+ *      string if the browser do not support audio
+ */
+    function checkBrowserAudioCompat() {
+        var myAudio = document.createElement('audio');
 
+        if (myAudio.canPlayType) {
+
+            var typesSupported = new Array;
+
+            // Check if browser support mp3
+            if ( "" != myAudio.canPlayType('audio/mpeg')) {
+                typesSupported[typesSupported.length] = ".mp3";
+            }
+            // Check if browser support ogg
+            if ( "" != myAudio.canPlayType('audio/ogg; codecs="vorbis"')) {
+                typesSupported[typesSupported.length] = ".ogg";
+            }
+            if ( "" != myAudio.canPlayType('audio/wav')) {
+                typesSupported[typesSupported.length] = ".wav";
+            }
+            var ret = {
+                succes: true,
+                support: typesSupported
+            }
+            return ret;
+        }else {
+            var update = false;
+            update = confirm("Your browser do not support audio in HTML5. Please update your browser, "+
+                "or consider upgrading to preferably Google Chrome, Mozilla Firefox or Opera.");
+            if ( update ) {
+                    window.location = "http://www.google.com/chrome";
+            }
+            return {succes: false};
+        }
+    }
 
 }
 
@@ -123,6 +161,7 @@ function MusicPlayer (myTracks) {
 
     log('I am MusicPlayer');
     var trackList = myTracks;
+    var audio = undefined;
 
 /* ===========================| Initiate player |============================ */
     this.init = function(){
@@ -136,26 +175,62 @@ function MusicPlayer (myTracks) {
 
     /* Populate the newly created div with the audio tag and the canvas tag (canvas
      * used as progressbar), as well as controls (play, pause, stop and so on) */
-        var tagControls = $('<ul id="controls"/>');
-        var tagAudio = $('<audio id="iPlayMusic"/>');
-        var tagProgress = $('<canvas id="canvas" width="500" height="5"/>');
+        var tagControls = this.createControls();
+        var tagAudio = this.createAudioElement();
+        var tagProgress = this.createProgressBar();
         $('#iPlayMusic_article').prepend(tagControls, tagAudio, tagProgress);
+
+    }
+
+/* ==========================| Create progress bar |=========================== */
+    this.createProgressBar = function(){
+        log('I am Progressbar');
+
+        var barWidth = $("#iPlayMusic_article").width();
+        var theBar = $('<canvas id="canvas" width="'+barWidth+'" height="5"/>');
+        return theBar;
+    }
+
+/* =========================| Create <audio> element |========================= */
+    this.createAudioElement = function(){
+        log('I am <AUDIO>');
+
+        var audioElement = $('<audio id="iPlayMusic"/>');
+        audio = $("#iPlayMusic");
+        return audioElement;
+    }
+
+/* =======================| Create Musicplayer Controls |======================= */
+    this.createControls = function(){
+        log('I am a list of MusicControls');
+
+        var controlsList = $('<ul id="controls"/>');
 
     /* Populate the controls ul with li's containing the control buttons, as well as
      * the logo and the control for expanding the music player */
-        var controlsArray = ['logo', 'previous', 'play', 'stop', 'next', 'repeat', 'expand']
+        var controlsArray = ['logo', 'previous', 'play', 'stop', 'next', 'repeat', 'expand'];
+
+        var controlHtml = String;
         for(var c in controlsArray){
-            var n = ('<li id="controls_'+controlsArray[c]+'" />');
-            $("#controls").append(n);
+            controlHtml += ('<li id="controls_'+controlsArray[c]+'" />');
+//            log(controlHtml);
         }
+        controlsList.html(controlHtml);
+        return controlsList;
 
-    }
-
-    this.controls = function(){
-        log('controls');
     }
 
 }
+
+
+
+
+
+
+
+
+
+
 
 function log(msg){
     if(typeof console != "undefined" && typeof console.log != "undefined"){
@@ -165,45 +240,3 @@ function log(msg){
     }
 }
 
-/**
- * Check audiocompatibility of the browser
- * CanPlayType returns maybe, probably, or an empty string. We default to mp3
- * because we then can use the ID3 tag to extract additional info
- *
- * @return String
- *      a valid filetype that the broser supports, or an emty
- *      string if the browser do not support audio
- */
-function checkBrowserAudioCompat() {
-    var myAudio = document.createElement('audio');
-
-    if (myAudio.canPlayType) {
-
-        var typesSupported = new Array;
-
-        // Check if browser support mp3
-        if ( "" != myAudio.canPlayType('audio/mpeg')) {
-            typesSupported[typesSupported.length] = ".mp3";
-        }
-        // Check if browser support ogg
-        if ( "" != myAudio.canPlayType('audio/ogg; codecs="vorbis"')) {
-            typesSupported[typesSupported.length] = ".ogg";
-        }
-        if ( "" != myAudio.canPlayType('audio/wav')) {
-            typesSupported[typesSupported.length] = ".wav";
-        }
-        var ret = {
-            succes: true,
-            support: typesSupported
-        }
-        return ret;
-    }else {
-        var update = false;
-        update = confirm("Your browser do not support audio in HTML5. Please update your browser, "+
-            "or consider upgrading to preferably Google Chrome, Mozilla Firefox or Opera.");
-        if ( update ) {
-                window.location = "http://www.google.com/chrome";
-	}
-        return {succes: false};
-    }
-}
