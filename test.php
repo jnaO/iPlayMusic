@@ -1,0 +1,19 @@
+<?php
+
+$serv = array('AUTH_TYPE','DOCUMENT_ROOT','GATEWAY_INTERFACE','HTTPS','HTTP_ACCEPT',
+        'HTTP_ACCEPT_CHARSET','HTTP_ACCEPT_ENCODING','HTTP_ACCEPT_LANGUAGE',
+        'HTTP_CONNECTION','HTTP_HOST','HTTP_REFERER','HTTP_USER_AGENT',
+        'PATH_TRANSLATED','PHP_AUTH_DIGEST','PHP_AUTH_PW','PHP_AUTH_USER',
+        'PHP_SELF','QUERY_STRING','REMOTE_ADDR','REMOTE_HOST','REMOTE_PORT',
+        'REQUEST_METHOD','REQUEST_URI','SCRIPT_FILENAME','SCRIPT_NAME','SERVER_ADDR',
+        'SERVER_ADMIN','SERVER_NAME','SERVER_PORT','SERVER_PROTOCOL','SERVER_SIGNATURE',
+        'SERVER_SOFTWARE');
+
+for ( $i = 0; $i < count($serv);$i++) {
+     echo $serv[$i] . ' = ' . $_SERVER[$serv[$i]] . '<br />';
+     echo 'empty? = ' . !empty($_SERVER[$serv[$i]]) . '<br />';
+
+}
+
+
+?>

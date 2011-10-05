@@ -1,10 +1,7 @@
 $(document).ready(function(){
     var loadMusic = new LoadMusic();
     loadMusic.init();
-
-    log('::::::::::::::::::');
-    log(typeof localStorage);
-
+    var apa = 'apa';
 });
 
 
@@ -90,8 +87,10 @@ function LoadMusic(){
     }
 
 
-    function populateTrackList(arrayOfTracks){
+    var populateTrackList = function(arrayOfTracks){
         var trackList = arrayOfTracks;
+
+        // TODO start musicPlayer
         if(trackList.length > 0){
             var musicPlayer = new MusicPlayer(trackList);
             musicPlayer.init();
@@ -105,9 +104,12 @@ function LoadMusic(){
  * CanPlayType returns maybe, probably, or an empty string. We default to mp3
  * because we then can use the ID3 tag to extract additional info
  *
- * @return String
- *      a valid filetype that the broser supports, or an emty
- *      string if the browser do not support audio
+ * @return Array
+ *      'succes'
+ *          returnes a boolean to indicate if the browser suppor any of the formats
+ *      'support'
+ *          If true, an array of filetypes that the broser supports is also returned, or an emty
+ *          string if the browser do not support audio
  */
     function checkBrowserAudioCompat() {
         var myAudio = document.createElement('audio');
@@ -176,17 +178,18 @@ function MusicPlayer (myTracks) {
 
     /* Populate the newly created div with the audio tag and the canvas tag (canvas
      * used as progressbar), as well as controls (play, pause, stop and so on) */
-        var tagControls = this.createControls();
-        var tagAudio = this.createAudioElement();
-        var tagProgress = this.createProgressBar();
+        var tagControls = createControls();
+        var tagAudio = createAudioElement();
+        var tagProgress = createProgressBar();
         $('#iPlayMusic_article').prepend(tagControls, tagAudio, tagProgress);
 
-        this.controls();
+        controls();
+        setAudio();
 
     }
 
 /* ==========================| Create progress bar |=========================== */
-    this.createProgressBar = function(){
+    var createProgressBar = function(){
         log('I am Progressbar');
 
         var barWidth = $("#iPlayMusic_article").width();
@@ -195,7 +198,7 @@ function MusicPlayer (myTracks) {
     }
 
 /* =========================| Create <audio> element |========================= */
-    this.createAudioElement = function(){
+    var createAudioElement = function(){
         log('I am <AUDIO>');
 
         var audioElement = $('<audio id="iPlayMusic"/>');
@@ -204,7 +207,7 @@ function MusicPlayer (myTracks) {
     }
 
 /* =======================| Create Musicplayer Controls |======================= */
-    this.createControls = function(){
+    var createControls = function(){
         log('I am a list of MusicControls');
 
         var controlsList = $('<ul id="controls"/>');
@@ -223,7 +226,16 @@ function MusicPlayer (myTracks) {
 
     }
 
-    this.controls = function(){
+
+    var setAudio = function(){
+        audio = document.getElementById("iPlayMusic");
+        audio.src = trackList[0].path+trackList[0].file;
+        log(audio);
+        log(trackList[0].path+trackList[0].file);
+        audio.play();
+    }
+
+    var controls = function(){
         var playPauseBtn = $("#controls_play");
         var stopBtn = $("#controls_stop");
         var rewindBtn = $("#controls_previous");
@@ -237,6 +249,14 @@ function MusicPlayer (myTracks) {
 
         // Repeat function
         var repeatBtn = ( localStorage.getItem('repeat_state') ) ? parseInt(localStorage.getItem('repeat_state')): 0;
+
+
+
+        var pressPlay = function(){
+
+        }
+
+
         $("#controls_repeat").addClass('repeat_'+repeatBtn)
 
         $("#controls_repeat").click(function(){
@@ -302,5 +322,5 @@ function loSt() {
  * I want to do my own loaclStorage, a function that should do exactly what
  * localStorage does, but with a validation that the browser supports '
  * localStorage
- * 
+ *
  **/

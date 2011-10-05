@@ -1,5 +1,14 @@
 <?php
 
-define('MUSIC_FOLDER', $_SERVER['DOCUMENT_ROOT'].'/iPlayMusic/music/');
-define('ALBUM_ART_FOLDER', $_SERVER['SERVER_NAME'].'/iPlayMusic/albumart/');
+/*==*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*/
+/*==*===*   Define variables below to specify custom folder setup   *===*===*===*/
+/*==*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*/
+
+
+/* File where to find music files (relative to webroot) *===*===*===*===*===*===*/
+$music_folder =  'iPlayMusic/music/';
+
+/* File where to find album cover image (relative to webroot)   *===*===*===*===*/
+$album_art_folder = 'iPlayMusic/albumart/';
+
 ?>

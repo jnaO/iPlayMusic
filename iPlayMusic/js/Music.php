@@ -1,6 +1,6 @@
 <?php
 
-require_once '../config.php';
+require_once 'serv_conf.php';
 
 /**
  * Functions returns information about music files stored in folder iPlayMusic/music/
@@ -19,13 +19,13 @@ class Music {
      */
     public function __construct() {
         /* Pick up musicfiles from folder */
-        $this->music_files = glob(MUSIC_FOLDER . "*.*");
+        $this->music_files = glob(SERVER_MUSIC_FOLDER . "*.*");
 
         /* Iterate through exising music files stored in foldes specified in config.php */
         for ($i = 0; $i < count($this->music_files); $i++) {
 
             /* Remove path to musicfiles from the string stored in $music_files */
-            $track = $this->music_files[$i] = str_replace(MUSIC_FOLDER, '', $this->music_files[$i]);
+            $track = $this->music_files[$i] = str_replace(SERVER_MUSIC_FOLDER, '', $this->music_files[$i]);
 
             /* Set filetypes supported by user */
             $file_type = stristr($this->music_files[$i], '.');
@@ -51,7 +51,7 @@ class Music {
         $num = count($this->tracks[$file_type]);
         $this->tracks[$file_type][$num]['file'] = $track;
         $this->tracks[$file_type][$num]['title'] = $this->setTrackTitle($track);
-        $this->tracks[$file_type][$num]['path'] = MUSIC_FOLDER;
+        $this->tracks[$file_type][$num]['path'] = PUBLIC_MUSIC_FOLDER;
     }
 
     private function setFileType($file_type) {
