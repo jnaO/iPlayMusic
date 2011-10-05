@@ -1,7 +1,7 @@
 $(document).ready(function(){
     var loadMusic = new LoadMusic();
     loadMusic.init();
-    var apa = 'apa';
+
 });
 
 
@@ -199,10 +199,9 @@ function MusicPlayer (myTracks) {
 
 /* =========================| Create <audio> element |========================= */
     var createAudioElement = function(){
-        log('I am <AUDIO>');
 
         var audioElement = $('<audio id="iPlayMusic"/>');
-        audio = $("#iPlayMusic");
+        log('I am <audio>: '+audioElement);
         return audioElement;
     }
 
@@ -216,10 +215,10 @@ function MusicPlayer (myTracks) {
      * the logo and the control for expanding the music player */
         var controlsArray = ['logo', 'previous', 'play', 'stop', 'next', 'repeat', 'expand'];
 
-        var controlHtml = String;
+        var controlHtml;
         for(var c in controlsArray){
-            controlHtml += ('<li id="controls_'+controlsArray[c]+'" />');
-//            log(controlHtml);
+            controlHtml = controlHtml+'<li id="controls_'+controlsArray[c]+'" />';
+            log(controlHtml);
         }
         controlsList.html(controlHtml);
         return controlsList;
@@ -229,10 +228,10 @@ function MusicPlayer (myTracks) {
 
     var setAudio = function(){
         audio = document.getElementById("iPlayMusic");
-        audio.src = trackList[0].path+trackList[0].file;
-        log(audio);
-        log(trackList[0].path+trackList[0].file);
+        audio.src = trackList[0].path+trackList[0].file;;
+        log('<audio> set, with source: "'+trackList[0].path+trackList[0].file+'"');
         audio.play();
+//        audio.volume = '30';
     }
 
     var controls = function(){
@@ -250,11 +249,17 @@ function MusicPlayer (myTracks) {
         // Repeat function
         var repeatBtn = ( localStorage.getItem('repeat_state') ) ? parseInt(localStorage.getItem('repeat_state')): 0;
 
+        var li = $("li");
+        li.click(function(e){
+            var id = e.currentTarget.id;
+            log(id);
+        });
 
-
-        var pressPlay = function(){
-
+        this.pressPlay = function(){
+            log('pressPlay');
         }
+
+
 
 
         $("#controls_repeat").addClass('repeat_'+repeatBtn)
@@ -288,8 +293,6 @@ function MusicPlayer (myTracks) {
 
     }
 
-
-
 }
 
 
@@ -312,8 +315,10 @@ function log(msg){
 
 function loSt() {
     if(typeof localStorage != "undefined"){
+        log('Browser support \'localStorage\'');
         return true;
     }else{
+        log('Browser DON\'T support \'localStorage\'');
         return false;
     }
 }
