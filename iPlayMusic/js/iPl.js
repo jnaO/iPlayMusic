@@ -162,6 +162,7 @@ function MusicPlayer (myTracks) {
     var trackList = myTracks;
     var audio = undefined;
     var progBar = undefined;
+    var isPlaying = false;
 
 /* ===========================| Initiate player |============================ */
     this.init = function(){
@@ -183,7 +184,13 @@ function MusicPlayer (myTracks) {
         controls();
         setAudio();
 
-    }
+        // edit value to true to activate autostart of iPlayMusic
+        setIsPlaying(false);
+
+        log('below is a test to see if true == \'true\'')
+        log(false == 0);
+
+    } // <- end init()
 
 /* ==========================| Create progress bar |=========================== */
     var createProgressBar = function(){
@@ -192,7 +199,7 @@ function MusicPlayer (myTracks) {
         var barWidth = $("#iPlayMusic_article").width();
         var theBar = $('<canvas id="canvas" width="'+barWidth+'" height="5"/>');
         return theBar;
-    }
+    } // <- end createProgressBar()
 
 /* =========================| Create <audio> element |========================= */
     var createAudioElement = function(){
@@ -200,7 +207,7 @@ function MusicPlayer (myTracks) {
         var audioElement = $('<audio id="iPlayMusic"/>');
         log('I am <audio>: '+audioElement);
         return audioElement;
-    }
+    } // <- end createAudioElemen()
 
 /* =======================| Create Musicplayer Controls |======================= */
     var createControls = function(){
@@ -225,7 +232,7 @@ function MusicPlayer (myTracks) {
         controlsList.html(controlHtml);
         return controlsList;
 
-    }
+    } // <- end createControls()
 
 
     var setAudio = function(){
@@ -234,7 +241,7 @@ function MusicPlayer (myTracks) {
         log('<audio> set, with source: "'+trackList[0].path+trackList[0].file+'"');
 //        audio.play();
 //        audio.volume = '30';
-    }
+    } // <- end setAudio()
 
     var controls = function(){
         var playPauseBtn = $("#controls_play");
@@ -257,9 +264,10 @@ function MusicPlayer (myTracks) {
             log(id);
         });
 
-        this.pressPlay = function(){
+        this.togglePlayPause = function(){
+
             log('pressPlay');
-        }
+        } // <- end togglePlayPause()
 
 
 
@@ -293,6 +301,27 @@ function MusicPlayer (myTracks) {
         });
 
 
+    } //<- end controls()
+
+    /**
+     * Set the class var (boolean) "isPlaying"
+     */
+    var setIsPlaying = function(val){
+        if (loSt()) {
+            localStorage.setItem('isPlaying', val);
+        }
+        isPlaying = val;
+    }
+
+    /**
+     * returns the value of class boolean isPlaying
+     */
+    var getIsPlaying = function(){
+        if (loSt()) {
+            var loc = ( localStorage.getItem('isPlaying') == ('true' || 'false') ) ? 'this is in local storage '+localStorage.getItem('isPlaying') : false;
+            log(loc);
+        }
+        return isPlaying;
     }
 
 }
@@ -315,6 +344,10 @@ function log(msg){
     }
 }
 
+/**
+ * check for localStorage browser compatibility
+ * @return Boolean
+ */
 function loSt() {
     if(typeof localStorage != "undefined"){
         log('Browser support \'localStorage\'');
