@@ -9,9 +9,6 @@ $(document).ready(function(){
 
 
 
-
-
-
 /*============================================================================*/
 /*============================================================================*/
 /*===============================|           |================================*/
@@ -25,7 +22,7 @@ function LoadMusic(){
     log('I am LoadMusic');
 
 /* ============================| Fill playlist |============================= */
-    this.init= function(){
+    this.init = function(){
 
         log('Initiate loadMusic');
 
@@ -34,7 +31,7 @@ function LoadMusic(){
 
         /* ===========| if we have browser support |=========== */
         if(sup.succes) {
-            var tracksGottten = getTracks(sup.support);
+            getTracks(sup.support);
         } else { // === If browser do not support mp3, ogg or wav ===
 
         }
@@ -47,7 +44,7 @@ function LoadMusic(){
      * @param types Array
      *      an array of filetypes the browser supports
      **/
-    function getTracks(types){
+    var getTracks = function(types){
 
         log('Recieveing tracks');
 
@@ -106,7 +103,7 @@ function LoadMusic(){
  *
  * @return Array
  *      'succes'
- *          returnes a boolean to indicate if the browser suppor any of the formats
+ *          returns a boolean to indicate if the browser suppor any of the formats
  *      'support'
  *          If true, an array of filetypes that the broser supports is also returned, or an emty
  *          string if the browser do not support audio
@@ -217,9 +214,14 @@ function MusicPlayer (myTracks) {
 
         var controlHtml;
         for(var c in controlsArray){
-            controlHtml = controlHtml+'<li id="controls_'+controlsArray[c]+'" />';
-            log(controlHtml);
+
+            if(c == 0){
+                controlHtml = '<li id="controls_'+controlsArray[c]+'" />';
+            } else {
+                controlHtml += '<li id="controls_'+controlsArray[c]+'" />';
+            }
         }
+        log(controlHtml);
         controlsList.html(controlHtml);
         return controlsList;
 
@@ -230,7 +232,7 @@ function MusicPlayer (myTracks) {
         audio = document.getElementById("iPlayMusic");
         audio.src = trackList[0].path+trackList[0].file;;
         log('<audio> set, with source: "'+trackList[0].path+trackList[0].file+'"');
-        audio.play();
+//        audio.play();
 //        audio.volume = '30';
     }
 
