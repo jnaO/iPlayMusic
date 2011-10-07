@@ -1,3 +1,27 @@
+var storage = (function () {
+
+    var isLocalStorage = !!(typeof localStorage !== undefined);
+    return {
+        set: function (key, value) {
+            if (isLocalStorage) {
+                localStorage.setItem(key, value);
+            }
+        },
+        get: function (key) {
+            if (isLocalStorage) {
+                localStorage.getItem(key);
+            }
+        },
+        remove: function (key) {
+            if (isLocalStorage) {
+                localStorage.removeItem(key);
+            }
+        }
+    }
+
+}());
+
+
 $(document).ready(function(){
     var loadMusic = new LoadMusic();
     loadMusic.init();
@@ -26,7 +50,7 @@ function LoadMusic(){
 
         log('Initiate loadMusic');
 
-        /* Check what filetypes the browser supports */
+        /* Check wthishat filetypes the browser supports */
         var sup = checkBrowserAudioCompat();
 
         /* ===========| if we have browser support |=========== */
@@ -35,7 +59,7 @@ function LoadMusic(){
         } else { // === If browser do not support mp3, ogg or wav ===
 
         }
-    }
+    } // <- end init()
 
 
     /**
@@ -81,7 +105,7 @@ function LoadMusic(){
 
             }
         });
-    }
+    } // <- end getTracks()
 
 
     var populateTrackList = function(arrayOfTracks){
@@ -94,7 +118,7 @@ function LoadMusic(){
         }
         log('trackList populated with '+trackList.length+' songs');
 
-    }
+    }  // <- end populateTracklist()
 
 /**
  * Check audiocompatibility of the browser
@@ -219,14 +243,9 @@ function MusicPlayer (myTracks) {
      * the logo and the control for expanding the music player */
         var controlsArray = ['logo', 'previous', 'play', 'stop', 'next', 'repeat', 'expand'];
 
-        var controlHtml;
-        for(var c in controlsArray){
-
-            if(c == 0){
-                controlHtml = '<li id="controls_'+controlsArray[c]+'" />';
-            } else {
-                controlHtml += '<li id="controls_'+controlsArray[c]+'" />';
-            }
+        var controlHtml = new String;
+        for(var c = 0; c < controlsArray.length; c++){
+            controlHtml += '<li id="controls_'+controlsArray[c]+'" />';
         }
         log(controlHtml);
         controlsList.html(controlHtml);
@@ -255,34 +274,77 @@ function MusicPlayer (myTracks) {
         playPauseBtn.addClass('play');
         expandPlayer.addClass('isExpanded_'+isExpanded);
 
-        // Repeat function
-        var repeatBtn = ( localStorage.getItem('repeat_state') ) ? parseInt(localStorage.getItem('repeat_state')): 0;
 
-        var li = $("li");
-        li.click(function(e){
-            var id = e.currentTarget.id;
-            log(id);
+        var ul = document.getElementById("controls");
+        log(ul);
+
+        ul.addEventListener('click', function(e){
+            var id = e.target.id;
+            musicControls(id);
+
         });
 
-        this.togglePlayPause = function(){
+        var musicControls = function(id) {
+
+            switch(id)
+            {
+                case 'controls_previous':
+                    playPrevious();
+                    break;
+                case 'controls_play':
+                    togglePlayPause();
+                    break;
+                case 'controls_stop':
+                    stop();
+                    break;
+                case 'controls_next':
+                    playNext();
+                    break;
+                case 'controls_repeat':
+                    changeRepeatState(id);
+                    break;
+                case 'controls_expand':
+                    toggleExpand();
+                    break;
+                default:
+                    log('default '+id);
+                }
+
+        }
+
+        var playNext = function(){
+
+            log('pressNext');
+        } // <- end togglePlayPause()
+
+        var togglePlayPause = function(){
 
             log('pressPlay');
         } // <- end togglePlayPause()
 
+        var stop = function(){
 
+            log('pressStop');
+        } // <- end togglePlayPause()
 
+        var playPrevious = function(){
 
-        $("#controls_repeat").addClass('repeat_'+repeatBtn)
+            log('pressPrevious');
+        } // <- end togglePlayPause()
 
-        $("#controls_repeat").click(function(){
+ /* *   *   *   * Repeat function   *   *   *   *   */
+        var repeatBtn = ( storage.get('repeat_state') ) ? parseInt(storage.get('repeat_state')): 0;
+
+        var changeRepeatState = function(id){
+
             repeatBtn++;
 
             if ( repeatBtn >= 3 ) {
                 repeatBtn = 0;
             }
 
-            $(this).attr('class', 'repeat_'+repeatBtn);
-            if (loSt()) localStorage.setItem('repeat_state', repeatBtn);
+            document.getElementById(id).className = 'repeat_'+repeatBtn;
+            storage.set('repeat_state', repeatBtn);
 
             switch (repeatBtn) {
                 case 0:
@@ -297,6 +359,23 @@ function MusicPlayer (myTracks) {
                 default:
                     break;
             }
+
+            log('pressRepeat');
+        } // <- end togglePlayPause()
+
+        var toggleExpand = function(){
+
+            log('expand Player');
+        } // <- end togglePlayPause()
+
+
+
+
+
+        $("#controls_repeat").addClass('repeat_'+repeatBtn)
+
+        $("#controls_repeat").click(function(){
+
 
         });
 
@@ -318,7 +397,8 @@ function MusicPlayer (myTracks) {
      */
     var getIsPlaying = function(){
         if (loSt()) {
-            var loc = ( localStorage.getItem('isPlaying') == ('true' || 'false') ) ? 'this is in local storage '+localStorage.getItem('isPlaying') : false;
+            var loc = ( localStorage.getItem('isPlaying') == ('true' || 'false') ) ?
+                'this is in local storage '+localStorage.getItem('isPlaying') : false;
             log(loc);
         }
         return isPlaying;
@@ -358,9 +438,15 @@ function loSt() {
     }
 }
 
+
+
+
+
 /*
  * I want to do my own loaclStorage, a function that should do exactly what
  * localStorage does, but with a validation that the browser supports '
  * localStorage
+ *
+ *==immediate function
  *
  **/
