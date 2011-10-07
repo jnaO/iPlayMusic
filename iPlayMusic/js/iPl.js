@@ -1,6 +1,7 @@
 var storage = (function () {
 
     var isLocalStorage = !!(typeof localStorage !== undefined);
+
     return {
         set: function (key, value) {
             if (isLocalStorage) {
@@ -27,6 +28,47 @@ $(document).ready(function(){
     loadMusic.init();
 
 });
+
+window.onload = function () {
+   var musicplayer = new MusicPlayer();
+   musicplayer.init();
+};
+
+
+var MusicPlayer = function () {
+
+    var tracklist = new TrackList();
+    var controls = new Controls();
+
+    var play = function (track) {
+        //mess around with audio tag
+    }
+
+    this.init = function () {
+        tracklist.populate(function () {
+            play(tracklist.next());
+        });
+    }
+
+
+};
+
+var TrackList = function () {
+
+    var currentPosition = 0;
+    var tracks = [];
+
+    this.populate = function (whenReady) {
+        //ajax
+        whenReady();
+    }
+
+    this.next = function () {
+        var nextTrack = tracks[currentPosition];
+        currentPosition++;
+        return nextTrack;
+    }
+}
 
 
 
@@ -276,18 +318,11 @@ function MusicPlayer (myTracks) {
 
 
         var ul = document.getElementById("controls");
-        log(ul);
 
         ul.addEventListener('click', function(e){
             var id = e.target.id;
-            musicControls(id);
 
-        });
-
-        var musicControls = function(id) {
-
-            switch(id)
-            {
+            switch(id) {
                 case 'controls_previous':
                     playPrevious();
                     break;
@@ -308,14 +343,14 @@ function MusicPlayer (myTracks) {
                     break;
                 default:
                     log('default '+id);
-                }
+            }
 
-        }
+        });
 
         var playNext = function(){
 
             log('pressNext');
-        } // <- end togglePlayPause()
+        } // <- end playNext()
 
         var togglePlayPause = function(){
 
@@ -325,14 +360,15 @@ function MusicPlayer (myTracks) {
         var stop = function(){
 
             log('pressStop');
-        } // <- end togglePlayPause()
+        } // <- end stop()
 
         var playPrevious = function(){
 
             log('pressPrevious');
-        } // <- end togglePlayPause()
+        } // <- end playPrevious()
 
- /* *   *   *   * Repeat function   *   *   *   *   */
+
+ /* *===*===*===*===*===*===*===* Repeat function===*===*===*===*===*===*===*/
         var repeatBtn = ( storage.get('repeat_state') ) ? parseInt(storage.get('repeat_state')): 0;
 
         var changeRepeatState = function(id){
@@ -361,12 +397,12 @@ function MusicPlayer (myTracks) {
             }
 
             log('pressRepeat');
-        } // <- end togglePlayPause()
+        } // <- end changeRepeatState()
 
         var toggleExpand = function(){
 
             log('expand Player');
-        } // <- end togglePlayPause()
+        } // <- end toggleExpand()
 
 
 
