@@ -35,7 +35,7 @@
         <link href='//fonts.googleapis.com/css?family=Josefin+Sans:400,600,700|Josefin+Slab:700&amp;v2' rel='stylesheet' type='text/css' />
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 
-        <script type="text/javascript" src="iPlayMusic/js/iPlayMusic.js"></script>
+        <script type="text/javascript" src="iPlayMusic/sys/iPlayMusic.js"></script>
 <?
         if ($iphone || $android || $palmpre || $ipod || $berry == true) {
             ?>
@@ -68,7 +68,7 @@
                 <a href="mockup.php">Mockups</a>
             </p>
         </article>
-<!--        <article id="iPlayMusic_article" class="bottom wrapper">
+<!--        <article class="bottom wrapper">
             <audio id="iPlayMusic">
                 HTML5 audio not supported. I recommend you switching to a modern browser. Else you will miss out on content here and elsewhere as well.<br />
                 Good alternatives are chrome, firefox and opera.

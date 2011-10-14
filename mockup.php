@@ -35,7 +35,6 @@
         <link href='//fonts.googleapis.com/css?family=Josefin+Sans:400,600,700|Josefin+Slab:700&amp;v2' rel='stylesheet' type='text/css' />
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 
-        <script type="text/javascript" src="iPlayMusic/js/iPlayMusic.js"></script>
 <?
         if ($iphone || $android || $palmpre || $ipod || $berry == true) {
             ?>
@@ -48,7 +47,6 @@
             <?
         }
         ?>
-        <link rel="stylesheet" type="text/css" href="iPlayMusic/css/iPlayMusic.css" media="screen" />
 
 
     </head>
@@ -68,7 +66,7 @@
                 <a href="index.php">Home</a>
             </p>
         </article>
-        <article id="iPlayMusic_article" class="bottom wrapper">
+        <article class="bottom wrapper">
             <h6>Folded</h6>
             <img src="img/mockup/folded.png" alt="Folded mockup of iPlayMusic" /><br />
             <h6>Expanded</h6>

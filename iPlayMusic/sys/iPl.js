@@ -1,76 +1,50 @@
-var storage = (function () {
-
-    var isLocalStorage = !!(typeof localStorage !== undefined);
-
-    return {
-        set: function (key, value) {
-            if (isLocalStorage) {
-                localStorage.setItem(key, value);
-            }
-        },
-        get: function (key) {
-            if (isLocalStorage) {
-                localStorage.getItem(key);
-            }
-        },
-        remove: function (key) {
-            if (isLocalStorage) {
-                localStorage.removeItem(key);
-            }
-        }
-    }
-
-}());
-
-
 $(document).ready(function(){
-    var loadMusic = new LoadMusic();
-    loadMusic.init();
-
+    var musicPlayer = new MusicPlayer();
+    musicPlayer.init();
 });
 
-window.onload = function () {
-   var musicplayer = new MusicPlayer();
-   musicplayer.init();
-};
-
-
-var MusicPlayer = function () {
-
-    var tracklist = new TrackList();
-    var controls = new Controls();
-
-    var play = function (track) {
-        //mess around with audio tag
-    }
-
-    this.init = function () {
-        tracklist.populate(function () {
-            play(tracklist.next());
-        });
-    }
-
-
-};
-
-var TrackList = function () {
-
-    var currentPosition = 0;
-    var tracks = [];
-
-    this.populate = function (whenReady) {
-        //ajax
-        whenReady();
-    }
-
-    this.next = function () {
-        var nextTrack = tracks[currentPosition];
-        currentPosition++;
-        return nextTrack;
-    }
-}
-
-
+//window.onload = function () {
+//   var musicplayer = new MusicPlayer();
+//   musicplayer.init();
+//};
+//
+//
+//var MusicPlayer = function () {
+//
+//    var tracklist = new TrackList();
+//    var controls = new Controls();
+//
+//    var play = function (track) {
+//        //mess around with audio tag
+//    }
+//
+//    this.init = function () {
+//        tracklist.populate(function () {
+//            play(tracklist.next());
+//        });
+//    }
+//
+//
+//};
+//
+//var TrackList = function () {
+//
+//    var currentPosition = 0;
+//    var tracks = [];
+//
+//    this.populate = function (whenReady) {
+//        //ajax
+//        whenReady();
+//    }
+//
+//    this.next = function () {
+//        var nextTrack = tracks[currentPosition];
+//        currentPosition++;
+//        return nextTrack;
+//    }
+//}
+//
+//
 
 
 
@@ -87,93 +61,100 @@ function LoadMusic(){
 
     log('I am LoadMusic');
 
+    var trackList = [];
+
+/* ============================| Return trackList |============================= */
+    this.getTrackList = function(){
+        return trackList;
+    }
+
+
+
+
 /* ============================| Fill playlist |============================= */
-    this.init = function(){
+    /**
+     * Populate the tracklist with the song-objects from specified music folder
+     *
+     *  @param whenReady function
+     *      function to start when playlist is filled
+     */
+    this.init = function(whenReady){
 
-        log('Initiate loadMusic');
+        log('I am LoadMusic Init! ');
 
-        /* Check wthishat filetypes the browser supports */
+    /* Check wthishat filetypes the browser supports */
         var sup = checkBrowserAudioCompat();
 
-        /* ===========| if we have browser support |=========== */
+    /* ===========| if we have browser support |=========== */
         if(sup.succes) {
-            getTracks(sup.support);
-        } else { // === If browser do not support mp3, ogg or wav ===
 
+            log('Recieveing tracks');
+
+            var types = sup.support;
+
+            $.ajax({
+                type: 'POST',
+                url: 'iPlayMusic/sys/_music.php',
+                data: 'r=tracks',
+                dataType: 'json',
+                success: function(msg){
+
+                    // set variable for control of filetype compatibility.
+                    var match = false;
+
+                    // Check each of the filetypes (@param types) supplied for
+                    // compatibility with userAgent, and if match:
+                    // populateTrackList()
+                    for (var i = 0; i < types.length; i++) {
+
+                        if(msg[types[i]] != 'undefined'){
+
+                            log('We have a matching filetype: '+types[i]);
+
+                            // Fill out trackList with track objects
+                            trackList  = msg[types[i]];
+                            match = true;
+                            whenReady();
+                            break;
+                        }
+                    }
+
+                    // if we dont get a match between supported filetypes, and
+                    // filetypes provided by user
+                    if(match === false){
+                        log('no match between supplied files and browser audio support');
+                    }
+
+                }
+            }); // <- end $.ajax
+        } else { // === If browser do not support mp3, ogg or wav ===
+            log('no audio support in browser');
         }
+
+
+        log('trackList populated with '+trackList.length+' songs');
+
+
+
+        log('end of load music init');
     } // <- end init()
 
 
+
+
+
     /**
-     * Ajax call to receive an array of musicfiles
+     * Check audiocompatibility of the browser
+     * CanPlayType returns maybe, probably, or an empty string. We default to mp3
+     * because we then can use the ID3 tag to extract additional info
      *
-     * @param types Array
-     *      an array of filetypes the browser supports
-     **/
-    var getTracks = function(types){
-
-        log('Recieveing tracks');
-
-        $.ajax({
-            type: 'POST',
-            url: 'iPlayMusic/js/_music.php',
-            data: 'r=tracks',
-            dataType: 'json',
-            success: function(msg){
-
-                // set variable for control of filetype compatibility.
-                var match = false;
-
-                // Check each of the filetypes (@param types) supplied for
-                // compatibility with userAgent, and if match:
-                // populateTrackList()
-                for (var i = 0; i < types.length; i++) {
-
-                    if(msg[types[i]] != 'undefined'){
-
-                        log('We have a matching filetype: '+types[i]);
-
-                        populateTrackList(msg[types[i]]);
-                        match = true;
-                        break;
-                    }
-                }
-
-                // if we dont get a match between supported filetypes, and
-                // filetypes provided by user
-                if(match === false){
-                    log('no match');
-                }
-
-            }
-        });
-    } // <- end getTracks()
-
-
-    var populateTrackList = function(arrayOfTracks){
-        var trackList = arrayOfTracks;
-
-        // TODO start musicPlayer
-        if(trackList.length > 0){
-            var musicPlayer = new MusicPlayer(trackList);
-            musicPlayer.init();
-        }
-        log('trackList populated with '+trackList.length+' songs');
-
-    }  // <- end populateTracklist()
-
-/**
- * Check audiocompatibility of the browser
- * CanPlayType returns maybe, probably, or an empty string. We default to mp3
- * because we then can use the ID3 tag to extract additional info
- *
- * @return Array
- *      'succes'
- *          returns a boolean to indicate if the browser suppor any of the formats
- *      'support'
- *          If true, an array of filetypes that the broser supports is also returned, or an emty
- *          string if the browser do not support audio
- */
+     * @return Array
+     *      'succes'
+     *          returns a boolean to indicate if the browser suppor any of the formats
+     *      'support'
+     *          If true, an array of filetypes that the broser supports is also returned, or an emty
+     *          string if the browser do not support audio
+     */
     function checkBrowserAudioCompat() {
         var myAudio = document.createElement('audio');
 
@@ -222,20 +203,35 @@ function LoadMusic(){
 /*============================================================================*/
 /*============================================================================*/
 
-function MusicPlayer (myTracks) {
+function MusicPlayer () {
 
     log('I am MusicPlayer');
-    var trackList = myTracks;
+
+    var loadMusic = new LoadMusic();
+
+    var trackList = [];
     var audio = undefined;
     var progBar = undefined;
     var isPlaying = false;
 
-/* ===========================| Initiate player |============================ */
+    // internal reference to musicPlayer (this)
+    var tRef = this;
+
     this.init = function(){
+        loadMusic.init(function(){
+            log('Let\'s initiate musicPlayer!');
+            tRef.startPlayer();
+        });
+    }
+
+/* ===========================| Initiate player |============================ */
+    this.startPlayer = function(){
 
         log('Initiate player');
 
-        log(trackList);
+        trackList = loadMusic.getTrackList();
+
+        log('I am tracklist '+trackList);
     /* create <article> to hold our musicplayer and prepend it to <body> */
         var iPlayMusic_article = $('<article id="iPlayMusic_article"/>');
         $('body').prepend(iPlayMusic_article);
@@ -473,6 +469,53 @@ function loSt() {
         return false;
     }
 }
+
+
+
+
+/**
+ * A wrapper of localStorage, to make sure that we do not try to set or retrieve
+ * any parameters from localStorage, if the browser do not support it
+ *
+ * storage has three methods:
+ *      @method set Method
+ *          @param key String
+ *              the key used to identify the value to be stored
+ *          @param value String
+ *              value of the key
+ *      @method get Method
+ *          @param key String
+ *              the key used to identify the value to be retrieved
+ *      @method remove Method
+ *          @param key String
+ *              the key used to identify the value to be removed
+ *
+ * storage works the same as localStorage, hence syntax looks as follows:
+ *      storage.set('key', 'val') :: localStorage.setItem('key', 'val');
+ */
+var storage = (function () {
+
+    var isLocalStorage = !!(typeof localStorage !== undefined);
+
+    return {
+        set: function (key, value) {
+            if (isLocalStorage) {
+                localStorage.setItem(key, value);
+            }
+        },
+        get: function (key) {
+            if (isLocalStorage) {
+                localStorage.getItem(key);
+            }
+        },
+        remove: function (key) {
+            if (isLocalStorage) {
+                localStorage.removeItem(key);
+            }
+        }
+    }
+
+}());
 
 
 

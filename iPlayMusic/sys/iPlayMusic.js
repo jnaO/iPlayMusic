@@ -259,7 +259,7 @@ log('and now.... ajax: ');
     function getTracks(){
         $.ajax({
             type: 'POST',
-            url: 'iPlayMusic/js/_music.php',
+            url: 'iPlayMusic/sys/_music.php',
             data: 'r=tracks',
             dataType: 'json',
             success: function(msg){

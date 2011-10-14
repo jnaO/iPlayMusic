@@ -47,7 +47,6 @@
             <?
         }
         ?>
-        <link rel="stylesheet" type="text/css" href="iPlayMusic/css/iPlayMusic.css" media="screen" />
 
 
     </head>
