@@ -11,11 +11,12 @@
  * audio.controls
  *      Boolean attribute indicating whether the browser should show its controls.
  */
-
-$(document).ready(function(){
-    var musicPlayer = new MusicPlayer();
-    musicPlayer.init();
-});
+document.onreadystatechange = function(){
+    if (document.readyState === 'complete' ){
+        var musicPlayer = new MusicPlayer();
+        musicPlayer.init();
+    }
+}
 
 //window.onload = function () {
 //   var musicplayer = new MusicPlayer();
@@ -384,12 +385,14 @@ function MusicPlayer () {
             log('Im listening');
 
             audio.addEventListener('playing',function(){
+                audio.removeEventListener('playing', arguments.callee, false);
                 track.isPlaying = true;
-                log('Audio is playing: ' + track.isPlaying);
+                isTrackPlaying();
             });
             audio.addEventListener('pause',function(){
+                audio.removeEventListener('pause', arguments.callee, false);
                 track.isPlaying = false;
-                log('Audio is playing: ' + track.isPlaying);
+                isTrackPlaying();
             });
             audio.addEventListener('ended',function(){
                 audio.removeEventListener('ended', arguments.callee, false);
@@ -404,6 +407,17 @@ function MusicPlayer () {
 
         }
 
+        var isTrackPlaying = function(){
+            if(track.isPlaying) {
+                document.getElementById('controls_play').setAttribute('class', 'pause');
+                storage.set('trackNumber', trackNumber);
+            } else {
+                document.getElementById('controls_play').setAttribute('class', 'play');
+                storage.set('audioPosition', audio.currentTime);
+            }
+            log('Audio is playing: ' + track.isPlaying);
+        }
+
         var setAudioSource = function(trNum){
             currentTrack = trackList[trNum];
             audio.src = currentTrack.path+currentTrack.file;
@@ -411,23 +425,31 @@ function MusicPlayer () {
         }
 
 
-        this.playNextTrack = function(){
+        this.incrementTrackNumber = function(){
             trackNumber++;
-            log('tracknumber: '+trackNumber);
             if(trackNumber >= trackList.length){
                 trackNumber = 0;
             }
-            log('tracknumber: '+trackNumber);
+            log(trackNumber);
+        }
+
+        this.decrementTrackNumber = function(){
+            trackNumber--;
+            if(trackNumber < 0){
+                trackNumber = (trackList.length -1 );
+            }
+            log(trackNumber);
+        }
+
+        this.playNextTrack = function(){
+            track.incrementTrackNumber();
             setAudioSource(trackNumber);
             audio.play();
         }
 
 
         this.playPreviousTrack = function(){
-            trackNumber--;
-            if(trackNumber < 0){
-                trackNumber = (trackList.length -1 );
-            }
+            track.decrementTrackNumber();
             setAudioSource(trackNumber);
             audio.play();
         }
@@ -440,22 +462,10 @@ function MusicPlayer () {
 
         this.stopTrack = function(){
             audio.pause();
-            log(audio.curentTime);
-            audio.curentTime = 0;
-            log(audio.curentTime);
+            log(audio.currentTime);
+            audio.currentTime = 0;
+            log(audio.currentTime);
         }
-    //
-    //
-    //        log('<audio> set, with source: "'+trackList[trackNumber].path+trackList[trackNumber].file+'"');
-    ////        audio.play();
-    ////        audio.volume = '30';
-    //        var ended = function(){
-    //            audio.addEventListener('ended', function(e) {
-    //                audio.removeEventListener('ended', arguments.callee, false);
-    //                playNextTrack();
-    //                log(audio.src);
-    //            });
-    //        }
     } // <- end Track()
 
     var controls = function(){
@@ -465,10 +475,14 @@ function MusicPlayer () {
         var fastForwardBtn = $("#controls_next");
         var songLink = $(".song_link");
         var expandPlayer = document.getElementById('controls_expand');
+        var repeatElem = document.getElementById('controls_repeat');
 
         var isExpanded = false;
+        var repeatBtn = ( storage.get('repeat_state') ) ? parseInt(storage.get('repeat_state')): 0;
+
         playPauseBtn.setAttribute('class', 'play');
         expandPlayer.setAttribute('class', 'isExpanded_'+isExpanded);
+        repeatElem.setAttribute('class', 'repeat_'+repeatBtn);
 
 
         var ul = document.getElementById("controls");
@@ -481,14 +495,14 @@ function MusicPlayer () {
                     track.playPreviousTrack();
                     break;
                 case 'controls_play':
-                    togglePlayPause();
+                    (track.isPlaying) ? audio.pause() : track.playTrack();
                     break;
                 case 'controls_stop':
                     track.stopTrack();
                     break;
                 case 'controls_next':
-                    track.playNextTrack();
-                    playNext();
+                    log('next '+track.isPlaying);
+                    (track.isPlaying) ? track.playNextTrack() : track.incrementTrackNumber();
                     break;
                 case 'controls_repeat':
                     changeRepeatState(id);
@@ -502,34 +516,17 @@ function MusicPlayer () {
 
         });
 
-        var playNext = function(){
+        var toggleExpand = function(){
+            isExpanded = !isExpanded;
+            log('I am toggleExpand: '+isExpanded);
+            expandPlayer.setAttribute('class', 'isExpanded_'+isExpanded);
+            document.getElementById('iPlayMusic_article').style.height = (isExpanded) ? '300px' : '55px';
 
-            log('pressNext');
-        } // <- end playNext()
 
-        var togglePlayPause = function(){
-            //            if (audio.) {
-            //
-            //            }
-            audio.play();
-            log('pressPlay');
-        } // <- end togglePlayPause()
-
-        var stop = function(){
-            audio.pause();
-            log('pressStop');
-        } // <- end stop()
-
-        var playPrevious = function(){
-
-            log('pressPrevious');
-        } // <- end playPrevious()
-
+        };
 
         /* *===*===*===*===*===*===*===* Repeat function===*===*===*===*===*===*===*/
-        var repeatBtn = ( storage.get('repeat_state') ) ? parseInt(storage.get('repeat_state')): 0;
-
-        var changeRepeatState = function(id){
+        var changeRepeatState = function(){
 
             repeatBtn++;
 
@@ -537,7 +534,7 @@ function MusicPlayer () {
                 repeatBtn = 0;
             }
 
-            document.getElementById(id).className = 'repeat_'+repeatBtn;
+            repeatElem.className = 'repeat_'+repeatBtn;
             storage.set('repeat_state', repeatBtn);
 
             switch (repeatBtn) {
@@ -554,25 +551,7 @@ function MusicPlayer () {
                     break;
             }
 
-            log('pressRepeat');
         } // <- end changeRepeatState()
-
-        var toggleExpand = function(){
-
-            log('expand Player');
-        } // <- end toggleExpand()
-
-
-
-
-
-        $("#controls_repeat").addClass('repeat_'+repeatBtn)
-
-        $("#controls_repeat").click(function(){
-
-
-            });
-
 
     } //<- end controls()
 
@@ -667,7 +646,7 @@ var storage = (function () {
         },
         get: function (key) {
             if (isLocalStorage) {
-                localStorage.getItem(key);
+                return localStorage.getItem(key);
             }
         },
         remove: function (key) {

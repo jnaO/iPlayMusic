@@ -7,10 +7,12 @@
 */
 #iPlayMusic_article {
     height: 55px;
-    margin: 0;
+    margin: 0 0 55px;
     padding: 0;
     overflow: hidden;
     position: relative;
+    top: 0px;
+    width: 100%;
     background-color: rgba(0,0,0,0.2);
 }
 #song_title {
