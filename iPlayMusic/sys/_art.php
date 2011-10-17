@@ -1,19 +1,12 @@
 <?php
-
 include 'Art.php';
 $art = new Art();
 
-$s = ( !empty ($_POST['r']) ) ? $_POST['r'] : $_GET['r'] ;
+$a = ( !empty ($_POST['a']) ) ? $_POST['a'] : $_GET['a'] ;
 
-switch ($s) {
-    case 'tracks':
-        $music->getTracks();
-        break;
-    case 'allfiles':
-        $music->getAllFiles();
-        break;
-    case 'filetypes':
-        $music->getFileTypes();
+switch ($a) {
+    case 'art':
+        $art->getAlbumArt();
         break;
 }
 ?>

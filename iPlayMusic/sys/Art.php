@@ -43,7 +43,7 @@ class Art {
                 $aObj = $this->createObject($this->images[$i]);
 
                 // Push Album Art Object into album_art array
-                array_push($this->album_art, $aObj);
+//                $this->album_art[count($this->album_art)] =  $aObj;
             }
         }
     }
@@ -68,13 +68,13 @@ class Art {
         $peiceOfArt = str_replace(SERVER_ALBUM_ART_FOLDER, '', $peiceOfArt);
 
         $art_obj = array();
-
-        $art_obj['name']    = str_replace('_', ' ', substr($peiceOfArt, 0, stripos($peiceOfArt, '.')));
-        $art_obj['file']    = PUBLIC_ALBUM_ART_FOLDER . $peiceOfArt;
-//        $art_obj['album']   = '';
-//        $art_obj['artist']  = '';
-//        $art_obj['date']    = '';
-        return $art_obj;
+        $i = count($this->album_art);
+        $this->album_art[$i]['name']    = str_replace('_', ' ', substr($peiceOfArt, 0, stripos($peiceOfArt, '.')));
+        $this->album_art[$i]['file']    = PUBLIC_ALBUM_ART_FOLDER . $peiceOfArt;
+//        $art_obj['covers']['album']   = '';
+//        $art_obj['covers']['artist']  = '';
+//        $art_obj['covers']['date']    = '';
+//        return $art_obj;
 
     }
 
@@ -107,7 +107,7 @@ class Art {
      *
      */
     public function getAlbumArt(){
-        return json_encode($this->album_art);
+       return $this->album_art;
     }
 
 }

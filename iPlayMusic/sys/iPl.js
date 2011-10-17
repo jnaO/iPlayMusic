@@ -136,6 +136,9 @@ function LoadMusic(){
                     // json-ify the string that is returned
                     var msg = JSON.parse(ajaxRequest.responseText);
 
+                    var music   = msg['music'];
+                    var art     = msg['art'];
+
                     // set variable for control of filetype compatibility.
                     var match = false;
 
@@ -144,12 +147,12 @@ function LoadMusic(){
                     // populateTrackList()
                     for (var i = 0; i < types.length; i++) {
 
-                        if(msg[types[i]] != 'undefined'){
+                        if(music[types[i]] != 'undefined'){
 
                             log('We have a matching filetype: '+types[i]);
 
                             // Fill out trackList with track objects
-                            trackList  = msg[types[i]];
+                            trackList  = music[types[i]];
                             match = true;
                             whenReady();
                             break;
@@ -165,7 +168,7 @@ function LoadMusic(){
                 }
             }
 
-            ajaxRequest.open("POST", "iPlayMusic/sys/_music.php" + "?r=tracks", true);
+            ajaxRequest.open("POST", "iPlayMusic/sys/_music.php" + "?r=tracks&a=art", true);
             ajaxRequest.send(null);
 
 

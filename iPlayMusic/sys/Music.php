@@ -79,7 +79,6 @@ class Music {
      * array of String's
      */
     public function getAllFiles() {
-        header('Content-type: application/json');
         echo(json_encode($this->music_files));
     }
 
@@ -88,7 +87,6 @@ class Music {
      * array of String's
      */
     public function getFileTypes() {
-        header('Content-type: application/json');
         echo(json_encode($this->filetypes));
     }
 
@@ -97,8 +95,7 @@ class Music {
      * files in MUSIC_FOLDER
      */
     public function getTracks() {
-        header('Content-type: application/json');
-        echo(json_encode($this->tracks));
+        return $this->tracks;
     }
 
 }
