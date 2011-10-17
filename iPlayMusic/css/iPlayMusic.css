@@ -41,24 +41,20 @@ audio {
     color: #fff;
     list-style: none;
 }
+#track_list li {
+    cursor: pointer;
+}
 #track_list_container img {
     max-width: 160px;
     float: right;
     box-shadow: 2px 2px 2px #222;
 }
 
-#song_title {
-    text-align: center;
-    color: #F2F2F2;
-    font-size: 25px;
+.active_track {
     font-weight: bold;
-    width: 450px;
 }
 img#album_cover {
     margin: 20px 20px 20px 0;
-}
-.song_link {
-    cursor: pointer;
 }
 .song_link:hover {
     font-weight: bolder;

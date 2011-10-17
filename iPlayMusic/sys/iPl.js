@@ -270,7 +270,7 @@ function MusicPlayer () {
     log('I am MusicPlayer');
 
     var loadMusic = new LoadMusic();
-    var track = new Track();
+    var track = null;
 
     var trackList = [];
     var trackNumber = 0;
@@ -281,8 +281,18 @@ function MusicPlayer () {
     var progBar = undefined;
     var isPlaying = false;
 
+    var lastClickedControlBtn = '';
+
     // internal reference to musicPlayer (this)
     var tRef = this;
+
+
+
+
+
+
+
+/* =========================| Load Music & Album Art |========================== */
 
     /**
      * Load the music and on success start the player
@@ -292,15 +302,22 @@ function MusicPlayer () {
             log('Let\'s initiate musicPlayer!');
             tRef.startPlayer();
         });
-    }
+    } // <- end init()
 
-    /* ===========================| Initiate player |============================ */
+
+
+
+
+
+/* =========================| Initiate actuall player |========================= */
     this.startPlayer = function(){
 
         log('Initiate player');
 
         trackList   = loadMusic.getTrackList();
         albumArt    = loadMusic.getAlbumArt();
+
+        track = new Track();
 
         log(albumArt[0]);
 
@@ -318,37 +335,47 @@ function MusicPlayer () {
 
 
 
+
+
+
 /* ============================| Create TrackList |============================= */
     var createTrackList = function(){
+
+        // Create the trackListContainer
         var trackListContainer = document.createElement('div');
         trackListContainer.setAttribute('id', 'track_list_container');
         document.getElementById('iPlayMusic_article').appendChild(trackListContainer);
+
+        // Create trackListUl
         var trackListElement = document.createElement('ul');
         trackListElement.setAttribute('id', 'track_list');
         document.getElementById('track_list_container').appendChild(trackListElement);
 
+        // Create list items
         for(var tli = 0; tli < trackList.length; tli++){
             var trackListLiElement = document.createElement('li');
-            trackListLiElement.setAttribute('id', trackList[tli]['title']);
+            trackListLiElement.setAttribute('id', 'track_no_'+tli);
             var trackNameElement = document.createTextNode(trackList[tli]['title']);
             trackListLiElement.appendChild(trackNameElement);
-            log(trackList[tli]['title']);
             document.getElementById('track_list').appendChild(trackListLiElement);
         }
 
+        // Create album cover
         var albumCover = document.createElement('img');
         albumCover.src = albumArt[0]['file'];
         document.getElementById('track_list_container').appendChild(albumCover);
 
-    }
+    } // <- end createTrackList()
 
 
 
 
 
-    /* ===========================| Create Player |============================= */
+
+
+/* =============================| Create Player |=============================== */
     var createPlayer = function(){
-        /* create <article> to hold our musicplayer and prepend it to <body> */
+    /* create <article> to hold our musicplayer and prepend it to <body> */
         var iPlayMusic_article = '<article id="iPlayMusic_article"></article>';
         document.body.innerHTML = iPlayMusic_article + document.body.innerHTML;
 
@@ -359,6 +386,12 @@ function MusicPlayer () {
         createProgressBar();
 
     } // <-end createPlayer()
+
+
+
+
+
+
 
 
 
@@ -378,6 +411,12 @@ function MusicPlayer () {
 
 
 
+
+
+
+
+
+
     /* =========================| Create <audio> element |========================= */
     var createAudioElement = function(){
 
@@ -387,6 +426,11 @@ function MusicPlayer () {
         log('I am <audio>: '+audioElement);
         document.getElementById('iPlayMusic_article').appendChild(audioElement);
     } // <- end createAudioElemen()
+
+
+
+
+
 
 
 
@@ -427,28 +471,42 @@ function MusicPlayer () {
 
         this.isPlaying = false;
 
+
+        //
         this.init = function(){
             log('Track init');
             trackNumber = (storage.get('tracknumber')) ? storage.get('tracknumber') : 0;
-            audio = document.getElementById("iPlayMusic");
+            audio       = document.getElementById("iPlayMusic");
+            audio.src   = trackList[trackNumber].path+trackList[trackNumber].file;
+            listen();
+            log(audio.src);
 
         }
 
+
+        // Add eventlisteners to audio
         var listen = function(){
             log('Im listening');
 
+            // When audio start playing
             audio.addEventListener('playing',function(){
-                audio.removeEventListener('playing', arguments.callee, false);
+                log('::::::: PLAY :::::::::::');
+                setActiveTrack();
+                storage.set('tracknumber', trackNumber);
                 track.isPlaying = true;
                 isTrackPlaying();
             });
+
+            // When audio stop playing
             audio.addEventListener('pause',function(){
-                audio.removeEventListener('pause', arguments.callee, false);
+                log('::::::: PAUSE :::::::::::');
                 track.isPlaying = false;
                 isTrackPlaying();
             });
+
+            // On audio end
             audio.addEventListener('ended',function(){
-                audio.removeEventListener('ended', arguments.callee, false);
+                log('::::::: STOP :::::::::::');
 
                 // TODO check repeatmode repeatmode
 
@@ -456,10 +514,26 @@ function MusicPlayer () {
 //                    track.playNextTrack();
 //                }
             });
+        } // <- end listen()
 
 
+
+
+        // Set class "active_track" on li-element containing the current track name
+        var setActiveTrack = function () {
+            log('I am setActiveTrack');
+            var lis = document.getElementById('track_list').getElementsByTagName('li');
+            for (var ert = 0; ert < lis.length; ert++) {
+                lis[ert].removeAttribute('class');
+            }
+
+            document.getElementById('track_no_'+trackNumber).setAttribute('class', 'active_track');
         }
 
+
+
+
+        // Change play/pause-button according to audio state
         var isTrackPlaying = function(){
             if(track.isPlaying) {
                 document.getElementById('controls_play').setAttribute('class', 'pause');
@@ -474,7 +548,6 @@ function MusicPlayer () {
         var setAudioSource = function(trNum){
             currentTrack = trackList[trNum];
             audio.src = currentTrack.path+currentTrack.file;
-            listen();
         }
 
 
@@ -509,8 +582,16 @@ function MusicPlayer () {
 
 
         this.playTrack = function(){
-            setAudioSource(trackNumber);
+            if ( lastClickedControlBtn == ('control_previous' || 'control_next') ) {
+                setAudioSource(trackNumber);
+            }
             audio.play();
+        }
+
+
+        this.pauseTrack = function(){
+            storage.set('currentPosition', audio.currentTime);
+            audio.pause();
         }
 
         this.stopTrack = function(){
@@ -523,10 +604,6 @@ function MusicPlayer () {
 
     var controls = function(){
         var playPauseBtn = document.getElementById('controls_play');
-        var stopBtn = $("#controls_stop");
-        var rewindBtn = $("#controls_previous");
-        var fastForwardBtn = $("#controls_next");
-        var songLink = $(".song_link");
         var expandPlayer = document.getElementById('controls_expand');
         var repeatElem = document.getElementById('controls_repeat');
 
@@ -542,13 +619,17 @@ function MusicPlayer () {
 
         ul.addEventListener('click', function(e){
             var id = e.target.id;
+            clickedControl(id);
 
             switch(id) {
                 case 'controls_previous':
-                    track.playPreviousTrack();
+                    log('next '+track.isPlaying);
+                    (track.isPlaying) ? track.playPreviousTrack() : track.decrementTrackNumber();
                     break;
                 case 'controls_play':
-                    (track.isPlaying) ? audio.pause() : track.playTrack();
+                    (track.isPlaying) ? track.pauseTrack() : track.playTrack();
+                    (track.isPlaying) ? log('pause '+track.isPlaying) : log('play '+track.isPlaying);
+                    log(audio.src);
                     break;
                 case 'controls_stop':
                     track.stopTrack();
@@ -568,6 +649,13 @@ function MusicPlayer () {
             }
 
         });
+
+
+        var clickedControl = function(me){
+            lastClickedControlBtn = me;
+            log('last clicked :: '+lastClickedControlBtn);
+        }
+
 
         var toggleExpand = function(){
             isExpanded = !isExpanded;
