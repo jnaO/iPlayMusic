@@ -6,7 +6,6 @@
         Default styles for iPlayMusic HTML5/JavaScript/PHP musicplayer
 */
 #iPlayMusic_article {
-    height: 55px;
     margin: 0 0 55px;
     padding: 0;
     overflow: hidden;
@@ -15,18 +14,37 @@
     width: 100%;
     background-color: rgba(0,0,0,0.2);
 }
+.contracted {
+    height: 55px;
+    -webkit-transition: height 0.3s ease-in-out;
+    -moz-transition: height 0.3s ease-in-out;
+    -o-transition: height 0.3s ease-in-out;
+    -ms-transition: height 0.3s ease-in-out;
+    transition: height 0.3s ease-in-out;
+}
+.expanded {
+    -webkit-transition: height 0.3s ease-in-out;
+    -moz-transition: height 0.3s ease-in-out;
+    -o-transition: height 0.3s ease-in-out;
+    -ms-transition: height 0.3s ease-in-out;
+    transition: height 0.3s ease-in-out;
+    height: 260px;
+}
 audio {
     height: 1px;
     width: 1px;
     margin: 0;
     padding: 0;
 }
-#canvas {
-    background-color: rgba(150,0,0,0.4);
+
+/* an ugly hack for FF to fix so my canvas is only 1 px high */
+
+#progressbar {
+    background-color: rgba(50,50,50,0.4);
     position: absolute;
-    margin: 0;
+    margin: 0 0 -7px;
     bottom: 0;
-    height: 5px;
+    height: 8px;
     width: 100%;
 }
 #track_list_container {
@@ -157,7 +175,7 @@ input[type="range"]::-webkit-slider-thumb{
 .play {
     left: 150px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) -1px 0px no-repeat;
+    background: transparent url(../controls/controls_sprite.png) 0px 0px no-repeat;
 }
 .pause {
     left: 150px;

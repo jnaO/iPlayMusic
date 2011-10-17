@@ -278,7 +278,7 @@ function MusicPlayer () {
     var albumArt = [];
 
     var audio = undefined;
-    var progBar = undefined;
+    var progressBar = undefined;
     var isPlaying = false;
 
     var lastClickedControlBtn = '';
@@ -376,14 +376,16 @@ function MusicPlayer () {
 /* =============================| Create Player |=============================== */
     var createPlayer = function(){
     /* create <article> to hold our musicplayer and prepend it to <body> */
-        var iPlayMusic_article = '<article id="iPlayMusic_article"></article>';
+        var iPlayMusic_article = '<article id="iPlayMusic_article" class="contracted"></article>';
         document.body.innerHTML = iPlayMusic_article + document.body.innerHTML;
 
     /* Populate the newly created div with the audio tag and the canvas tag (canvas
      * used as progressbar), as well as controls (play, pause, stop and so on) */
         createControls();
         createAudioElement();
-        createProgressBar();
+
+        progressBar = new ProgressBar();
+        progressBar.init();
 
     } // <-end createPlayer()
 
@@ -395,19 +397,52 @@ function MusicPlayer () {
 
 
 
-    /* ==========================| Create progress bar |=========================== */
-    var createProgressBar = function(){
+    /* ============================| Progress bar |============================= */
+    function ProgressBar (){
+
         log('I am Progressbar');
 
-        var barWidth = document.getElementById('iPlayMusic_article').clientWidth;
-        var theBar = document.createElement('canvas');
-        theBar.setAttribute('id', 'canvas');
-        theBar.setAttribute('width', barWidth);
-        theBar.setAttribute('heigth', '5');
-        document.getElementById('iPlayMusic_article').appendChild(theBar);
+        this.init = function() {
+            log('Init progressbar');
+            create();
+        }
+
+        var create = function(){
+            log('I am Create progressbar');
+            var barWidth = document.getElementById('iPlayMusic_article').clientWidth;
+            var theBar = document.createElement('canvas');
+            theBar.setAttribute('id', 'progressbar');
+            theBar.setAttribute('heigth', '1');
+            theBar.setAttribute('width', barWidth);
+            document.getElementById('iPlayMusic_article').appendChild(theBar);
+
+        } // <- end create()
+
+        this.makeProgress = function(){
+
+            var canvas = document.getElementById('progressbar');
+
+            //get current time in seconds
+            var elapsedTime = Math.round(audio.currentTime);
+            //update the progress bar
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                //clear canvas before painting
+                ctx.clearRect(0, 0, canvas.clientWidth, 1);
+
+                ctx.fillStyle = "rgb(245,245,245)";
+                var fWidth = (elapsedTime / audio.duration) * (canvas.clientWidth);
+                if (fWidth > 0) {
+                    ctx.fillRect(0, 0, fWidth, 10);
+                }
+            }// we can add an else here to notify users that their browser do not support <canvas>
+
+        }
+
 
 //        return theBar;
-    } // <- end createProgressBar()
+    } // <- end progressBar()
 
 
 
@@ -471,6 +506,8 @@ function MusicPlayer () {
 
         this.isPlaying = false;
 
+        this.repeatState = '';
+
 
         //
         this.init = function(){
@@ -487,6 +524,11 @@ function MusicPlayer () {
         // Add eventlisteners to audio
         var listen = function(){
             log('Im listening');
+
+            audio.addEventListener("timeupdate", function(){
+                progressBar.makeProgress();
+            });
+
 
             // When audio start playing
             audio.addEventListener('playing',function(){
@@ -510,9 +552,19 @@ function MusicPlayer () {
 
                 // TODO check repeatmode repeatmode
 
-//                if (){
-//                    track.playNextTrack();
-//                }
+                switch (track.repeatState){
+                    case 'repeat one':
+                        track.playTrack();
+                        break;
+
+                    case 'repeat off':
+                        ( trackNumber == ( trackList.length - 1) ) ? track.stopTrack() : track.playTrack() ;
+                        break;
+
+                    default:
+                        track.playNextTrack();
+
+                }
             });
         } // <- end listen()
 
@@ -559,6 +611,8 @@ function MusicPlayer () {
             log(trackNumber);
         }
 
+
+
         this.decrementTrackNumber = function(){
             trackNumber--;
             if(trackNumber < 0){
@@ -567,6 +621,9 @@ function MusicPlayer () {
             log(trackNumber);
         }
 
+
+
+        // Fast forward
         this.playNextTrack = function(){
             track.incrementTrackNumber();
             setAudioSource(trackNumber);
@@ -574,6 +631,7 @@ function MusicPlayer () {
         }
 
 
+        // Rewind
         this.playPreviousTrack = function(){
             track.decrementTrackNumber();
             setAudioSource(trackNumber);
@@ -581,19 +639,27 @@ function MusicPlayer () {
         }
 
 
+
+        // Play
         this.playTrack = function(){
-            if ( lastClickedControlBtn == ('control_previous' || 'control_next') ) {
+
+            // If last pressed button was fastforward or rewind we want to reset the audio src
+            if ( lastClickedControlBtn == 'controls_previous' || lastClickedControlBtn == 'controls_next' ) {
                 setAudioSource(trackNumber);
             }
             audio.play();
         }
 
 
+
+        // Pause
         this.pauseTrack = function(){
             storage.set('currentPosition', audio.currentTime);
             audio.pause();
         }
 
+
+        // Stop
         this.stopTrack = function(){
             audio.pause();
             log(audio.currentTime);
@@ -602,7 +668,17 @@ function MusicPlayer () {
         }
     } // <- end Track()
 
+
+
+
+
+
+
+
+
+/* ===========================| Controls MusicPlayer |========================== */
     var controls = function(){
+
         var playPauseBtn = document.getElementById('controls_play');
         var expandPlayer = document.getElementById('controls_expand');
         var repeatElem = document.getElementById('controls_repeat');
@@ -612,34 +688,41 @@ function MusicPlayer () {
 
         playPauseBtn.setAttribute('class', 'play');
         expandPlayer.setAttribute('class', 'isExpanded_'+isExpanded);
-        repeatElem.setAttribute('class', 'repeat_'+repeatBtn);
-
 
         var ul = document.getElementById("controls");
 
         ul.addEventListener('click', function(e){
             var id = e.target.id;
-            clickedControl(id);
 
             switch(id) {
                 case 'controls_previous':
                     log('next '+track.isPlaying);
                     (track.isPlaying) ? track.playPreviousTrack() : track.decrementTrackNumber();
+                    clickedControl(id);
                     break;
                 case 'controls_play':
-                    (track.isPlaying) ? track.pauseTrack() : track.playTrack();
-                    (track.isPlaying) ? log('pause '+track.isPlaying) : log('play '+track.isPlaying);
-                    log(audio.src);
+
+                    if (track.isPlaying) {
+                        track.pauseTrack();
+                        clickedControl(id);
+                        log('pause '+track.isPlaying);
+                    } else {
+                        track.playTrack();
+                        log('play '+track.isPlaying)
+                    }
+
                     break;
                 case 'controls_stop':
                     track.stopTrack();
+                    clickedControl(id);
                     break;
                 case 'controls_next':
                     log('next '+track.isPlaying);
                     (track.isPlaying) ? track.playNextTrack() : track.incrementTrackNumber();
+                    clickedControl(id);
                     break;
                 case 'controls_repeat':
-                    changeRepeatState(id);
+                    changeRepeatState();
                     break;
                 case 'controls_expand':
                     toggleExpand();
@@ -661,7 +744,13 @@ function MusicPlayer () {
             isExpanded = !isExpanded;
             log('I am toggleExpand: '+isExpanded);
             expandPlayer.setAttribute('class', 'isExpanded_'+isExpanded);
-            document.getElementById('iPlayMusic_article').style.height = (isExpanded) ? '260px' : '55px';
+            if(isExpanded){
+                document.getElementById('iPlayMusic_article').removeAttribute('class');
+                document.getElementById('iPlayMusic_article').setAttribute('class', 'expanded');
+            } else {
+                document.getElementById('iPlayMusic_article').removeAttribute('class');
+                document.getElementById('iPlayMusic_article').setAttribute('class', 'contracted');
+            }
 
 
         };
@@ -681,18 +770,22 @@ function MusicPlayer () {
             switch (repeatBtn) {
                 case 0:
                     log('repeat off');
+                    track.repeatState = 'repeat off';
                     break;
                 case 1:
                     log('repeat all');
+                    track.repeatState = 'repeat all';
                     break;
                 case 2:
                     log('repeat one');
+                    track.repeatState = 'repeat one';
                     break;
                 default:
                     break;
             }
 
         } // <- end changeRepeatState()
+        changeRepeatState();
 
     } //<- end controls()
 
