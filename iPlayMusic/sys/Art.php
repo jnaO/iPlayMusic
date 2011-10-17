@@ -38,12 +38,9 @@ class Art {
 
             // Check if the type of file is valid
             if($this->isArtLegal($this->images[$i])){
-
                 // Create an Album Art Object
                 $aObj = $this->createObject($this->images[$i]);
 
-                // Push Album Art Object into album_art array
-//                $this->album_art[count($this->album_art)] =  $aObj;
             }
         }
     }
@@ -53,14 +50,8 @@ class Art {
      * I.E. change server path to public path, and give it a name (filename,
      * without .*, and replace underscore with space...)
      *
-     * It might be expanded to include such info as name of the album, date,
-     * artist and so on, but for now it's just the path and name
-     *
      * @param String $peiceOfArt
      *      Image file, including server path
-     *
-     * @return Album Art Object
-     *      returns one Album Art Object
      *
      */
     private function createObject($peiceOfArt){
@@ -71,10 +62,6 @@ class Art {
         $i = count($this->album_art);
         $this->album_art[$i]['name']    = str_replace('_', ' ', substr($peiceOfArt, 0, stripos($peiceOfArt, '.')));
         $this->album_art[$i]['file']    = PUBLIC_ALBUM_ART_FOLDER . $peiceOfArt;
-//        $art_obj['covers']['album']   = '';
-//        $art_obj['covers']['artist']  = '';
-//        $art_obj['covers']['date']    = '';
-//        return $art_obj;
 
     }
 

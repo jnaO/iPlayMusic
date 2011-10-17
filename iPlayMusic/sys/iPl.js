@@ -76,14 +76,29 @@ function LoadMusic(){
 
     log('I am LoadMusic');
 
-    var trackList = [];
+    var tRef = this;
 
-    /* ============================| Return trackList |============================= */
+    var trackList   = [];
+    var albumArt    = [];
+
+/* =============================| Fill trackList |============================== */
+    this.setTrackList = function(param){
+        trackList = param;
+    }
+/* ============================| Return trackList |============================= */
     this.getTrackList = function(){
         return trackList;
     }
 
 
+/* ============================| Return AlbumArt |============================== */
+    this.getAlbumArt = function(){
+        return albumArt;
+    }
+/* =============================| Fill AlbumArt |=============================== */
+    this.setAlbumArt = function(param){
+        albumArt = param;
+    }
 
 
     /* ============================| Fill playlist |============================= */
@@ -137,7 +152,7 @@ function LoadMusic(){
                     var msg = JSON.parse(ajaxRequest.responseText);
 
                     var music   = msg['music'];
-                    var art     = msg['art'];
+                    tRef.setAlbumArt(msg['art']);
 
                     // set variable for control of filetype compatibility.
                     var match = false;
@@ -152,7 +167,7 @@ function LoadMusic(){
                             log('We have a matching filetype: '+types[i]);
 
                             // Fill out trackList with track objects
-                            trackList  = music[types[i]];
+                            tRef.setTrackList(music[types[i]]);
                             match = true;
                             whenReady();
                             break;
@@ -260,6 +275,8 @@ function MusicPlayer () {
     var trackList = [];
     var trackNumber = 0;
 
+    var albumArt = [];
+
     var audio = undefined;
     var progBar = undefined;
     var isPlaying = false;
@@ -282,10 +299,14 @@ function MusicPlayer () {
 
         log('Initiate player');
 
-        trackList = loadMusic.getTrackList();
+        trackList   = loadMusic.getTrackList();
+        albumArt    = loadMusic.getAlbumArt();
+
+        log(albumArt[0]);
 
         createPlayer();
         controls();
+        createTrackList();
         track.init();
         track.playTrack();
 
@@ -296,7 +317,36 @@ function MusicPlayer () {
 
 
 
-    /* =============================| Create Player |=============================== */
+
+/* ============================| Create TrackList |============================= */
+    var createTrackList = function(){
+        var trackListContainer = document.createElement('div');
+        trackListContainer.setAttribute('id', 'track_list_container');
+        document.getElementById('iPlayMusic_article').appendChild(trackListContainer);
+        var trackListElement = document.createElement('ul');
+        trackListElement.setAttribute('id', 'track_list');
+        document.getElementById('track_list_container').appendChild(trackListElement);
+
+        for(var tli = 0; tli < trackList.length; tli++){
+            var trackListLiElement = document.createElement('li');
+            trackListLiElement.setAttribute('id', trackList[tli]['title']);
+            var trackNameElement = document.createTextNode(trackList[tli]['title']);
+            trackListLiElement.appendChild(trackNameElement);
+            log(trackList[tli]['title']);
+            document.getElementById('track_list').appendChild(trackListLiElement);
+        }
+
+        var albumCover = document.createElement('img');
+        albumCover.src = albumArt[0]['file'];
+        document.getElementById('track_list_container').appendChild(albumCover);
+
+    }
+
+
+
+
+
+    /* ===========================| Create Player |============================= */
     var createPlayer = function(){
         /* create <article> to hold our musicplayer and prepend it to <body> */
         var iPlayMusic_article = '<article id="iPlayMusic_article"></article>';
@@ -523,7 +573,7 @@ function MusicPlayer () {
             isExpanded = !isExpanded;
             log('I am toggleExpand: '+isExpanded);
             expandPlayer.setAttribute('class', 'isExpanded_'+isExpanded);
-            document.getElementById('iPlayMusic_article').style.height = (isExpanded) ? '300px' : '55px';
+            document.getElementById('iPlayMusic_article').style.height = (isExpanded) ? '260px' : '55px';
 
 
         };
