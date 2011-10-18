@@ -54,30 +54,30 @@ School project -HTML5, js & php music player
     '  `--' '--'  `--'
 
     HTML5
-        • Audio tag
-        • Music file playlist
-        • Canvas as progress bar
+        • // Audio tag
+        • // Music file playlist
+        • // Canvas as progress bar
         • Range input as volume control
 
     PHP
-        • Find all files in folder (music)
-        • Sort files by file type
-        • Return array of files (matching file type condition) as json
+        • // Find all files in folder (music)
+        • // Sort files by file type
+        • // Return array of files (matching file type condition) as json
 
-        • Find album art file
-        • Return album art filename as string
+        • // Find album art file
+        • // Return album art filename as string
 
     CSS/LAYOUT
-        • Mockup
+        • // Mockup
         • Fixed position top
-        • Buttons
+        • // Buttons
 
     JavaScript
-        • Browser file type compatability check
-        • Music player functions (Play, Stop, Pause, Previous, Next)
+        • // Browser file type compatability check
+        • // Music player functions (Play, Stop, Pause, Previous, Next)
         • Volume control
-        • Receive json information from PHP back end, and populate music list
-        • Maximize / minimize music player
+        • // Receive json information from PHP back end, and populate music list
+        • // Maximize / minimize music player
         • Extract ID3-tag info from .mp3's
 
     CONFIG
@@ -101,21 +101,21 @@ School project -HTML5, js & php music player
                                  •
 
 HIGH PRIO
-    • Mockup
-    • Create HTML (audio element) document to include
-    • Browser file type compatability check
-    • Find music files and return them as an array
-    • Receive array of files
-    • Populate playlist
-    • Implement music controls
-    • Find album art and sent as string
-    • Receive album art and present in iPlayMusic-player
+    • // Mockup
+    • // Create HTML (audio element) document to include
+    • // Browser file type compatability check
+    • // Find music files and return them as an array
+    • // Receive array of files
+    • // Populate playlist
+    • // Implement music controls
+    • // Find album art and sent as string
+    • // Receive album art and present in iPlayMusic-player
     • Set styles of iPlayMusic
 
     • Create code snippets & howTo's
 
 LOW PRIO
-    • Implement progress bar
+    • // Implement progress bar
     • Implement volume control
     • Implement ID3-functionality
     • Implement config-file

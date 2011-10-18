@@ -342,28 +342,25 @@ function MusicPlayer () {
     var createTrackList = function(){
 
         // Create the trackListContainer
-        var trackListContainer = document.createElement('div');
-        trackListContainer.setAttribute('id', 'track_list_container');
-        document.getElementById('iPlayMusic_article').appendChild(trackListContainer);
+        var trackListContainer = domEl.create('div', 'track_list_container');
+        domEl.append('iPlayMusic_article', trackListContainer);
 
         // Create trackListUl
-        var trackListElement = document.createElement('ul');
-        trackListElement.setAttribute('id', 'track_list');
-        document.getElementById('track_list_container').appendChild(trackListElement);
+        var trackListElement = domEl.create('ul', 'track_list');
+        domEl.append('track_list_container', trackListElement);
 
         // Create list items
         for(var tli = 0; tli < trackList.length; tli++){
-            var trackListLiElement = document.createElement('li');
-            trackListLiElement.setAttribute('id', 'track_no_'+tli);
+            var trackListLiElement = domEl.create('li', 'track_no_'+tli);
             var trackNameElement = document.createTextNode(trackList[tli]['title']);
             trackListLiElement.appendChild(trackNameElement);
-            document.getElementById('track_list').appendChild(trackListLiElement);
+            domEl.append('track_list', trackListLiElement);
         }
 
         // Create album cover
-        var albumCover = document.createElement('img');
+        var albumCover = domEl.create('img');
         albumCover.src = albumArt[0]['file'];
-        document.getElementById('track_list_container').appendChild(albumCover);
+        domEl.append('track_list_container', albumCover);
 
     } // <- end createTrackList()
 
@@ -688,6 +685,7 @@ function MusicPlayer () {
 
         playPauseBtn.setAttribute('class', 'play');
         expandPlayer.setAttribute('class', 'isExpanded_'+isExpanded);
+        repeatElem.setAttribute('class', 'repeat_'+repeatBtn);
 
         var ul = document.getElementById("controls");
 
@@ -785,7 +783,6 @@ function MusicPlayer () {
             }
 
         } // <- end changeRepeatState()
-        changeRepeatState();
 
     } //<- end controls()
 
@@ -887,6 +884,28 @@ var storage = (function () {
             if (isLocalStorage) {
                 localStorage.removeItem(key);
             }
+        }
+    }
+
+}());
+
+var domEl = (function(){
+
+    return {
+        create: function(elem, id, cla){
+
+            var e = document.createElement(elem);
+            if (id) e.setAttribute('id', id);
+            if (cla) e.setAttribute('class', cla);
+
+            return e;
+
+        },
+        append: function(parId, chiId){
+            document.getElementById(parId).appendChild(chiId);
+        },
+        setClass: function(elemId, cla){
+            document.getElementById(elemId).setAttribute('class', cla);
         }
     }
 
