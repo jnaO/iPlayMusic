@@ -398,6 +398,7 @@ function MusicPlayer () {
     function ProgressBar (){
 
         log('I am Progressbar');
+        var barHeight = 10;
 
         this.init = function() {
             log('Init progressbar');
@@ -409,7 +410,7 @@ function MusicPlayer () {
             var barWidth = document.getElementById('iPlayMusic_article').clientWidth;
             var theBar = document.createElement('canvas');
             theBar.setAttribute('id', 'progressbar');
-            theBar.setAttribute('heigth', '1');
+            theBar.setAttribute('heigth', barHeight);
             theBar.setAttribute('width', barWidth);
             document.getElementById('iPlayMusic_article').appendChild(theBar);
 
@@ -431,7 +432,7 @@ function MusicPlayer () {
                 ctx.fillStyle = "rgb(245,245,245)";
                 var fWidth = (elapsedTime / audio.duration) * (canvas.clientWidth);
                 if (fWidth > 0) {
-                    ctx.fillRect(0, 0, fWidth, 10);
+                    ctx.fillRect(0, 0, fWidth, barHeight);
                 }
             }// we can add an else here to notify users that their browser do not support <canvas>
 

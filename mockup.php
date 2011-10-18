@@ -61,10 +61,7 @@
                     ;
                  `-'
             </pre>
-            <p class="center">
-                <a href="//github.com/jnaO/iPlayMusic" target="_blank">github.com/jnaO/iPlayMusic</a><br />
-                <a href="index.php">Home</a>
-            </p>
+            <? include_once 'inc/nav.inc'; ?>
         </article>
         <article class="bottom wrapper">
             <h6>Folded</h6>

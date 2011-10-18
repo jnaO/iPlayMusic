@@ -9,5 +9,5 @@ function current_page ($filename, $title) {
     <?  current_page('/index.php', 'Home'); ?>
     <?  current_page('/mockup.php', 'Mockup'); ?>
     <?  current_page('/demo.php', 'Demo'); ?>
-    <?  current_page('/test.php', 'PHP Output'); ?>
+    <?  #current_page('/test.php', 'PHP Output'); ?>
 </nav>
