@@ -63,6 +63,27 @@ a.hash_tag {
     margin: 0;
     padding: 0;
 }
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 20px;
+}
+#types li {
+    margin: 5px 0 10px;
+}
+.type {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+.no {
+    color: #b33;
+}
+.maybe {
+    color: #c75;
+}
+.probably {
+    color: #5c5;
+}
 
 .top {
     background: #f9f9f9 url('../img/bg/bg_darkwhite.png') repeat fixed;
@@ -70,7 +91,7 @@ a.hash_tag {
     color: #444;
 }
 .bottom {
-/*    background: #f9f9f9 url('../img/bg/bg_darkgrey.png') repeat fixed; */
+    background: #f9f9f9 url('../img/bg/bg_darkgrey.png') repeat fixed;
     padding: 70px;
     color: #f2f2f2;
 }

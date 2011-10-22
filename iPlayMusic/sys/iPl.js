@@ -169,6 +169,7 @@ function LoadMusic() {
 
             // Check if browser support mp3
             if ("" !== myAudio.canPlayType('audio/mpeg')) {
+                log(myAudio.canPlayType('audio/mpeg'));
                 typesSupported[typesSupported.length] = ".mp3";
             }
             // Check if browser support ogg
@@ -259,7 +260,7 @@ function LoadMusic() {
                     // populateTrackList()
                     for (i = 0; i < types.length; i += 1) {
 
-                        if (music[types[i]] !== 'undefined') {
+                        if (music[types[i]] !== undefined) {
 
                             log('We have a matching filetype: ' + types[i]);
 
