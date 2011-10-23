@@ -69,7 +69,10 @@
             </ul>
             <p>
                 You can test the browser support of a specific filetype by simply asking: canPlayType(type). An in return you'll get the answer: "", "maybe" or "probably". <br />
-                For readability I've made "" to "no".
+                For readability I've made "" to "no".<br />
+                <br />
+                As a point of reference check out <a href="http://modernizr.github.com/Modernizr/annotatedsource.html" target="_blank">Modenizr</a> @ <a href="http://www.github.com/" target="_blank">github</a>.
+
             </p>
         </article>
 
@@ -149,5 +152,10 @@
     }
     checkBrowserAudioCompat();
         </script>
+        <?
+include_once '_class/Count.php';
+$user_count = new Count();
+$user_count->trackUsers();
+        ?>
     </body>
 </html>

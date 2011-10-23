@@ -73,5 +73,11 @@
             <img class="float_left" src="img/mockup/ip_expanded.png" alt="Expanded mockup of iPlayMusic, iPhone version" />
             <p class="clearer">&nbsp;</p>
         </article>
+
+        <?
+include_once '_class/Count.php';
+$user_count = new Count();
+$user_count->trackUsers();
+        ?>
     </body>
 </html>

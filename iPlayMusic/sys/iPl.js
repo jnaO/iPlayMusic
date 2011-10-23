@@ -1,5 +1,5 @@
 function log(msg) {
-    if (typeof console !== "undefined" && typeof console.log !== "undefined") {
+    if (typeof console !== undefined && typeof console.log !== undefined) {
         console.log(msg);
     }
 }

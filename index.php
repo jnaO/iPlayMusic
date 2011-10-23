@@ -92,5 +92,11 @@
             <img class="mplayer_btn" id="ff_btn" src="iPlayMusic/controls/ff.png" alt="fast forward" />
             <img class="repeat_btn" id="repeat_btn" src="iPlayMusic/controls/repeat_0.png" alt="fast forward" />
         </article>-->
+
+        <?
+include_once '_class/Count.php';
+$user_count = new Count();
+$user_count->trackUsers();
+        ?>
     </body>
 </html>

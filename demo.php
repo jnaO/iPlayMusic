@@ -65,5 +65,11 @@
         </article>
 
         <script type="text/javascript" src="iPlayMusic/sys/iPl.js"></script>
+
+        <?
+include_once '_class/Count.php';
+$user_count = new Count();
+$user_count->trackUsers();
+        ?>
     </body>
 </html>
