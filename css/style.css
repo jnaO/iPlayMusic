@@ -15,6 +15,11 @@ body {
     padding: 0 0 30px;
     margin:0px;
 }
+
+section, article, nav {
+    display: block;
+}
+
 p {
     line-height: 1.2em;
 }

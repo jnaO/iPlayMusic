@@ -111,7 +111,7 @@ input[type="range"]::-webkit-slider-thumb{
 }
 
 /* drag handle */
-.handle {
+/*.handle {
     background:#fff url(../img/mplayer/knob.png) no-repeat;
     height: 14px;
     width: 14px;
@@ -124,11 +124,10 @@ input[type="range"]::-webkit-slider-thumb{
     -webkit-box-shadow:0 0 6px #000;
     -moz-border-radius:14px;
     -webkit-border-radius:14px;
-
-}
+}*/
 
 /* the input field */
-.range {
+/*.range {
     border:1px inset #ddd;
     float:left;
     font-size:20px;
@@ -138,7 +137,7 @@ input[type="range"]::-webkit-slider-thumb{
     width:50px;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
-}
+}*/
 
 
 /* controls */
@@ -165,57 +164,57 @@ input[type="range"]::-webkit-slider-thumb{
 #controls_logo {
     left: 0;
     width: 100px;
-    background: transparent url(../controls/controls_sprite.png) -100px -100px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) -100px -100px no-repeat;
 }
 #controls_previous {
     left: 100px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) -150px 0px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) -150px 0px no-repeat;
 }
 .play {
     left: 150px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) 0px 0px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) 0px 0px no-repeat;
 }
 .pause {
     left: 150px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) -50px 0px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) -50px 0px no-repeat;
 }
 #controls_stop {
     left: 200px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) -100px 0px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) -100px 0px no-repeat;
 }
 #controls_next {
-    background: transparent url(../controls/controls_sprite.png) -200px 0px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) -200px 0px no-repeat;
     left: 250px;
     width: 50px;
 }
 .repeat_0 {
     left: 300px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) 0px -50px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) 0px -50px no-repeat;
 }
 .repeat_1 {
     left: 300px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) -50px -50px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) -50px -50px no-repeat;
 }
 .repeat_2 {
     left: 300px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) -100px -50px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) -100px -50px no-repeat;
 }
 .isExpanded_false {
     left: 400px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) -50px -100px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) -50px -100px no-repeat;
 }
 .isExpanded_true {
     left: 400px;
     width: 50px;
-    background: transparent url(../controls/controls_sprite.png) 0px -100px no-repeat;
+    background: transparent url(../sys/controls_sprite.png) 0px -100px no-repeat;
 }
 
 /* Floats & Clearer  */
