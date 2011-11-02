@@ -262,7 +262,7 @@ function LoadMusic() {
                     // Check each of the filetypes (@param types) supplied for
                     // compatibility with userAgent, and if match:
                     // populateTrackList()
-                    for (i = 0; i < types.length; i += 1) {
+                    for (i = 0; i < types.length; i++) {
 
                         if (music[types[i]] !== undefined) {
 
@@ -349,7 +349,7 @@ function MusicPlayer() {
             domEl.append('track_list_container', trackListElement);
 
             // Create list items
-            for (tli = 0; tli < trackList.length; tli += 1) {
+            for (tli = 0; tli < trackList.length; tli++) {
                 trackListLiElement = domEl.create('li', 'track_no_' + tli);
                 trackNameElement = document.createTextNode(trackList[tli].title);
                 trackListLiElement.appendChild(trackNameElement);
@@ -413,7 +413,7 @@ function MusicPlayer() {
          * the logo and the control for expanding the music player */
 
             containingArticle = document.getElementById('controls');
-            for (c = 0; c < controlsArray.length; c += 1) {
+            for (c = 0; c < controlsArray.length; c++) {
                 elem = document.createElement('li');
                 elem.setAttribute('id',  'controls_' + controlsArray[c]);
                 containingArticle.appendChild(elem);
@@ -434,17 +434,46 @@ function MusicPlayer() {
 
         log('I am Progressbar');
         var barHeight = 10,
+            barWidth,
+            theBar,
+            t = false;
 
 
-            create = function () {
+            this.create = function () {
                 log('I am Create progressbar');
-                var barWidth = document.getElementById('iPlayMusic_article').clientWidth,
-                    theBar = domEl.create('canvas', 'progressbar');
+                barWidth = document.getElementById('iPlayMusic_article').clientWidth;
+                theBar = domEl.create('canvas', 'progressbar');
                 theBar.setAttribute('heigth', barHeight);
                 theBar.setAttribute('width', barWidth);
                 domEl.append('iPlayMusic_article', theBar);
-
             }; // <- end create()
+
+            this.remove = function () {
+                log('I am remove progressbar');
+                document.getElementById('iPlayMusic_article').removeChild(theBar);
+            };
+
+            this.update = function () {
+
+                setTimeout(function(){
+                    if (!t) {
+                        progressBar.remove();
+                        progressBar.create();
+                        t = true;
+                    }
+                }, 500);
+                setTimeout(function(){
+                    t = false;
+                }, 800);
+                log(t);
+
+                if (document.getElementById('iPlayMusic_article').clientWidth !== barWidth) {
+                    log('I\'m not the same');
+                    barWidth = document.getElementById('iPlayMusic_article').clientWidth;
+
+                }
+            };
+
 
         this.makeProgress = function () {
 
@@ -472,12 +501,14 @@ function MusicPlayer() {
 
         this.init = function () {
             log('Init progressbar');
-            create();
+            this.create();
         };
 
+        window.addEventListener('resize', function(){
+                    progressBar.update();
+                });
 //        return theBar;
     } // <- end progressBar()
-
 
 
 
@@ -501,7 +532,7 @@ function MusicPlayer() {
                 log('I am setActiveTrack');
                 var lis = document.getElementById('track_list').getElementsByTagName('li'),
                     ert;
-                for (ert = 0; ert < lis.length; ert += 1) {
+                for (ert = 0; ert < lis.length; ert++) {
                     lis[ert].removeAttribute('class');
                 }
 
@@ -533,7 +564,6 @@ function MusicPlayer() {
                 audio.addEventListener("timeupdate", function () {
                     progressBar.makeProgress();
                 });
-
 
                 // When audio start playing
                 audio.addEventListener('playing', function () {
@@ -583,7 +613,7 @@ function MusicPlayer() {
 
 
         this.incrementTrackNumber = function () {
-            trackNumber += 1;
+            trackNumber++;
             if (trackNumber >= trackList.length) {
                 trackNumber = 0;
             }
@@ -593,7 +623,7 @@ function MusicPlayer() {
 
 
         this.decrementTrackNumber = function () {
-            trackNumber -= 1;
+            trackNumber--;
             if (trackNumber < 0) {
                 trackNumber = (trackList.length - 1);
             }
@@ -707,7 +737,7 @@ function MusicPlayer() {
         /* *===*===*===*===*===*===*===* Repeat function===*===*===*===*===*===*===*/
             changeRepeatState = function () {
 
-                repeatBtn += 1;
+                repeatBtn++;
 
                 if (repeatBtn >= 3) {
                     repeatBtn = 0;
@@ -881,8 +911,6 @@ function MusicPlayer() {
 
 
 document.onreadystatechange = function () {
-    log('MSIE log readystate ' + document.readyState);
-    log(document.readyState === 'complete');
     if (document.readyState === 'complete') {
         var musicPlayer = new MusicPlayer();
         musicPlayer.init();
