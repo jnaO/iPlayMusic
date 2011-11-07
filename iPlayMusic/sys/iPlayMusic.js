@@ -322,12 +322,12 @@ function MusicPlayer() {
         track = null,
         trackList = [],
         trackNumber = 0,
+        repeatBtn = parseInt(storage.get('repeatButton')) || 0,
         albumArt = [],
         audio,
         progressBar,
-        isPlaying = false,
+        isPlaying = storage.get('isPlaying') || false ,
         lastClickedControlBtn = '',
-
     // internal reference to musicPlayer (this)
         tRef = this,
 
@@ -336,12 +336,13 @@ function MusicPlayer() {
 /* ============================| Create TrackList |============================= */
         createTrackList = function () {
 
-            var trackListContainer = domEl.create('div', 'track_list_container'),
-                trackListElement = domEl.create('ul', 'track_list'),
-                tli,
-                trackNameElement,
-                trackListLiElement,
-                albumCover = domEl.create('img');
+            var trackListContainer = domEl.create('div', 'track_list_container')
+              , trackListElement = domEl.create('ul', 'track_list')
+              , tli
+              , trackNameElement
+              , trackListLiElement
+              , trackListItems
+              , albumCover = domEl.create('img');
             // Create the trackListContainer
             domEl.append('iPlayMusic_article', trackListContainer);
 
@@ -352,9 +353,17 @@ function MusicPlayer() {
             for (tli = 0; tli < trackList.length; tli++) {
                 trackListLiElement = domEl.create('li', 'track_no_' + tli);
                 trackNameElement = document.createTextNode(trackList[tli].title);
+                trackListLiElement.setAttribute('data-tracknumber', tli);
                 trackListLiElement.appendChild(trackNameElement);
                 domEl.append('track_list', trackListLiElement);
             }
+            document.getElementById('track_list').addEventListener('click', function(e){
+                log(this);
+                log(e.target.dataset.tracknumber);
+                trackNumber = e.target.dataset.tracknumber
+                track.setAudioSource(trackNumber);
+                track.playTrack();
+            });
 
             // Create album cover
             albumCover.src = albumArt[0].file;
@@ -435,17 +444,17 @@ function MusicPlayer() {
         log('I am Progressbar');
         var barHeight = 10,
             barWidth,
-            theBar,
-            t = false;
+            t = false,
+            progressCanvas;
 
 
             this.create = function () {
                 log('I am Create progressbar');
                 barWidth = document.getElementById('iPlayMusic_article').clientWidth;
-                theBar = domEl.create('canvas', 'progressbar');
-                theBar.setAttribute('heigth', barHeight);
-                theBar.setAttribute('width', barWidth);
-                domEl.append('iPlayMusic_article', theBar);
+                progressCanvas = domEl.create('canvas', 'progressbar');
+                progressCanvas.setAttribute('heigth', barHeight);
+                progressCanvas.setAttribute('width', barWidth);
+                domEl.append('iPlayMusic_article', progressCanvas);
             }; // <- end create()
 
             this.remove = function () {
@@ -477,19 +486,18 @@ function MusicPlayer() {
 
         this.makeProgress = function () {
 
-            var canvas = document.getElementById('progressbar'),
-                ctx,
+            var ctx,
                 fWidth,
 
             //get current time in seconds
                 elapsedTime = Math.round(audio.currentTime);
             //update the progress bar
-            if (canvas.getContext) {
-                ctx = canvas.getContext("2d");
-                fWidth = (elapsedTime / audio.duration) * (canvas.clientWidth);
+            if (progressCanvas.getContext) {
+                ctx = progressCanvas.getContext("2d");
+                fWidth = (elapsedTime / audio.duration) * (progressCanvas.clientWidth);
 
                 //clear canvas before painting
-                ctx.clearRect(0, 0, canvas.clientWidth, 1);
+                ctx.clearRect(0, 0, progressCanvas.clientWidth, 1);
                 ctx.fillStyle = "rgb(245,245,245)";
 
                 if (fWidth > 0) {
@@ -498,6 +506,7 @@ function MusicPlayer() {
             }// we can add an else here to notify users that their browser do not support <canvas>
 
         };
+
 
         this.init = function () {
             log('Init progressbar');
@@ -520,7 +529,7 @@ function MusicPlayer() {
         log('I am track');
 
         this.isPlaying = false;
-        this.repeatState = '';
+        this.repeatState = storage.get('repeatState') || 'repeat off';
 
         var currentTrack,
 
@@ -544,7 +553,9 @@ function MusicPlayer() {
 
 
         // Change play/pause-button according to audio state
-            isTrackPlaying = function () {
+            isTrackPlaying = function (playOrPause) {
+                track.isPlaying = (playOrPause === 'play');
+                storage.set('isPlaying', track.isPlaying);
                 if (track.isPlaying) {
                     document.getElementById('controls_play').setAttribute('class', 'pause');
                     storage.set('trackNumber', trackNumber);
@@ -569,16 +580,13 @@ function MusicPlayer() {
                 audio.addEventListener('playing', function () {
                     log('::::::: PLAY :::::::::::');
                     setActiveTrack();
-                    storage.set('tracknumber', trackNumber);
-                    track.isPlaying = true;
-                    isTrackPlaying();
+                    isTrackPlaying('play');
                 });
 
                 // When audio stop playing
                 audio.addEventListener('pause', function () {
                     log('::::::: PAUSE :::::::::::');
-                    track.isPlaying = false;
-                    isTrackPlaying();
+                    isTrackPlaying('pause');
                 });
 
                 // On audio end
@@ -597,16 +605,17 @@ function MusicPlayer() {
                         break;
 
                     default:
+                        log('repeat state: ' + track.repeatState);
                         track.playNextTrack();
 
                     }
                 });
-            }, // <- end listen()
+            }; // <- end listen()
 
 
 
 
-            setAudioSource = function (trNum) {
+        this.setAudioSource = function (trNum) {
                 currentTrack = trackList[trNum];
                 audio.src = currentTrack.path + currentTrack.file;
             }; // <- end setAudioSource()
@@ -635,7 +644,7 @@ function MusicPlayer() {
         // Fast forward
         this.playNextTrack = function () {
             track.incrementTrackNumber();
-            setAudioSource(trackNumber);
+            track.setAudioSource(trackNumber);
             audio.play();
         }; // <- end playNextTrack()
 
@@ -643,18 +652,18 @@ function MusicPlayer() {
         // Rewind
         this.playPreviousTrack = function () {
             track.decrementTrackNumber();
-            setAudioSource(trackNumber);
+            track.setAudioSource(trackNumber);
             audio.play();
         }; // <- end playPreviousTrack()
 
 
 
         // Play
-        this.playTrack = function () {
-
+        this.playTrack = function (tr) {
+            trackNumber = tr || trackNumber;
             // If last pressed button was fastforward or rewind we want to reset the audio src
             if (lastClickedControlBtn === 'controls_previous' || lastClickedControlBtn === 'controls_next') {
-                setAudioSource(trackNumber);
+                track.setAudioSource(trackNumber);
             }
             audio.play();
         }; // <- end playTrack
@@ -679,7 +688,7 @@ function MusicPlayer() {
         //
         this.init = function () {
             log('Track init');
-            trackNumber = storage.get('tracknumber') || 0;
+            trackNumber = storage.get('trackNumber') || 0;
             audio       = document.getElementById("iPlayMusic");
             audio.src   = trackList[trackNumber].path + trackList[trackNumber].file;
             listen();
@@ -699,12 +708,12 @@ function MusicPlayer() {
 /* ===========================| Controls MusicPlayer |========================== */
     var controls = function () {
 
-        var playPauseBtn = document.getElementById('controls_play'),
-            expandPlayer = document.getElementById('controls_expand'),
-            repeatElem = document.getElementById('controls_repeat'),
-            isExpanded = false,
-            repeatBtn = parseInt(storage.get('repeat_state'), 10) || 0,
-            ul = document.getElementById("controls");
+        var playPauseBtn = document.getElementById('controls_play')
+          , expandPlayer = document.getElementById('controls_expand')
+          , repeatElem = document.getElementById('controls_repeat')
+          , isExpanded = false
+          , ul = document.getElementById("controls")
+          ;
 
         playPauseBtn.setAttribute('class', 'play');
         expandPlayer.setAttribute('class', 'isExpanded_' + isExpanded);
@@ -744,20 +753,23 @@ function MusicPlayer() {
                 }
 
                 repeatElem.className = 'repeat_' + repeatBtn;
-                storage.set('repeat_state', repeatBtn);
+                storage.set('repeatButton', repeatBtn);
 
                 switch (repeatBtn) {
                 case 0:
                     log('repeat off');
                     track.repeatState = 'repeat off';
+                    storage.set('repeatState', 'repeat off');
                     break;
                 case 1:
                     log('repeat all');
                     track.repeatState = 'repeat all';
+                    storage.set('repeatState', 'repeat all');
                     break;
                 case 2:
                     log('repeat one');
                     track.repeatState = 'repeat one';
+                    storage.set('repeatState', 'repeat one');
                     break;
                 default:
                     break;
@@ -809,15 +821,7 @@ function MusicPlayer() {
 
     }, //<- end controls()
 
-    /**
-     * Set the class var (boolean) "isPlaying"
-     */
-        setIsPlaying = function (val) {
-            if (loSt()) {
-                localStorage.setItem('isPlaying', val);
-            }
-            isPlaying = val;
-        },
+
 
 
 /* =============================| Create Player |=============================== */
@@ -865,10 +869,11 @@ function MusicPlayer() {
         controls();
         createTrackList();
         track.init();
-        track.playTrack();
+        if (isPlaying == 'true') {
+            log('I am isPlaying:  :: ' + typeof(isPlaying));
+            track.playTrack();
+        }
 
-        // edit value to true to activate autostart of iPlayMusic
-        setIsPlaying(false);
 
     }; // <- end init()
 
