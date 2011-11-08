@@ -42,9 +42,9 @@ audio {
 #progressbar {
     background-color: rgba(50,50,50,0.4);
     position: absolute;
-    margin: 0 0 -7px;
+    margin: 0;
     bottom: 0;
-    height: 8px;
+    height: 2px;
     width: 100%;
 }
 #track_list_container {

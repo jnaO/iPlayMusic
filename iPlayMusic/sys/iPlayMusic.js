@@ -2,9 +2,6 @@
 function log(msg) {
     if (typeof console !== 'undefined' && typeof console.log !== 'undefined') {
         console.log(msg);
-    } else {
-        // Uncomment to get alers in I.E. ...
-//        alert(msg);
     }
 }
 
@@ -442,67 +439,84 @@ function MusicPlayer() {
     function ProgressBar() {
 
         log('I am Progressbar');
-        var barHeight = 10,
-            barWidth,
+        var barWidth,
             t = false,
             progressCanvas;
 
 
-            this.create = function () {
-                log('I am Create progressbar');
-                barWidth = document.getElementById('iPlayMusic_article').clientWidth;
-                progressCanvas = domEl.create('canvas', 'progressbar');
-                progressCanvas.setAttribute('heigth', barHeight);
-                progressCanvas.setAttribute('width', barWidth);
-                domEl.append('iPlayMusic_article', progressCanvas);
-            }; // <- end create()
+        this.create = function () {
+            log('I am Create progressbar');
+            barWidth = document.getElementById('iPlayMusic_article').clientWidth;
+            progressCanvas = domEl.create('canvas', 'progressbar');
+            progressCanvas.setAttribute('heigth', 150);
+            progressCanvas.setAttribute('width', barWidth);
+            domEl.append('iPlayMusic_article', progressCanvas);
+        }; // <- end create()
 
-            this.remove = function () {
-                log('I am remove progressbar');
-                document.getElementById('iPlayMusic_article').removeChild(theBar);
-            };
+        this.remove = function () {
+            log('I am remove progressbar');
+            document.getElementById('iPlayMusic_article').removeChild(progressCanvas);
+        };
 
-            this.update = function () {
+        this.update = function () {
 
-                setTimeout(function(){
-                    if (!t) {
-                        progressBar.remove();
-                        progressBar.create();
-                        t = true;
-                    }
-                }, 500);
-                setTimeout(function(){
-                    t = false;
-                }, 800);
-                log(t);
-
-                if (document.getElementById('iPlayMusic_article').clientWidth !== barWidth) {
-                    log('I\'m not the same');
-                    barWidth = document.getElementById('iPlayMusic_article').clientWidth;
-
+            setTimeout(function(){
+                if (!t) {
+                    progressBar.remove();
+                    progressBar.create();
+                    t = true;
                 }
-            };
+            }, 500);
+            setTimeout(function(){
+                t = false;
+            }, 800);
+            log(t);
+
+            if (document.getElementById('iPlayMusic_article').clientWidth !== barWidth) {
+                log('I\'m not the same');
+                barWidth = document.getElementById('iPlayMusic_article').clientWidth;
+
+            }
+        };
+
+//        function paintFrame() {
+//            context.drawImage(video, 0, 0, 160, 80);
+//            if (video.paused || video.ended) {
+//                return;
+//            }
+//            setTimeout(function () {
+//                paintFrame();
+//            }, 0);
+//        }
+
 
 
         this.makeProgress = function () {
+
 
             var ctx,
                 fWidth,
 
             //get current time in seconds
-                elapsedTime = Math.round(audio.currentTime);
+                elapsedTime = audio.currentTime;
             //update the progress bar
             if (progressCanvas.getContext) {
                 ctx = progressCanvas.getContext("2d");
                 fWidth = (elapsedTime / audio.duration) * (progressCanvas.clientWidth);
 
                 //clear canvas before painting
-                ctx.clearRect(0, 0, progressCanvas.clientWidth, 1);
+                ctx.clearRect(0, 0, progressCanvas.clientWidth, 150);
                 ctx.fillStyle = "rgb(245,245,245)";
 
                 if (fWidth > 0) {
-                    ctx.fillRect(0, 0, fWidth, barHeight);
+                    ctx.fillRect(0, 0, fWidth, 150);
                 }
+                if (audio.paused || audio.ended) {
+                    return;
+                }
+                setTimeout(function () {
+                    progressBar.makeProgress();
+                }, 0);
             }// we can add an else here to notify users that their browser do not support <canvas>
 
         };
@@ -572,15 +586,17 @@ function MusicPlayer() {
             listen = function () {
                 log('Im listening');
 
-                audio.addEventListener("timeupdate", function () {
-                    progressBar.makeProgress();
-                });
+//                audio.addEventListener("timeupdate", function () {
+//                    progressBar.makeProgress();
+//                });
 
                 // When audio start playing
                 audio.addEventListener('playing', function () {
                     log('::::::: PLAY :::::::::::');
                     setActiveTrack();
                     isTrackPlaying('play');
+                    progressBar.makeProgress();
+
                 });
 
                 // When audio stop playing
