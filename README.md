@@ -8,6 +8,9 @@
 
 IMPLEMENTATION
 ==============
+
+Place the `iPlayMusic`-folder in your web-root (the same folder as yout index.html)
+
 Paste:
 
 	<link rel="stylesheet" type="text/css" href="./iPlayMusic/sys/iPlayMusic.css" media="screen" />
