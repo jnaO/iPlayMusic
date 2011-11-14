@@ -1,3 +1,13 @@
+/*
+    Document   : iPlayMusic
+    Created on : Sep 5, 2011, 6:14:07 PM
+    Author     : jnaO
+    Description:
+        JavaScript for iPlayMusic HTML5/JavaScript/PHP musicplayer
+        https://github.com/jnaO/iPlayMusic
+*/
+
+
 /**
  * log to console for debug, test browser compatibility
  * @param msg String
@@ -620,27 +630,22 @@ function MusicPlayer() {
                     setActiveTrack();
                     isTrackPlaying('play');
                     progressBar.makeProgress();
-                    audio.paused = false;
-                    audio.ended = false;
                 });
 
                 // When audio stop playing
                 audio.addEventListener('pause', function () {
                     isTrackPlaying('pause');
-                    audio.paused = true;
                 });
 
                 // On audio end
                 audio.addEventListener('ended', function () {
-                    audio.ended = true;
-
                     switch (track.repeatState) {
                     case 'repeat one':
                         track.playTrack();
                         break;
 
                     case 'repeat off':
-                        (trackNumber === (trackList.length - 1)) ? track.stopTrack() : track.playTrack();
+                        (parseInt(trackNumber) === (trackList.length - 1)) ? track.stopTrack() : track.playTrack();
                         break;
 
                     default:
@@ -713,7 +718,7 @@ function MusicPlayer() {
         this.pauseTrack = function () {
             storage.set('currentPosition', audio.currentTime);
             audio.pause();
-            audio.paused = true;
+
         }; // <- end pauseTrack()
 
 
