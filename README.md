@@ -38,17 +38,20 @@ Project technologies:
 * JavaScript
 * php
 
+
 Project main focus:
 
 * Web based music player
 * Compatible with all major browsers, as long as they are up to date (I.E. no IE6-support... Or 7 or 8)
 * Compatible with iOS5-devices
 
+
 Project should offer simplicity:
 
 * Download files
 * Implement snippets
 * Copy music to a specified folder and it should work.
+
 
 Features
 
@@ -57,20 +60,24 @@ Features
 * Tracklist
 * NOFLASH
 
+
 Project dev site:
 
 * [iPlayMusic](http://iplaymusic.jnao.me)
 * [Original mockup](http://iplaymusic.jnao.me/mockup.php)
 * [Github repo](github.com/jnaO/iPlayMusic)
 
+
 Resource:
 
-• [Apple dev audio](http://goo.gl/2kJoE)
+* [Apple dev audio](http://goo.gl/2kJoE)
+
 
 HTML5
 
 * Audio tag
 * Canvas as progress bar
+
 
 PHP
 
@@ -81,12 +88,14 @@ PHP
 * Find album art file
 * Return album art filename as string
 
+
 JavaScript
 
 * Detect browser audio file compatability
 * Music player functions (Play, Stop, Pause, Previous, Next)
 * Receive json information from PHP back end, and populate music list
 * Maximize / minimize music player
+
 
 CONFIG
 – create a config file for user customization
