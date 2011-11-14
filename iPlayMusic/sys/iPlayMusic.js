@@ -1,25 +1,13 @@
-
+/**
+ * log to console for debug, test browser compatibility
+ * @param msg String
+ *      the log message
+ */
 function log(msg) {
     if (typeof console !== 'undefined' && typeof console.log !== 'undefined') {
         console.log(msg);
     }
 }
-
-/**
- * check for localStorage browser compatibility
- * @return Boolean
- */
-function loSt() {
-    if (typeof localStorage !== "undefined") {
-        log('Browser support \'localStorage\'');
-        return true;
-    } else {
-        log('Browser DON\'T support \'localStorage\'');
-        return false;
-    }
-}
-
-
 
 
 /**
@@ -66,11 +54,26 @@ var storage = (function () {
 
 }());
 
+
+/**
+ * Since I dont use jQuery on this project, I have here a small function to create
+ * and mainpulate a new element
+ */
 var domEl = (function () {
 
     return {
-        create: function (elem, id, cla) {
 
+        /**
+         * Create a new element
+         *
+         * @param elem String
+         *      type of element (I.E. 'div' or 'ul')
+         * @param id String
+         *      id of element
+         * @param class String
+         *      class of element
+         */
+        create: function (elem, id, cla) {
             var e = document.createElement(elem);
             if (id) {
                 e.setAttribute('id', id);
@@ -78,13 +81,29 @@ var domEl = (function () {
             if (cla) {
                 e.setAttribute('class', cla);
             }
-
             return e;
-
         },
+
+        /**
+         * Appends child element to parent
+         *
+         * @param parId String
+         *      id of DOM element intended to be parent
+         * @param chiId String
+         *      the child element to be appended
+         */
         append: function (parId, chiId) {
             document.getElementById(parId).appendChild(chiId);
         },
+
+        /**
+         * Sets class of element
+         *
+         * @param elemId String
+         *      The id of the element onto wich the class should be set
+         * @param cla String
+         *      The class to set on the element
+         */
         setClass: function (elemId, cla) {
             document.getElementById(elemId).setAttribute('class', cla);
         }
@@ -94,16 +113,72 @@ var domEl = (function () {
 
 /**
  * =================================| <audio> |=================================
+ * audio.error
+ *      URL for the video.
+ * audio.networkState
+ *      URL for the video.
+ * audio.startTime
+ *      URL for the video.
+ * audio.defaultPlaybackRate
+ *      URL for the video.
+ * audio.seekable
+ *      URL for the video.
+ * audio.loop
+ *      URL for the video.
+ * audio.muted
+ *      URL for the video.
  * audio.src
  *      URL for the video.
  * audio.preload
- *      Hint to the browser how much it should download before the video starts playing.
- * audio.autoplay
- *      Boolean attribute that hints that the browser should start playing the video automatically.
- * audio.loop
- *      Boolean attribute indicating whether the video should loop.
+ *      URL for the video.
+ * audio.seeking
+ *      URL for the video.
+ * audio.duration
+ *      URL for the video.
+ * audio.playbackRate
+ *      URL for the video.
+ * audio.ended
+ *      URL for the video.
  * audio.controls
+ *      URL for the video.
+ * audio.currentSrc
+ *      URL for the video.
+ * audio.buffered
+ *      Hint to the browser how much it should download before the video starts playing.
+ * audio.currentTime
+ *      Boolean attribute that hints that the browser should start playing the video automatically.
+ * audio.paused
+ *      Boolean attribute indicating whether the video should loop.
+ * audio.played
  *      Boolean attribute indicating whether the browser should show its controls.
+ * audio.autoplay
+ *      Boolean attribute indicating whether the browser should show its controls.
+ * audio.volume
+ *      Boolean attribute indicating whether the browser should show its controls.
+ */
+
+/**
+ * ==============================| eventListeners |=============================
+ * loadstart
+ * play
+ * playing
+ * timeupdate
+ * progress
+ * pause
+ * canplay
+ * ended
+ * suspend
+ * loadedmetadata
+ * canplaythrough
+ * ratechange
+ * emptied
+ * loadeddata
+ * seeking
+ * durationchange
+ * stalled
+ * waiting
+ * seeked
+ * volumechange
  */
 
 
@@ -118,8 +193,6 @@ var domEl = (function () {
 /*============================================================================*/
 
 function LoadMusic() {
-
-    log('I am LoadMusic');
 
     var trackList   = [],
         tRef        = this,
@@ -170,7 +243,6 @@ function LoadMusic() {
 
             // Check if browser support mp3
             if ("" !== myAudio.canPlayType('audio/mpeg')) {
-                log(myAudio.canPlayType('audio/mpeg'));
                 typesSupported[typesSupported.length] = ".mp3";
             }
             // Check if browser support ogg
@@ -209,8 +281,6 @@ function LoadMusic() {
      */
     this.init = function (whenReady) {
 
-        log('I am LoadMusic Init! ');
-
         /* Check wthishat filetypes the browser supports */
         var sup = checkBrowserAudioCompat(),
             types = sup.support,
@@ -218,11 +288,6 @@ function LoadMusic() {
 
         /* ===========| if we have browser support |=========== */
         if (sup.succes) {
-
-            log('Recieveing tracks');
-
-            // just for easy typing.
-
 
             // Oldschool ajax. First we create a var to hold our ajax
             // Tut to be foud @ http://www.tizag.com/ajaxTutorial/ajax-javascript.php
@@ -263,8 +328,6 @@ function LoadMusic() {
 
                         if (music[types[i]] !== undefined) {
 
-                            log('We have a matching filetype: ' + types[i]);
-
                             // Fill out trackList with track objects
                             tRef.setTrackList(music[types[i]]);
                             match = true;
@@ -276,7 +339,6 @@ function LoadMusic() {
                     // if we dont get a match between supported filetypes, and
                     // filetypes provided by user
                     if (match === false) {
-                        log('no match between supplied files and browser audio support');
                     }
 
                 }
@@ -287,15 +349,7 @@ function LoadMusic() {
 
 
         } else { // === If browser do not support mp3, ogg or wav ===
-            log('no audio support in browser');
         }
-
-
-        log('trackList populated with ' + trackList.length + ' songs');
-
-
-
-        log('end of load music init');
     }; // <- end init()
 }
 
@@ -312,10 +366,8 @@ function LoadMusic() {
 /*============================================================================*/
 
 function MusicPlayer() {
-
-    log('I am MusicPlayer');
-
     var loadMusic = new LoadMusic(),
+        timeOutTime = 40,
         track = null,
         trackList = [],
         trackNumber = 0,
@@ -343,6 +395,9 @@ function MusicPlayer() {
             // Create the trackListContainer
             domEl.append('iPlayMusic_article', trackListContainer);
 
+            // Create album cover
+            albumCover.src = albumArt[0].file;
+            domEl.append('track_list_container', albumCover);
             // Create trackListUl
             domEl.append('track_list_container', trackListElement);
 
@@ -355,16 +410,11 @@ function MusicPlayer() {
                 domEl.append('track_list', trackListLiElement);
             }
             document.getElementById('track_list').addEventListener('click', function(e){
-                log(this);
-                log(e.target.dataset.tracknumber);
                 trackNumber = e.target.dataset.tracknumber
                 track.setAudioSource(trackNumber);
                 track.playTrack();
             });
 
-            // Create album cover
-            albumCover.src = albumArt[0].file;
-            domEl.append('track_list_container', albumCover);
 
         }, // <- end createTrackList()
 
@@ -391,7 +441,6 @@ function MusicPlayer() {
             var audioElement = document.createElement('audio');
             audioElement.setAttribute('id', 'iPlayMusic');
 
-            log('I am <audio>: ' + audioElement);
             document.getElementById('iPlayMusic_article').appendChild(audioElement);
         }, // <- end createAudioElemen()
 
@@ -404,8 +453,6 @@ function MusicPlayer() {
 
     /* =======================| Create Musicplayer Controls |======================= */
         createControls = function () {
-            log('I am a list of MusicControls');
-
 
             // Create the ul containing the controls
             var controlsList = domEl.create('ul',  'controls'),
@@ -438,14 +485,13 @@ function MusicPlayer() {
     /* ============================| Progress bar |============================= */
     function ProgressBar() {
 
-        log('I am Progressbar');
         var barWidth,
             t = false,
             progressCanvas;
 
 
         this.create = function () {
-            log('I am Create progressbar');
+
             barWidth = document.getElementById('iPlayMusic_article').clientWidth;
             progressCanvas = domEl.create('canvas', 'progressbar');
             progressCanvas.setAttribute('heigth', 150);
@@ -454,7 +500,6 @@ function MusicPlayer() {
         }; // <- end create()
 
         this.remove = function () {
-            log('I am remove progressbar');
             document.getElementById('iPlayMusic_article').removeChild(progressCanvas);
         };
 
@@ -470,26 +515,11 @@ function MusicPlayer() {
             setTimeout(function(){
                 t = false;
             }, 800);
-            log(t);
 
             if (document.getElementById('iPlayMusic_article').clientWidth !== barWidth) {
-                log('I\'m not the same');
                 barWidth = document.getElementById('iPlayMusic_article').clientWidth;
-
             }
         };
-
-//        function paintFrame() {
-//            context.drawImage(video, 0, 0, 160, 80);
-//            if (video.paused || video.ended) {
-//                return;
-//            }
-//            setTimeout(function () {
-//                paintFrame();
-//            }, 0);
-//        }
-
-
 
         this.makeProgress = function () {
 
@@ -514,16 +544,22 @@ function MusicPlayer() {
                 if (audio.paused || audio.ended) {
                     return;
                 }
+
+                /* This steals a lot of CPU, the fewer millisecs, the harder on the
+                 * processor.
+                 * 0 - 10   =   98% CPU
+                 * 20       ≈   65% CPU
+                 * 30       ≈   45% CPU
+                 *  */
                 setTimeout(function () {
                     progressBar.makeProgress();
-                }, 0);
+                }, timeOutTime);
             }// we can add an else here to notify users that their browser do not support <canvas>
 
         };
 
 
         this.init = function () {
-            log('Init progressbar');
             this.create();
         };
 
@@ -539,9 +575,6 @@ function MusicPlayer() {
 
 
     function Track() {
-
-        log('I am track');
-
         this.isPlaying = false;
         this.repeatState = storage.get('repeatState') || 'repeat off';
 
@@ -552,7 +585,6 @@ function MusicPlayer() {
 
         // Set class "active_track" on li-element containing the current track name
             setActiveTrack = function () {
-                log('I am setActiveTrack');
                 var lis = document.getElementById('track_list').getElementsByTagName('li'),
                     ert;
                 for (ert = 0; ert < lis.length; ert++) {
@@ -577,39 +609,30 @@ function MusicPlayer() {
                     document.getElementById('controls_play').setAttribute('class', 'play');
                     storage.set('audioPosition', audio.currentTime);
                 }
-                log('Audio is playing: ' + track.isPlaying);
             }, // <- end isTrackPlaying
 
 
 
         // Add eventlisteners to audio
             listen = function () {
-                log('Im listening');
-
-//                audio.addEventListener("timeupdate", function () {
-//                    progressBar.makeProgress();
-//                });
-
                 // When audio start playing
                 audio.addEventListener('playing', function () {
-                    log('::::::: PLAY :::::::::::');
                     setActiveTrack();
                     isTrackPlaying('play');
                     progressBar.makeProgress();
-
+                    audio.paused = false;
+                    audio.ended = false;
                 });
 
                 // When audio stop playing
                 audio.addEventListener('pause', function () {
-                    log('::::::: PAUSE :::::::::::');
                     isTrackPlaying('pause');
+                    audio.paused = true;
                 });
 
                 // On audio end
                 audio.addEventListener('ended', function () {
-                    log('::::::: STOP :::::::::::');
-
-                    // TODO check repeatmode repeatmode
+                    audio.ended = true;
 
                     switch (track.repeatState) {
                     case 'repeat one':
@@ -621,7 +644,6 @@ function MusicPlayer() {
                         break;
 
                     default:
-                        log('repeat state: ' + track.repeatState);
                         track.playNextTrack();
 
                     }
@@ -642,7 +664,6 @@ function MusicPlayer() {
             if (trackNumber >= trackList.length) {
                 trackNumber = 0;
             }
-            log(trackNumber);
         }; // <- end incrementTrackNumber()
 
 
@@ -652,7 +673,6 @@ function MusicPlayer() {
             if (trackNumber < 0) {
                 trackNumber = (trackList.length - 1);
             }
-            log(trackNumber);
         }; // <- end decrementTrackNumber()
 
 
@@ -661,7 +681,7 @@ function MusicPlayer() {
         this.playNextTrack = function () {
             track.incrementTrackNumber();
             track.setAudioSource(trackNumber);
-            audio.play();
+            track.playTrack();
         }; // <- end playNextTrack()
 
 
@@ -669,19 +689,22 @@ function MusicPlayer() {
         this.playPreviousTrack = function () {
             track.decrementTrackNumber();
             track.setAudioSource(trackNumber);
-            audio.play();
+            track.playTrack();
         }; // <- end playPreviousTrack()
 
 
 
         // Play
         this.playTrack = function (tr) {
+            track.pauseTrack();
             trackNumber = tr || trackNumber;
             // If last pressed button was fastforward or rewind we want to reset the audio src
             if (lastClickedControlBtn === 'controls_previous' || lastClickedControlBtn === 'controls_next') {
                 track.setAudioSource(trackNumber);
             }
-            audio.play();
+            setTimeout(function(){
+                audio.play();
+            }, timeOutTime);
         }; // <- end playTrack
 
 
@@ -690,25 +713,22 @@ function MusicPlayer() {
         this.pauseTrack = function () {
             storage.set('currentPosition', audio.currentTime);
             audio.pause();
+            audio.paused = true;
         }; // <- end pauseTrack()
 
 
         // Stop
         this.stopTrack = function () {
             audio.pause();
-            log(audio.currentTime);
             audio.currentTime = 0;
-            log(audio.currentTime);
         }; // <- end stopTrack()
 
         //
         this.init = function () {
-            log('Track init');
             trackNumber = storage.get('trackNumber') || 0;
             audio       = document.getElementById("iPlayMusic");
             audio.src   = trackList[trackNumber].path + trackList[trackNumber].file;
             listen();
-            log(audio.src);
 
         }; // <- end init()
     } // <- end Track()
@@ -740,13 +760,11 @@ function MusicPlayer() {
 
         var clickedControl = function (me) {
             lastClickedControlBtn = me;
-            log('last clicked :: ' + lastClickedControlBtn);
         },
 
 
             toggleExpand = function () {
                 isExpanded = !isExpanded;
-                log('I am toggleExpand: ' + isExpanded);
                 expandPlayer.setAttribute('class', 'isExpanded_' + isExpanded);
                 if (isExpanded) {
                     document.getElementById('iPlayMusic_article').removeAttribute('class');
@@ -773,17 +791,14 @@ function MusicPlayer() {
 
                 switch (repeatBtn) {
                 case 0:
-                    log('repeat off');
                     track.repeatState = 'repeat off';
                     storage.set('repeatState', 'repeat off');
                     break;
                 case 1:
-                    log('repeat all');
                     track.repeatState = 'repeat all';
                     storage.set('repeatState', 'repeat all');
                     break;
                 case 2:
-                    log('repeat one');
                     track.repeatState = 'repeat one';
                     storage.set('repeatState', 'repeat one');
                     break;
@@ -799,7 +814,6 @@ function MusicPlayer() {
 
             switch (id) {
             case 'controls_previous':
-                log('next ' + track.isPlaying);
                 (track.isPlaying) ? track.playPreviousTrack() : track.decrementTrackNumber();
                 clickedControl(id);
                 break;
@@ -808,10 +822,8 @@ function MusicPlayer() {
                 if (track.isPlaying) {
                     track.pauseTrack();
                     clickedControl(id);
-                    log('pause ' + track.isPlaying);
                 } else {
                     track.playTrack();
-                    log('play ' + track.isPlaying);
                 }
                 break;
             case 'controls_stop':
@@ -819,7 +831,6 @@ function MusicPlayer() {
                 clickedControl(id);
                 break;
             case 'controls_next':
-                log('next ' + track.isPlaying);
                 (track.isPlaying) ? track.playNextTrack() : track.incrementTrackNumber();
                 clickedControl(id);
                 break;
@@ -830,7 +841,6 @@ function MusicPlayer() {
                 toggleExpand();
                 break;
             default:
-                log('default ' + id);
             } // <- end switch
 
         }); // <- end eventlistener on ul list
@@ -859,7 +869,6 @@ function MusicPlayer() {
      */
     this.init = function () {
         loadMusic.init(function () {
-            log('Let\'s initiate musicPlayer!');
             tRef.startPlayer();
         });
     }; // <- end init()
@@ -872,63 +881,23 @@ function MusicPlayer() {
 /* =========================| Initiate actuall player |========================= */
     this.startPlayer = function () {
 
-        log('Initiate player');
-
         trackList   = loadMusic.getTrackList();
         albumArt    = loadMusic.getAlbumArt();
 
         track = new Track();
-
-        log(albumArt[0]);
-
         createPlayer();
         controls();
         createTrackList();
         track.init();
         if (isPlaying == 'true') {
-            log('I am isPlaying:  :: ' + typeof(isPlaying));
             track.playTrack();
         }
-
-
     }; // <- end init()
 
 
 }
 
 
-
-
-
-
-
-
-
-
-
-/*
- * I want to do my own loaclStorage, a function that should do exactly what
- * localStorage does, but with a validation that the browser supports '
- * localStorage
- *
- *==immediate function
- *
- **/
-
-
-/**
- * =================================| <audio> |=================================
- * audio.src
- *      URL for the video.
- * audio.preload
- *      Hint to the browser how much it should download before the video starts playing.
- * audio.autoplay
- *      Boolean attribute that hints that the browser should start playing the video automatically.
- * audio.loop
- *      Boolean attribute indicating whether the video should loop.
- * audio.controls
- *      Boolean attribute indicating whether the browser should show its controls.
- */
 
 
 document.onreadystatechange = function () {

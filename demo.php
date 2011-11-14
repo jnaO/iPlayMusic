@@ -37,16 +37,16 @@
 <?
         if ($iphone || $android || $palmpre || $ipod || $berry == true) {
             ?>
-            <link href="css/handheld.css" type="text/css" rel="stylesheet" title="handheld" media="all" />
+            <link href="/min/f=css/handheld.css" type="text/css" rel="stylesheet" title="handheld" media="all" />
 <!--            <script type="text/javascript" src="js/jsHandheld.js"></script>-->
             <?
         } else {
             ?>
-            <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+            <link rel="stylesheet" type="text/css" href="/min/f=css/style.css" media="screen" />
             <?
         }
         ?>
-        <link rel="stylesheet" type="text/css" href="iPlayMusic/sys/iPlayMusic.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="/min/f=iPlayMusic/sys/iPlayMusic.css" media="screen" />
 
         <!--[if lt IE 9]>
         <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -80,7 +80,7 @@
             <? include_once 'inc/nav.inc'; ?>
         </article>
 
-        <script type="text/javascript" src="iPlayMusic/sys/iPlayMusic.js"></script>
+        <script type="text/javascript" src="/min/f=iPlayMusic/sys/iPlayMusic.js"></script>
 
         <?
 include_once '_class/Count.php';

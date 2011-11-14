@@ -13,6 +13,7 @@
     top: 0px;
     width: 100%;
     background-color: rgba(0,0,0,0.2);
+    -webkit-tap-highlight-color: rgba(0,0,0,0); 
 }
 .contracted {
     height: 55px;
@@ -48,14 +49,16 @@ audio {
     width: 100%;
 }
 #track_list_container {
-    width: 450px;
+    text-align: center;
     margin: 20px auto 0;
 }
 #track_list {
     margin: 0;
     padding: 0 0 0 20px;
-    width: 200px;
-    float: right;
+    max-width: 200px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
     color: #fff;
     list-style: none;
 }
@@ -64,7 +67,6 @@ audio {
 }
 #track_list_container img {
     max-width: 160px;
-    float: right;
     box-shadow: 2px 2px 2px #222;
 }
 
