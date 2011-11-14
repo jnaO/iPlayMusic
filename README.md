@@ -15,7 +15,8 @@ Paste:
 into your html document `<head>`
 
 and paste:
-	`<script type="text/javascript" src="./iPlayMusic/sys/iPlayMusic.js"></script>`
+
+	<script type="text/javascript" src="./iPlayMusic/sys/iPlayMusic.js"></script>
 
 into your html document, just before `</body>`
 
