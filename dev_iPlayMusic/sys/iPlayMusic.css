@@ -1,0 +1,244 @@
+/*
+    Document   : iPlayMusic
+    Created on : Sep 5, 2011, 6:14:07 PM
+    Author     : jnaO
+    Description:
+        Default styles for iPlayMusic HTML5/JavaScript/PHP musicplayer
+*/
+#iPlayMusic_article {
+    margin: 0 0 55px;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    top: 0px;
+    width: 100%;
+    background-color: rgba(0,0,0,0.2);
+    -webkit-tap-highlight-color: rgba(0,0,0,0); 
+}
+.contracted {
+    height: 55px;
+    -webkit-transition: height 0.5s ease-in-out;
+    -moz-transition: height 0.5s ease-in-out;
+    -o-transition: height 0.5s ease-in-out;
+    -ms-transition: height 0.5s ease-in-out;
+    transition: height 0.5s ease-in-out;
+}
+.expanded {
+    -webkit-transition: height 0.5s ease-in-out;
+    -moz-transition: height 0.5s ease-in-out;
+    -o-transition: height 0.5s ease-in-out;
+    -ms-transition: height 0.5s ease-in-out;
+    transition: height 0.5s ease-in-out;
+    height: 260px;
+}
+audio {
+    height: 1px;
+    width: 1px;
+    margin: 0;
+    padding: 0;
+}
+
+/* an ugly hack for FF to fix so my canvas is only 1 px high */
+
+#progressbar {
+    background-color: rgba(50,50,50,0.4);
+    position: absolute;
+    margin: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+}
+#track_list_container {
+    text-align: center;
+    margin: 20px auto 0;
+}
+#track_list {
+    margin: 0;
+    padding: 0 0 0 20px;
+    max-width: 200px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    color: #fff;
+    list-style: none;
+}
+#track_list li {
+    cursor: pointer;
+}
+#track_list_container img {
+    max-width: 160px;
+    box-shadow: 2px 2px 2px #222;
+}
+
+.active_track {
+    font-weight: bold;
+}
+img#album_cover {
+    margin: 20px 20px 20px 0;
+}
+.song_link:hover {
+    font-weight: bolder;
+}
+input[type="range"]{
+    -webkit-appearance:none !important;
+    height: 3px;
+    padding: 0;
+    background: #07b;
+    margin: -10px 0 20px 10px;
+    width: 434px;
+}
+input[type="range"]::-webkit-slider-thumb{
+    /*    -webkit-appearance:none !important;*/
+}
+.slider {
+    background-color: #07b;
+    height: 4px;
+    position: relative;
+    cursor: pointer;
+    border:1px solid #333;
+    width:442px;
+    float: left;
+    clear: right;
+    margin-top:10px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+
+/* progress bar (enabled with progress: true) */
+.progress {
+    height:9px;
+    background-color:#C5FF00;
+    display:none;
+    opacity:0.6;
+}
+
+/* drag handle */
+/*.handle {
+    background:#fff url(../img/mplayer/knob.png) no-repeat;
+    height: 14px;
+    width: 14px;
+    top: -6px;
+    position:absolute;
+    display:block;
+    margin-top:1px;
+    cursor:move;
+    -moz-box-shadow:0 0 6px #000;
+    -webkit-box-shadow:0 0 6px #000;
+    -moz-border-radius:14px;
+    -webkit-border-radius:14px;
+}*/
+
+/* the input field */
+/*.range {
+    border:1px inset #ddd;
+    float:left;
+    font-size:20px;
+    margin:0 0 0 15px;
+    padding:3px 0;
+    text-align:center;
+    width:50px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}*/
+
+
+/* controls */
+#controls {
+    margin: 0 auto;
+    padding: 0;
+    width: 450px;
+    height: 50px;
+    position: relative;
+    top: opx;
+}
+
+#controls li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    top: 0;
+}
+#controls li, #controls a {
+    height: 50px;
+    display: inline-block;
+}
+#controls_logo {
+    left: 0;
+    width: 100px;
+    background: transparent url(../sys/controls_sprite.png) -100px -100px no-repeat;
+}
+#controls_previous {
+    left: 100px;
+    width: 50px;
+    background: transparent url(../sys/controls_sprite.png) -150px 0px no-repeat;
+}
+.play {
+    left: 150px;
+    width: 50px;
+    background: transparent url(../sys/controls_sprite.png) 0px 0px no-repeat;
+}
+.pause {
+    left: 150px;
+    width: 50px;
+    background: transparent url(../sys/controls_sprite.png) -50px 0px no-repeat;
+}
+#controls_stop {
+    left: 200px;
+    width: 50px;
+    background: transparent url(../sys/controls_sprite.png) -100px 0px no-repeat;
+}
+#controls_next {
+    background: transparent url(../sys/controls_sprite.png) -200px 0px no-repeat;
+    left: 250px;
+    width: 50px;
+}
+.repeat_0 {
+    left: 300px;
+    width: 50px;
+    background: transparent url(../sys/controls_sprite.png) 0px -50px no-repeat;
+}
+.repeat_1 {
+    left: 300px;
+    width: 50px;
+    background: transparent url(../sys/controls_sprite.png) -50px -50px no-repeat;
+}
+.repeat_2 {
+    left: 300px;
+    width: 50px;
+    background: transparent url(../sys/controls_sprite.png) -100px -50px no-repeat;
+}
+.isExpanded_false {
+    left: 400px;
+    width: 50px;
+    background: transparent url(../sys/controls_sprite.png) -50px -100px no-repeat;
+}
+.isExpanded_true {
+    left: 400px;
+    width: 50px;
+    background: transparent url(../sys/controls_sprite.png) 0px -100px no-repeat;
+}
+
+/* Floats & Clearer  */
+
+.left, .float_left {
+    float: left;
+}
+.float_right {
+    float: right;
+}
+.clearer {
+    clear: both;
+    height: 0px;
+    width: 0px;
+}
+.clear {
+    clear: both;
+}
+.hidden {
+    display: none;
+}
+.pfat {
+    font-weight: bold;
+}
+

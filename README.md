@@ -9,7 +9,7 @@
 IMPLEMENTATION
 ==============
 
-Download and place the `iPlayMusic`-folder in your web-root (the same folder as yout index.html)
+Download and place the `iPlayMusic`-folder in your web-root (the same folder as your index.html)
 
 Paste:
 
@@ -22,6 +22,11 @@ and paste:
 	<script type="text/javascript" src="./iPlayMusic/sys/iPlayMusic.js"></script>
 
 into your html document, just before `</body>`
+
+### What about `dev_iPlayMusic`?
+
+The `dev_iPlayMusic`-folder is just the same as the `iPlayMusic`-folder, just not compressed. It's for development.
+If you don't plan to develop, you can simply delete it.
 
 FILES
 -----
