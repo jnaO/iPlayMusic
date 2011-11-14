@@ -75,8 +75,9 @@ Project will supply users with a code-snippet implemented music player to integr
 
 ### Resource:
 
-* [Apple dev audio](http://developer.apple.com/library/safari/#documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/ControllingMediaWithJavaScript/ControllingMediaWithJavaScript.html)
-* [video/audio slides by Silvia Pfeiffer](http://www.html5videoguide.net/presentations/HTML5_Video_LCA2011/#slide1)
+* [Apple dev audio](http://developer.apple.com/library/safari/#documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/ControllingMediaWithJavaScript/ControllingMediaWithJavaScript.html) --`Overview of the audio element, and how to use it with js`
+* [video/audio slides by Silvia Pfeiffer](http://www.html5videoguide.net/presentations/HTML5_Video_LCA2011/#slide1) --`eventlisteners and more`
+* [Modenizr](http://modernizr.github.com/Modernizr/annotatedsource.html) --`tests and stuff`
 
 
 ### HTML5
