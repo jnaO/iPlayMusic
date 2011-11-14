@@ -29,6 +29,8 @@ FILES
 * Cope your album art image (160px*160px) into `iPlayMusic/albumart/`
 * Remove `iPlayMusic/albumart/default_album_art.png`
 
+To support all browsers at least both .mp3's and .ogg-files need to be supplied
+
 
 WHAT IS THIS
 ============
