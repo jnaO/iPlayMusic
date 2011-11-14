@@ -20,9 +20,9 @@ into your html document, just before `</body>`
 
 FILES
 -----
-Copy your music files into the folder `iPlayMusic/music/`
-Cope your album art image (160px*160px) into `iPlayMusic/albumart/`
-Remove `iPlayMusic/albumart/default_album_art.png`
+* Copy your music files into the folder `iPlayMusic/music/`
+* Cope your album art image (160px*160px) into `iPlayMusic/albumart/`
+* Remove `iPlayMusic/albumart/default_album_art.png`
 
 
 WHAT IS THIS
