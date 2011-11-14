@@ -92,7 +92,7 @@ PHP
 JavaScript
 
 * Detect browser audio file compatability
-* Music player functions (Play, Stop, Pause, Previous, Next)
+* Music player functions (Play, Stop, Pause, Previous, Next)
 * Receive json information from PHP back end, and populate music list
 * Maximize / minimize music player
 
