@@ -55,10 +55,10 @@ Project should offer simplicity:
 
 Features
 
-* Repeat mode (off/one/all -default "all")
+* Repeat mode (off/one/all -default "all")
 * Album art
-* Tracklist
-* NOFLASH
+* Tracklist
+* NOFLASH
 
 
 Project dev site:
