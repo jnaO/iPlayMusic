@@ -9,12 +9,12 @@
 IMPLEMENTATION
 ==============
 Paste:
-	<link rel="stylesheet" type="text/css" href="./iPlayMusic/sys/iPlayMusic.css" media="screen" />
+	`<link rel="stylesheet" type="text/css" href="./iPlayMusic/sys/iPlayMusic.css" media="screen" />`
 
 into your html document `<head>`
 
 and paste:
-	<script type="text/javascript" src="./iPlayMusic/sys/iPlayMusic.js"></script>
+	`<script type="text/javascript" src="./iPlayMusic/sys/iPlayMusic.js"></script>`
 
 into your html document, just before `</body>`
 
