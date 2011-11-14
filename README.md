@@ -9,7 +9,7 @@
 IMPLEMENTATION
 ==============
 
-Place the `iPlayMusic`-folder in your web-root (the same folder as yout index.html)
+Download and place the `iPlayMusic`-folder in your web-root (the same folder as yout index.html)
 
 Paste:
 
