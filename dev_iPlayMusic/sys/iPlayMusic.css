@@ -6,7 +6,7 @@
         Default styles for iPlayMusic HTML5/JavaScript/PHP musicplayer
 */
 #iPlayMusic_article {
-    margin: 0 0 55px;
+    margin: 0;
     padding: 0;
     overflow: hidden;
     position: relative;
