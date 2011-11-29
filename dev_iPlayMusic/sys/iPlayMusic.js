@@ -647,7 +647,7 @@ function MusicPlayer() {
                         break;
 
                     case 'repeat off':
-                        (trackNumber === (trackList.length - 1)) ? track.stopTrack() : track.playNextTrack();
+						(trackNumber == (trackList.length - 1)) ? track.stopTrack() : track.playNextTrack();
                         break;
 
                     default:
