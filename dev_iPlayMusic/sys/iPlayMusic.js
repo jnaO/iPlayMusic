@@ -641,14 +641,13 @@ function MusicPlayer() {
                 // On audio end
                 audio.addEventListener('ended', function () {
                     audio.ended = true;
-
                     switch (track.repeatState) {
                     case 'repeat one':
                         track.playTrack();
                         break;
 
                     case 'repeat off':
-                        (trackNumber === (trackList.length - 1)) ? track.stopTrack() : track.playTrack();
+                        (trackNumber === (trackList.length - 1)) ? track.stopTrack() : track.playNextTrack();
                         break;
 
                     default:
@@ -687,7 +686,7 @@ function MusicPlayer() {
 
         // Fast forward
         this.playNextTrack = function () {
-            track.incrementTrackNumber();
+	        track.incrementTrackNumber();
             track.setAudioSource(trackNumber);
             track.playTrack();
         }; // <- end playNextTrack()
