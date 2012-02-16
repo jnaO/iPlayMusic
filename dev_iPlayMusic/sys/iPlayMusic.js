@@ -11,8 +11,8 @@
  * @param msg String
  *      the log message
  */
-function log(msg) {
-    if (typeof console !== 'undefined' && typeof console.log !== 'undefined') {
+function log(msg) {
+    if (typeof console !== 'undefined' && typeof console.log !== 'undefined') {
         console.log(msg);
     }
 }
@@ -81,7 +81,7 @@ var domEl = (function () {
          * @param class String
          *      class of element
          */
-        create: function (elem, id, cla) {
+        create: function (elem, id, cla) {
             var e = document.createElement(elem);
             if (id) {
                 e.setAttribute('id', id);
@@ -100,7 +100,7 @@ var domEl = (function () {
          * @param chiId String
          *      the child element to be appended
          */
-        append: function (parId, chiId) {
+        append: function (parId, chiId) {
             document.getElementById(parId).appendChild(chiId);
         },
 
@@ -112,7 +112,7 @@ var domEl = (function () {
          * @param cla String
          *      The class to set on the element
          */
-        setClass: function (elemId, cla) {
+        setClass: function (elemId, cla) {
             document.getElementById(elemId).setAttribute('class', cla);
         }
     };
@@ -120,7 +120,7 @@ var domEl = (function () {
 }());
 
 /**
- * =================================| <audio> |=================================
+ * =================================| <audio> |=================================
  * audio.error
  *      URL for the video.
  * audio.networkState
@@ -200,28 +200,28 @@ var domEl = (function () {
 /*============================================================================*/
 /*============================================================================*/
 
-function LoadMusic() {
+function LoadMusic() {
 
     var trackList   = [],
         tRef        = this,
         albumArt    = [];
 
-/* =============================| Fill trackList |============================== */
-    this.setTrackList = function (param) {
+/* =============================| Fill trackList |============================== */
+    this.setTrackList = function (param) {
         trackList = param;
     };
-/* ============================| Return trackList |============================= */
+/* ============================| Return trackList |============================= */
     this.getTrackList = function () {
         return trackList;
     };
 
 
-/* ============================| Return AlbumArt |============================== */
+/* ============================| Return AlbumArt |============================== */
     this.getAlbumArt = function () {
         return albumArt;
     };
-/* =============================| Fill AlbumArt |=============================== */
-    this.setAlbumArt = function (param) {
+/* =============================| Fill AlbumArt |=============================== */
+    this.setAlbumArt = function (param) {
         albumArt = param;
     };
 
@@ -280,21 +280,21 @@ function LoadMusic() {
 
 
 
-    /* ============================| Fill playlist |============================= */
+    /* ============================| Fill playlist |============================= */
     /**
      * Populate the tracklist with the song-objects from specified music folder
      *
      *  @param whenReady function
      *      function to start when playlist is filled
      */
-    this.init = function (whenReady) {
+    this.init = function (whenReady) {
 
         /* Check wthishat filetypes the browser supports */
         var sup = checkBrowserAudioCompat(),
             types = sup.support,
             ajaxRequest;
 
-        /* ===========| if we have browser support |=========== */
+        /* ===========| if we have browser support |=========== */
         if (sup.succes) {
 
             // Oldschool ajax. First we create a var to hold our ajax
@@ -302,14 +302,14 @@ function LoadMusic() {
             try {
                 // Opera 8.0+, Firefox, Safari
                 ajaxRequest = new XMLHttpRequest();
-            } catch (e) {
+            } catch (e) {
                 // Fallback for Internet Explorer
                 try {
                     ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
                 } catch (f) {
                     try {
                         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (g) {
+                    } catch (g) {
                         // if we still have not managed to get the call through
                         alert("Your browser can\'t handle ajax calls. it is time to ugrade! \ngoogle chrome, opera and firefox are recommended browsers.");
                         return false;
@@ -318,7 +318,7 @@ function LoadMusic() {
             }
             // Receiveing data
             ajaxRequest.onreadystatechange = function () {
-                if (ajaxRequest.readyState === 4) {
+                if (ajaxRequest.readyState === 4) {
 
                     // json-ify the string that is returned
                     var msg = JSON.parse(ajaxRequest.responseText),
@@ -334,7 +334,7 @@ function LoadMusic() {
                     // populateTrackList()
                     for (i = 0; i < types.length; i++) {
 
-                        if (music[types[i]] !== undefined) {
+                        if (music[types[i]] !== undefined) {
 
                             // Fill out trackList with track objects
                             tRef.setTrackList(music[types[i]]);
@@ -346,7 +346,7 @@ function LoadMusic() {
 
                     // if we dont get a match between supported filetypes, and
                     // filetypes provided by user
-                    if (match === false) {
+                    if (match === false) {
                     }
 
                 }
@@ -383,7 +383,7 @@ function MusicPlayer() {
         albumArt = [],
         audio,
         progressBar,
-        isPlaying = storage.get('isPlaying') || false ,
+        isPlaying = storage.get('isPlaying') || false ,
         lastClickedControlBtn = '',
     // internal reference to musicPlayer (this)
         tRef = this,
@@ -410,7 +410,7 @@ function MusicPlayer() {
             domEl.append('track_list_container', trackListElement);
 
             // Create list items
-            for (tli = 0; tli < trackList.length; tli++) {
+            for (tli = 0; tli < trackList.length; tli++) {
                 trackListLiElement = domEl.create('li', 'track_no_' + tli);
                 trackNameElement = document.createTextNode(trackList[tli].title);
                 trackListLiElement.setAttribute('data-tracknumber', tli);
@@ -474,7 +474,7 @@ function MusicPlayer() {
          * the logo and the control for expanding the music player */
 
             containingArticle = document.getElementById('controls');
-            for (c = 0; c < controlsArray.length; c++) {
+            for (c = 0; c < controlsArray.length; c++) {
                 elem = document.createElement('li');
                 elem.setAttribute('id',  'controls_' + controlsArray[c]);
                 containingArticle.appendChild(elem);
@@ -491,7 +491,7 @@ function MusicPlayer() {
 
 
     /* ============================| Progress bar |============================= */
-    function ProgressBar() {
+    function ProgressBar() {
 
         var barWidth,
             t = false,
@@ -507,11 +507,11 @@ function MusicPlayer() {
             domEl.append('iPlayMusic_article', progressCanvas);
         }; // <- end create()
 
-        this.remove = function () {
+        this.remove = function () {
             document.getElementById('iPlayMusic_article').removeChild(progressCanvas);
         };
 
-        this.update = function () {
+        this.update = function () {
 
             setTimeout(function(){
                 if (!t) {
@@ -556,7 +556,7 @@ function MusicPlayer() {
                 /* This steals a lot of CPU, the fewer millisecs, the harder on the
                  * processor.
                  * 0 - 10   =   98% CPU
-                 * 20       ≈   65% CPU
+                 * 20       ≈   65% CPU
                  * 30       ≈   45% CPU
                  *  */
                 setTimeout(function () {
@@ -582,9 +582,9 @@ function MusicPlayer() {
 
 
 
-    function Track() {
+    function Track() {
         this.isPlaying = false;
-        this.repeatState = storage.get('repeatState') || 'repeat off';
+        this.repeatState = storage.get('repeatState') || 'repeat off';
 
         var currentTrack,
 
@@ -641,7 +641,7 @@ function MusicPlayer() {
                 // On audio end
                 audio.addEventListener('ended', function () {
                     audio.ended = true;
-                    switch (track.repeatState) {
+                    switch (track.repeatState) {
                     case 'repeat one':
                         track.playTrack();
                         break;
@@ -660,7 +660,7 @@ function MusicPlayer() {
 
 
 
-        this.setAudioSource = function (trNum) {
+        this.setAudioSource = function (trNum) {
                 currentTrack = trackList[trNum];
                 audio.src = currentTrack.path + currentTrack.file;
             }; // <- end setAudioSource()
@@ -668,7 +668,7 @@ function MusicPlayer() {
 
         this.incrementTrackNumber = function () {
             trackNumber++;
-            if (trackNumber >= trackList.length) {
+            if (trackNumber >= trackList.length) {
                 trackNumber = 0;
             }
         }; // <- end incrementTrackNumber()
@@ -677,7 +677,7 @@ function MusicPlayer() {
 
         this.decrementTrackNumber = function () {
             trackNumber--;
-            if (trackNumber < 0) {
+            if (trackNumber < 0) {
                 trackNumber = (trackList.length - 1);
             }
         }; // <- end decrementTrackNumber()
@@ -704,9 +704,9 @@ function MusicPlayer() {
         // Play
         this.playTrack = function (tr) {
             track.pauseTrack();
-            trackNumber = tr || trackNumber;
+            trackNumber = tr || trackNumber;
             // If last pressed button was fastforward or rewind we want to reset the audio src
-            if (lastClickedControlBtn === 'controls_previous' || lastClickedControlBtn === 'controls_next') {
+            if (lastClickedControlBtn === 'controls_previous' || lastClickedControlBtn === 'controls_next') {
                 track.setAudioSource(trackNumber);
             }
             setTimeout(function(){
@@ -765,7 +765,7 @@ function MusicPlayer() {
 
 
 
-        var clickedControl = function (me) {
+        var clickedControl = function (me) {
             lastClickedControlBtn = me;
         },
 
@@ -773,7 +773,7 @@ function MusicPlayer() {
             toggleExpand = function () {
                 isExpanded = !isExpanded;
                 expandPlayer.setAttribute('class', 'isExpanded_' + isExpanded);
-                if (isExpanded) {
+                if (isExpanded) {
                     document.getElementById('iPlayMusic_article').removeAttribute('class');
                     document.getElementById('iPlayMusic_article').setAttribute('class', 'expanded');
                 } else {
@@ -816,7 +816,7 @@ function MusicPlayer() {
             }; // <- end changeRepeatState()
 
 
-        ul.addEventListener('click', function (e) {
+        ul.addEventListener('click', function (e) {
             var id = e.target.id;
 
             switch (id) {
@@ -869,7 +869,7 @@ function MusicPlayer() {
             progressBar.init();
 
         }; // <-end createPlayer()
-/* =========================| Load Music & Album Art |========================== */
+/* =========================| Load Music & Album Art |========================== */
 
     /**
      * Load the music and on success start the player
@@ -885,7 +885,7 @@ function MusicPlayer() {
 
 
 
-/* =========================| Initiate actuall player |========================= */
+/* =========================| Initiate actuall player |========================= */
     this.startPlayer = function () {
 
         trackList   = loadMusic.getTrackList();
@@ -908,7 +908,7 @@ function MusicPlayer() {
 
 
 document.onreadystatechange = function () {
-    if (document.readyState === 'complete') {
+    if (document.readyState === 'complete') {
         var musicPlayer = new MusicPlayer();
         musicPlayer.init();
     }
